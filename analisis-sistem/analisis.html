@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Sistem - Inventaris Gudang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e4e4e7;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #a1a1aa;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a78bfa;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(167, 139, 250, 0.3);
+        }
+        
+        .section h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #c4b5fd;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #d4d4d8;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #d4d4d8;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        th {
+            background: rgba(167, 139, 250, 0.2);
+            color: #a78bfa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .flow-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #a78bfa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .badge-primary {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+        
+        .badge-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+        
+        .badge-warning {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+        }
+        
+        .highlight-box {
+            background: rgba(167, 139, 250, 0.1);
+            border-left: 4px solid #a78bfa;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #f472b6;
+        }
+        
+        .erd-relation {
+            font-style: italic;
+            color: #a1a1aa;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📦 Analisis Sistem Inventaris Gudang</h1>
+            <p>Dokumen Analisis untuk UKK Level 3 Web Development</p>
+        </div>
+        
+        <!-- 1. Latar Belakang -->
+        <div class="section">
+            <h2>1. Latar Belakang</h2>
+            
+            <h3>🔴 Masalah yang Dihadapi</h3>
+            <p>Admin gudang sering menghadapi berbagai kendala dalam mengelola inventaris secara manual:</p>
+            <ul>
+                <li><strong>Pencatatan Manual:</strong> Data barang dicatat di buku atau spreadsheet yang rentan hilang dan rusak</li>
+                <li><strong>Kesalahan Perhitungan:</strong> Stok sering tidak akurat karena human error saat menghitung manual</li>
+                <li><strong>Laporan Lambat:</strong> Membuat laporan membutuhkan waktu lama karena harus mengumpulkan data dari berbagai sumber</li>
+                <li><strong>Tidak Real-time:</strong> Stok tidak terupdate secara otomatis saat ada barang masuk atau keluar</li>
+                <li><strong>Sulit Tracking:</strong> Sulit melacak riwayat transaksi barang</li>
+            </ul>
+            
+            <h3>🟢 Solusi yang Ditawarkan</h3>
+            <p>Sistem Inventaris Gudang berbasis web yang menyediakan:</p>
+            <ul>
+                <li><strong>Digitalisasi Data:</strong> Semua data barang tersimpan aman di database</li>
+                <li><strong>Stok Otomatis:</strong> Stok terupdate otomatis setiap ada transaksi</li>
+                <li><strong>Laporan Cepat:</strong> Export laporan ke PDF dan Excel dalam hitungan detik</li>
+                <li><strong>Validasi Stok:</strong> Sistem mencegah stok menjadi minus (tidak valid)</li>
+                <li><strong>Riwayat Lengkap:</strong> Semua transaksi tercatat dengan tanggal dan waktu</li>
+            </ul>
+        </div>
+        
+        <!-- 2. Business Diagram -->
+        <div class="section">
+            <h2>2. Diagram Alur Bisnis</h2>
+            <p>Berikut adalah alur bisnis utama dalam sistem inventaris gudang:</p>
+            
+            <div class="flow-diagram">
+                <div class="flow-item">🔐 Login</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">📊 Dashboard</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">📦 Kelola Barang</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🔄 Transaksi</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">📄 Laporan</div>
+            </div>
+            
+            <h3>Detail Alur Proses</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Proses</th>
+                        <th>Deskripsi</th>
+                        <th>Aktor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Login</td>
+                        <td>Admin memasukkan username dan password untuk masuk ke sistem</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Dashboard</td>
+                        <td>Melihat ringkasan statistik: total barang, stok, dan grafik transaksi</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Kelola Barang</td>
+                        <td>CRUD barang: tambah, lihat, edit, dan hapus data barang</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Transaksi Masuk</td>
+                        <td>Mencatat barang yang masuk ke gudang, stok bertambah otomatis</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Transaksi Keluar</td>
+                        <td>Mencatat barang yang keluar dari gudang, stok berkurang otomatis</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Laporan</td>
+                        <td>Export laporan transaksi ke format PDF atau Excel</td>
+                        <td>Admin</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 3. Kebutuhan Fungsional -->
+        <div class="section">
+            <h2>3. Kebutuhan Fungsional</h2>
+            <p>Fitur-fitur yang harus ada dalam sistem:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Fitur</th>
+                        <th>Deskripsi</th>
+                        <th>Prioritas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>F01</td>
+                        <td>Login</td>
+                        <td>Admin dapat login dengan username dan password</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F02</td>
+                        <td>Logout</td>
+                        <td>Admin dapat keluar dari sistem dengan aman</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F03</td>
+                        <td>Lihat Barang</td>
+                        <td>Menampilkan daftar semua barang dengan pagination</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F04</td>
+                        <td>Tambah Barang</td>
+                        <td>Menambahkan data barang baru ke database</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F05</td>
+                        <td>Edit Barang</td>
+                        <td>Mengubah data barang yang sudah ada</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F06</td>
+                        <td>Hapus Barang</td>
+                        <td>Menghapus data barang dari database</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F07</td>
+                        <td>Barang Masuk</td>
+                        <td>Mencatat transaksi barang masuk, stok otomatis bertambah</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F08</td>
+                        <td>Barang Keluar</td>
+                        <td>Mencatat transaksi barang keluar, stok otomatis berkurang</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F09</td>
+                        <td>Validasi Stok</td>
+                        <td>Sistem menolak jika stok akan menjadi minus</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F10</td>
+                        <td>Export PDF</td>
+                        <td>Download laporan transaksi dalam format PDF</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F11</td>
+                        <td>Export Excel</td>
+                        <td>Download laporan transaksi dalam format Excel</td>
+                        <td><span class="badge badge-warning">Wajib</span></td>
+                    </tr>
+                    <tr>
+                        <td>F12</td>
+                        <td>Dashboard</td>
+                        <td>Menampilkan statistik dan grafik transaksi</td>
+                        <td><span class="badge badge-primary">Penting</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 4. Kebutuhan Non-Fungsional -->
+        <div class="section">
+            <h2>4. Kebutuhan Non-Fungsional</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspek</th>
+                        <th>Kebutuhan</th>
+                        <th>Implementasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Keamanan</strong></td>
+                        <td>Password harus aman</td>
+                        <td>Menggunakan <code>password_hash()</code> dengan algoritma bcrypt</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keamanan</strong></td>
+                        <td>Proteksi halaman</td>
+                        <td>Session-based authentication, redirect jika belum login</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keamanan</strong></td>
+                        <td>Validasi input</td>
+                        <td>Prepared statements untuk mencegah SQL Injection</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kemudahan</strong></td>
+                        <td>UI intuitif</td>
+                        <td>Desain clean dengan Bootstrap 5, navigasi jelas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kemudahan</strong></td>
+                        <td>Feedback jelas</td>
+                        <td>SweetAlert2 untuk notifikasi sukses/error</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performa</strong></td>
+                        <td>Loading cepat</td>
+                        <td>Optimasi query, pagination dengan DataTables</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Responsif</strong></td>
+                        <td>Multi-device</td>
+                        <td>Bootstrap 5 responsive grid system</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 5. Use Case Diagram -->
+        <div class="section">
+            <h2>5. Use Case Diagram</h2>
+            <p>Representasi use case dalam bentuk tabel:</p>
+            
+            <div class="highlight-box">
+                <strong>Aktor Utama:</strong> Admin Gudang<br>
+                <strong>Deskripsi:</strong> Pengguna yang memiliki akses penuh untuk mengelola sistem inventaris
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Use Case</th>
+                        <th>Aktor</th>
+                        <th>Deskripsi</th>
+                        <th>Pre-Condition</th>
+                        <th>Post-Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>UC01: Login</td>
+                        <td>Admin</td>
+                        <td>Masuk ke sistem</td>
+                        <td>Belum login</td>
+                        <td>Session aktif, redirect ke dashboard</td>
+                    </tr>
+                    <tr>
+                        <td>UC02: Logout</td>
+                        <td>Admin</td>
+                        <td>Keluar dari sistem</td>
+                        <td>Sudah login</td>
+                        <td>Session dihapus, redirect ke login</td>
+                    </tr>
+                    <tr>
+                        <td>UC03: Lihat Barang</td>
+                        <td>Admin</td>
+                        <td>Melihat daftar barang</td>
+                        <td>Sudah login</td>
+                        <td>Data barang ditampilkan</td>
+                    </tr>
+                    <tr>
+                        <td>UC04: Tambah Barang</td>
+                        <td>Admin</td>
+                        <td>Menambah barang baru</td>
+                        <td>Sudah login</td>
+                        <td>Data barang tersimpan</td>
+                    </tr>
+                    <tr>
+                        <td>UC05: Edit Barang</td>
+                        <td>Admin</td>
+                        <td>Mengubah data barang</td>
+                        <td>Sudah login, barang ada</td>
+                        <td>Data barang terupdate</td>
+                    </tr>
+                    <tr>
+                        <td>UC06: Hapus Barang</td>
+                        <td>Admin</td>
+                        <td>Menghapus barang</td>
+                        <td>Sudah login, barang ada</td>
+                        <td>Data barang terhapus</td>
+                    </tr>
+                    <tr>
+                        <td>UC07: Barang Masuk</td>
+                        <td>Admin</td>
+                        <td>Mencatat barang masuk</td>
+                        <td>Sudah login, barang ada</td>
+                        <td>Transaksi tercatat, stok bertambah</td>
+                    </tr>
+                    <tr>
+                        <td>UC08: Barang Keluar</td>
+                        <td>Admin</td>
+                        <td>Mencatat barang keluar</td>
+                        <td>Sudah login, stok cukup</td>
+                        <td>Transaksi tercatat, stok berkurang</td>
+                    </tr>
+                    <tr>
+                        <td>UC09: Export PDF</td>
+                        <td>Admin</td>
+                        <td>Download laporan PDF</td>
+                        <td>Sudah login</td>
+                        <td>File PDF terunduh</td>
+                    </tr>
+                    <tr>
+                        <td>UC10: Export Excel</td>
+                        <td>Admin</td>
+                        <td>Download laporan Excel</td>
+                        <td>Sudah login</td>
+                        <td>File Excel terunduh</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 6. ERD -->
+        <div class="section">
+            <h2>6. Entity Relationship Diagram (ERD)</h2>
+            <p>Struktur database sistem inventaris gudang:</p>
+            
+            <h3>Tabel: users</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kolom</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>INT</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                        <td>ID unik user</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>VARCHAR(50)</td>
+                        <td>UNIQUE, NOT NULL</td>
+                        <td>Username untuk login</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>VARCHAR(255)</td>
+                        <td>NOT NULL</td>
+                        <td>Password (bcrypt hash)</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                        <td>Waktu pembuatan akun</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Tabel: barang</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kolom</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>INT</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                        <td>ID unik barang</td>
+                    </tr>
+                    <tr>
+                        <td>nama_barang</td>
+                        <td>VARCHAR(100)</td>
+                        <td>NOT NULL</td>
+                        <td>Nama barang</td>
+                    </tr>
+                    <tr>
+                        <td>stok</td>
+                        <td>INT</td>
+                        <td>DEFAULT 0</td>
+                        <td>Jumlah stok tersedia</td>
+                    </tr>
+                    <tr>
+                        <td>harga</td>
+                        <td>DECIMAL(12,2)</td>
+                        <td>DEFAULT 0</td>
+                        <td>Harga satuan barang</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                        <td>Waktu data dibuat</td>
+                    </tr>
+                    <tr>
+                        <td>updated_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>ON UPDATE CURRENT_TIMESTAMP</td>
+                        <td>Waktu terakhir diupdate</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Tabel: transaksi</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kolom</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>INT</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                        <td>ID unik transaksi</td>
+                    </tr>
+                    <tr>
+                        <td>id_barang</td>
+                        <td>INT</td>
+                        <td>FOREIGN KEY → barang(id)</td>
+                        <td>Referensi ke tabel barang</td>
+                    </tr>
+                    <tr>
+                        <td>jenis_transaksi</td>
+                        <td>ENUM('masuk','keluar')</td>
+                        <td>NOT NULL</td>
+                        <td>Jenis transaksi</td>
+                    </tr>
+                    <tr>
+                        <td>jumlah</td>
+                        <td>INT</td>
+                        <td>NOT NULL</td>
+                        <td>Jumlah barang</td>
+                    </tr>
+                    <tr>
+                        <td>tanggal_transaksi</td>
+                        <td>DATETIME</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                        <td>Waktu transaksi</td>
+                    </tr>
+                    <tr>
+                        <td>keterangan</td>
+                        <td>TEXT</td>
+                        <td>-</td>
+                        <td>Catatan transaksi</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="highlight-box">
+                <h3 style="margin-top: 0;">Relasi Antar Tabel</h3>
+                <p class="erd-relation">
+                    <strong>barang</strong> (1) ←→ (N) <strong>transaksi</strong><br>
+                    Satu barang dapat memiliki banyak transaksi (one-to-many)
+                </p>
+                <p class="erd-relation">
+                    Foreign Key: <code>transaksi.id_barang</code> → <code>barang.id</code><br>
+                    ON DELETE CASCADE: Jika barang dihapus, semua transaksi terkait ikut terhapus
+                </p>
+            </div>
+        </div>
+        
+        <!-- 7. Kesimpulan -->
+        <div class="section">
+            <h2>7. Kesimpulan</h2>
+            <p>Berdasarkan analisis yang telah dilakukan, sistem inventaris gudang ini dirancang untuk:</p>
+            
+            <ol>
+                <li><strong>Menyelesaikan masalah</strong> pencatatan manual dengan sistem database terstruktur</li>
+                <li><strong>Mengotomasi perhitungan stok</strong> sehingga mengurangi human error</li>
+                <li><strong>Mempercepat pembuatan laporan</strong> dengan fitur export PDF dan Excel</li>
+                <li><strong>Meningkatkan keamanan data</strong> dengan autentikasi dan validasi yang baik</li>
+                <li><strong>Memberikan visibilitas</strong> melalui dashboard dengan statistik dan grafik</li>
+            </ol>
+            
+            <div class="highlight-box">
+                <h3 style="margin-top: 0;">Teknologi yang Digunakan</h3>
+                <ul>
+                    <li><strong>Backend:</strong> PHP Native, MySQL/MariaDB</li>
+                    <li><strong>Frontend:</strong> Bootstrap 5, SweetAlert2, DataTables, Chart.js</li>
+                    <li><strong>Font:</strong> Exo 2 (Google Fonts)</li>
+                    <li><strong>Icons:</strong> Heroicons</li>
+                </ul>
+            </div>
+            
+            <p>Sistem ini cocok untuk <strong>pembelajaran UKK Level 3</strong> karena:</p>
+            <ul>
+                <li>Kode sederhana dan mudah dipahami</li>
+                <li>Mencakup operasi CRUD lengkap</li>
+                <li>Logika bisnis yang jelas (stok tidak boleh minus)</li>
+                <li>Fitur export laporan</li>
+                <li>UI modern dan responsif</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; padding: 30px; color: #71717a; font-size: 0.9rem;">
+            <p>📄 Dokumen Analisis Sistem Inventaris Gudang</p>
+            <p>UKK Level 3 Web Development - PHP, JavaScript, SQL</p>
+        </div>
+    </div>
+</body>
+</html>

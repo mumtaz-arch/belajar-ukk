@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Assessor UKK - Inventaris Fakhri</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            color: #dc2626;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #fee2e2;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #1e293b;
+            margin: 20px 0 10px;
+            font-size: 1rem;
+        }
+
+        .task-card {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .task-card .label {
+            background: #dc2626;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .task-card h4 {
+            color: #b91c1c;
+            margin-bottom: 8px;
+        }
+
+        .task-card p {
+            color: #7f1d1d;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .answer-box {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 14px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .answer-box h5 {
+            color: #166534;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .answer-box p,
+        .answer-box li {
+            color: #15803d;
+            font-size: 0.9rem;
+        }
+
+        .answer-box code {
+            background: #166534;
+            color: #dcfce7;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85em;
+        }
+
+        .show-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .show-btn:hover {
+            background: #16a34a;
+        }
+
+        .tips {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 14px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .tips h5 {
+            color: #b45309;
+            margin-bottom: 8px;
+        }
+
+        .tips p,
+        .tips li {
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .scenario {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .scenario .type {
+            background: #3b82f6;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .scenario h4 {
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        .scenario p {
+            color: #1e3a5f;
+            font-size: 0.95rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
+
+        .footer a {
+            color: #dc2626;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Simulasi Assessor UKK</h1>
+            <p>Latihan menghadapi pertanyaan dan tugas dari assessor</p>
+        </div>
+
+        <div class="tips">
+            <h5>💡 Tips Menghadapi Assessor:</h5>
+            <ol>
+                <li>Jawab dengan <strong>percaya diri</strong>, jangan ragu-ragu</li>
+                <li>Jelaskan dengan <strong>bahasa sendiri</strong>, jangan hafalan</li>
+                <li>Kalau tidak tahu, bilang <strong>"Saya belum tahu, tapi saya akan pelajari"</strong></li>
+                <li>Tunjukkan <strong>lokasi kode</strong> di file saat menjelaskan</li>
+            </ol>
+        </div>
+
+        <!-- SESI 1: PERTANYAAN TEORI -->
+        <div class="section">
+            <h2>📝 Sesi 1: Pertanyaan Teori</h2>
+            <p>Assessor akan bertanya tentang konsep dasar. Ini pertanyaan yang sering muncul:</p>
+
+            <div class="task-card">
+                <span class="label">Pertanyaan 1</span>
+                <h4>"Jelaskan apa itu PDO dan kenapa kamu pakai PDO?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"PDO adalah PHP Data Objects, yaitu cara untuk mengakses database dari PHP. Saya pakai PDO
+                        karena:</p>
+                    <ol>
+                        <li>Lebih aman dari SQL Injection dengan prepared statement</li>
+                        <li>Bisa dipakai untuk berbagai database (MySQL, PostgreSQL)</li>
+                        <li>Error handling lebih baik dengan try-catch"</li>
+                    </ol>
+                    <p><strong>File:</strong> <code>app/config/koneksi.php</code></p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Pertanyaan 2</span>
+                <h4>"Apa itu session dan bagaimana cara kerjanya di sistem login?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"Session adalah cara menyimpan data user sementara di server selama browsing. Cara kerjanya:</p>
+                    <ol>
+                        <li>User login dengan username & password</li>
+                        <li>Sistem verifikasi dengan database</li>
+                        <li>Kalau cocok, simpan ID user ke <code>$_SESSION['user_id']</code></li>
+                        <li>Setiap halaman cek apakah session ada untuk memastikan user sudah login"</li>
+                    </ol>
+                    <p><strong>File:</strong> <code>app/auth/login.php</code></p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Pertanyaan 3</span>
+                <h4>"Jelaskan apa itu CRUD!"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"CRUD adalah 4 operasi dasar database:</p>
+                    <ul>
+                        <li><strong>C</strong>reate = INSERT INTO (tambah data)</li>
+                        <li><strong>R</strong>ead = SELECT (baca data)</li>
+                        <li><strong>U</strong>pdate = UPDATE (edit data)</li>
+                        <li><strong>D</strong>elete = DELETE (hapus data)"</li>
+                    </ul>
+                    <p><strong>File:</strong> <code>app/barang/</code> (index, tambah, edit, hapus)</p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Pertanyaan 4</span>
+                <h4>"Apa arti dari t.* dan b.nama_barang di query ini?"</h4>
+                <p
+                    style="font-family: 'Fira Code', monospace; background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px; font-size: 0.85rem;">
+                    SELECT t.*, b.nama_barang FROM transaksi t JOIN barang b ON t.id_barang = b.id</p>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <ul>
+                        <li><code>t</code> adalah alias (nama pendek) untuk tabel transaksi</li>
+                        <li><code>b</code> adalah alias untuk tabel barang</li>
+                        <li><code>t.*</code> artinya ambil SEMUA kolom dari tabel transaksi</li>
+                        <li><code>b.nama_barang</code> artinya ambil HANYA kolom nama_barang dari tabel barang</li>
+                        <li><code>ON t.id_barang = b.id</code> adalah syarat penggabungan</li>
+                    </ul>
+                    <p><strong>File:</strong> <code>app/transaksi/riwayat.php</code></p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Pertanyaan 5</span>
+                <h4>"Apa itu SQL Injection dan bagaimana cara mencegahnya?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"SQL Injection adalah serangan dimana hacker memasukkan kode SQL berbahaya melalui input form.
+                    </p>
+                    <p>Cara mencegah: Pakai <strong>prepared statement</strong> dengan placeholder <code>?</code></p>
+                    <p
+                        style="font-family: 'Fira Code', monospace; background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-top: 10px;">
+                        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");<br>$stmt->execute([$username]);
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESI 2: TUGAS PRAKTIK -->
+        <div class="section">
+            <h2>🔧 Sesi 2: Tugas Praktik</h2>
+            <p>Assessor akan meminta kamu melakukan perubahan pada sistem. Ini simulasinya:</p>
+
+            <div class="scenario">
+                <span class="type">Tugas 1</span>
+                <h4>"Coba tambahkan 1 barang baru dengan nama 'Monitor LG' dan stok 10"</h4>
+                <p>Yang harus dilakukan:</p>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Langkah</button>
+                <div class="answer-box">
+                    <h5>Langkah-langkah:</h5>
+                    <ol>
+                        <li>Buka halaman <code>localhost/bahan-ajar-ukk/app/barang/</code></li>
+                        <li>Klik tombol "Tambah Barang"</li>
+                        <li>Isi form: Nama = "Monitor LG", Stok = 10, Harga = (isi sesuai)</li>
+                        <li>Klik Simpan</li>
+                        <li>Tunjukkan data sudah masuk di tabel</li>
+                    </ol>
+                    <p><strong>Jelaskan:</strong> "Data disimpan ke database dengan query INSERT INTO di file
+                        <code>app/barang/tambah.php</code>"</p>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <span class="type">Tugas 2</span>
+                <h4>"Edit barang yang tadi, ubah stoknya menjadi 15"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Langkah</button>
+                <div class="answer-box">
+                    <h5>Langkah-langkah:</h5>
+                    <ol>
+                        <li>Di tabel barang, klik tombol Edit pada "Monitor LG"</li>
+                        <li>Ubah stok dari 10 menjadi 15</li>
+                        <li>Klik Simpan</li>
+                        <li>Tunjukkan perubahan di tabel</li>
+                    </ol>
+                    <p><strong>Jelaskan:</strong> "Data diupdate dengan query UPDATE SET WHERE di file
+                        <code>app/barang/edit.php</code>"</p>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <span class="type">Tugas 3</span>
+                <h4>"Catat transaksi barang masuk: Monitor LG sebanyak 5 unit"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Langkah</button>
+                <div class="answer-box">
+                    <h5>Langkah-langkah:</h5>
+                    <ol>
+                        <li>Buka menu Transaksi → Barang Masuk</li>
+                        <li>Pilih barang "Monitor LG"</li>
+                        <li>Isi jumlah = 5</li>
+                        <li>Klik Simpan</li>
+                        <li>Tunjukkan stok bertambah (15 → 20)</li>
+                    </ol>
+                    <p><strong>Jelaskan:</strong> "Sistem menggunakan transaction database. INSERT ke tabel transaksi
+                        dan UPDATE stok barang. Kalau salah satu gagal, semua dibatalkan (rollback)."</p>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <span class="type">Tugas 4</span>
+                <h4>"Tunjukkan dimana kode untuk validasi stok saat barang keluar!"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Langkah</button>
+                <div class="answer-box">
+                    <h5>Langkah-langkah:</h5>
+                    <ol>
+                        <li>Buka file <code>app/transaksi/keluar.php</code></li>
+                        <li>Cari bagian ini:</li>
+                    </ol>
+                    <p
+                        style="font-family: 'Fira Code', monospace; background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px; font-size: 0.8rem; margin: 10px 0;">
+                        if ($barang['stok'] < $jumlah) {<br>&nbsp;&nbsp;$error = "Stok tidak cukup!";<br>}</p>
+                    <p><strong>Jelaskan:</strong> "Sebelum mengurangi stok, sistem cek dulu apakah stok cukup. Kalau
+                        tidak cukup, tampilkan error dan batalkan transaksi."</p>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <span class="type">Tugas 5</span>
+                <h4>"Export data transaksi ke Excel"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Langkah</button>
+                <div class="answer-box">
+                    <h5>Langkah-langkah:</h5>
+                    <ol>
+                        <li>Buka menu Laporan</li>
+                        <li>Pilih rentang tanggal</li>
+                        <li>Klik tombol Export Excel</li>
+                        <li>File akan terdownload</li>
+                    </ol>
+                    <p><strong>Jelaskan:</strong> "Export menggunakan format CSV yang bisa dibuka di Excel. File ada di
+                        <code>app/laporan/export_excel.php</code>"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESI 3: PERTANYAAN LANJUTAN -->
+        <div class="section">
+            <h2>🔥 Sesi 3: Pertanyaan Lanjutan (Jebakan!)</h2>
+            <p>Pertanyaan ini lebih sulit. Assessor mungkin akan menguji pemahamanmu lebih dalam:</p>
+
+            <div class="task-card">
+                <span class="label">Jebakan 1</span>
+                <h4>"Kenapa kamu proses form di atas, sebelum include header?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"Karena kalau sudah ada output HTML (dari header), fungsi <code>header()</code> untuk redirect
+                        tidak bisa dipakai. PHP akan error 'headers already sent'. Jadi harus proses form dulu, baru
+                        output HTML."</p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Jebakan 2</span>
+                <h4>"Apa bedanya fetch() dan fetchAll()?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <ul>
+                        <li><code>fetch()</code> = Ambil 1 baris hasil (biasanya untuk SELECT WHERE id = ?)</li>
+                        <li><code>fetchAll()</code> = Ambil semua baris hasil (untuk SELECT * atau dengan WHERE yang
+                            hasilnya banyak)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Jebakan 3</span>
+                <h4>"Kalau barang dihapus, apa yang terjadi dengan transaksinya?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"Karena pakai ON DELETE CASCADE, transaksi yang terkait dengan barang tersebut akan <strong>ikut
+                            terhapus otomatis</strong>. Ini didefinisikan di FOREIGN KEY di file database.sql."</p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Jebakan 4</span>
+                <h4>"Kenapa pakai prepared statement, bukan query biasa?"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"Untuk mencegah <strong>SQL Injection</strong>. Prepared statement memisahkan query dari data,
+                        jadi data user tidak bisa dieksekusi sebagai SQL. Lebih aman."</p>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <span class="label">Jebakan 5</span>
+                <h4>"Tunjukkan bagian mana yang mencegah XSS!"</h4>
+                <button class="show-btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer-box">
+                    <h5>Contoh Jawaban:</h5>
+                    <p>"Di bagian tampilan HTML, data dari database dibungkus dengan <code>htmlspecialchars()</code>.
+                        Contoh:</p>
+                    <p
+                        style="font-family: 'Fira Code', monospace; background: #1e293b; color: #e2e8f0; padding: 8px; border-radius: 6px; font-size: 0.85rem; margin-top: 8px;">
+                        &lt;?= htmlspecialchars($data['nama']) ?&gt;</p>
+                    <p>Ini mengubah karakter seperti &lt; dan &gt; menjadi entities HTML yang aman."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="section">
+            <h2>✅ Checklist Persiapan UKK</h2>
+            <table>
+                <tr>
+                    <th>Materi</th>
+                    <th>Sudah Paham?</th>
+                </tr>
+                <tr>
+                    <td>Struktur folder project</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Koneksi PDO</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Session & Login</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>CRUD Operations</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Form Processing (GET/POST)</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>JOIN, ALIAS, t.*</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Database Transaction</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Validasi Input</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Security (SQL Injection, XSS, Hashing)</td>
+                    <td>☐</td>
+                </tr>
+                <tr>
+                    <td>Export Data</td>
+                    <td>☐</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p><a href="materi-ukk.html">← Baca Materi</a> | <a href="kuis-lengkap.html">Kerjakan Kuis</a></p>
+            <p>Simulasi Assessor UKK - Inventaris Fakhri</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(btn) {
+            const answer = btn.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                btn.textContent = 'Lihat Jawaban';
+            } else {
+                answer.style.display = 'block';
+                btn.textContent = 'Sembunyikan';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Lengkap UKK - 50 Soal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .score-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .score-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+
+        .progress {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 8px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #f59e0b, #eab308);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .cat-btn {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .cat-btn.active {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        .question {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .question.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .question.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .q-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .q-num {
+            background: #f59e0b;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .q-cat {
+            background: #fef3c7;
+            color: #b45309;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .q-text {
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .q-text code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85em;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .opt {
+            padding: 10px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt:hover {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .opt.selected {
+            border-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .opt.correct {
+            border-color: #22c55e !important;
+            background: #dcfce7 !important;
+        }
+
+        .opt.wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+        }
+
+        .opt-letter {
+            background: #e2e8f0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .opt.selected .opt-letter {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .opt.correct .opt-letter {
+            background: #22c55e;
+            color: white;
+        }
+
+        .opt.wrong .opt-letter {
+            background: #ef4444;
+            color: white;
+        }
+
+        .explanation {
+            background: #fefce8;
+            border-left: 3px solid #eab308;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation strong {
+            color: #a16207;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            max-width: 360px;
+            margin: 20px;
+        }
+
+        .modal-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+        }
+
+        .modal-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Kuis Lengkap UKK</h1>
+            <p>50 Pertanyaan - Semua Materi</p>
+        </div>
+
+        <div class="score-box">
+            <div>
+                <div style="color: #64748b; font-size: 0.9rem;">Skor</div>
+                <div class="score-display"><span id="score">0</span>/50</div>
+            </div>
+            <div class="progress">
+                <div style="color: #64748b; font-size: 0.9rem; margin-bottom: 6px;">Progress: <span
+                        id="answered">0</span>/50</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-filter">
+            <button class="cat-btn active" onclick="filterCat('all')">Semua</button>
+            <button class="cat-btn" onclick="filterCat('Struktur')">Struktur</button>
+            <button class="cat-btn" onclick="filterCat('PDO')">PDO</button>
+            <button class="cat-btn" onclick="filterCat('Session')">Session</button>
+            <button class="cat-btn" onclick="filterCat('CRUD')">CRUD</button>
+            <button class="cat-btn" onclick="filterCat('Form')">Form</button>
+            <button class="cat-btn" onclick="filterCat('JOIN')">JOIN</button>
+            <button class="cat-btn" onclick="filterCat('Security')">Security</button>
+        </div>
+
+        <div id="questions"></div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="checkBtn" onclick="checkAll()">✅ Cek Semua Jawaban</button>
+            <button class="btn btn-danger" onclick="resetQuiz()">🔄 Ulangi</button>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-emoji" id="modalEmoji">🎉</div>
+            <h2 id="modalTitle">Hasil Kuis</h2>
+            <div class="modal-score"><span id="finalScore">0</span>/50</div>
+            <p id="modalMsg" style="color: #64748b; margin-bottom: 20px;"></p>
+            <button class="btn btn-primary" onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // STRUKTUR (1-5)
+            { id: 1, cat: "Struktur", q: "File untuk koneksi database ada di folder mana?", opts: ["app/auth/", "app/config/", "app/includes/", "app/barang/"], ans: 1, exp: "File koneksi.php ada di folder app/config/ karena itu bagian konfigurasi." },
+            { id: 2, cat: "Struktur", q: "File <code>header.php</code> dan <code>footer.php</code> ada di folder?", opts: ["app/auth/", "app/config/", "app/includes/", "app/assets/"], ans: 2, exp: "File template yang digunakan berulang disimpan di app/includes/." },
+            { id: 3, cat: "Struktur", q: "Untuk menambah barang baru, user mengakses file?", opts: ["app/barang/index.php", "app/barang/tambah.php", "app/barang/edit.php", "app/barang/create.php"], ans: 1, exp: "Tambah barang di app/barang/tambah.php." },
+            { id: 4, cat: "Struktur", q: "Folder <code>app/transaksi/</code> berisi file untuk?", opts: ["Login/logout", "CRUD barang", "Transaksi masuk/keluar barang", "Export laporan"], ans: 2, exp: "Folder transaksi berisi masuk.php, keluar.php, dan riwayat.php." },
+            { id: 5, cat: "Struktur", q: "File <code>index.php</code> di root project berfungsi untuk?", opts: ["Menampilkan dashboard", "Entry point yang redirect ke login/dashboard", "Koneksi database", "Export data"], ans: 1, exp: "index.php adalah entry point yang cek session dan redirect." },
+
+            // PDO (6-12)
+            { id: 6, cat: "PDO", q: "PDO adalah singkatan dari?", opts: ["PHP Data Object", "PHP Database Operation", "PHP Data Objects", "PHP Direct Object"], ans: 2, exp: "PDO = PHP Data Objects, cara modern untuk akses database." },
+            { id: 7, cat: "PDO", q: "Apa fungsi <code>$pdo->prepare()</code>?", opts: ["Menjalankan query", "Menyiapkan query dengan placeholder", "Menutup koneksi", "Mengambil hasil"], ans: 1, exp: "prepare() menyiapkan query SQL dengan placeholder ? untuk keamanan." },
+            { id: 8, cat: "PDO", q: "Apa fungsi <code>$stmt->execute()</code>?", opts: ["Menyiapkan query", "Menjalankan query yang sudah di-prepare", "Mengambil hasil", "Menutup statement"], ans: 1, exp: "execute() menjalankan query yang sudah di-prepare dengan nilai parameter." },
+            { id: 9, cat: "PDO", q: "Apa fungsi <code>$stmt->fetchAll()</code>?", opts: ["Ambil 1 baris hasil", "Ambil semua baris hasil sebagai array", "Hitung jumlah baris", "Tutup statement"], ans: 1, exp: "fetchAll() mengambil semua baris hasil query sebagai array." },
+            { id: 10, cat: "PDO", q: "<code>PDO::FETCH_ASSOC</code> membuat hasil query menjadi?", opts: ["Array dengan index angka", "Array dengan key nama kolom", "Object", "String"], ans: 1, exp: "FETCH_ASSOC membuat hasil jadi array associative dengan key nama kolom." },
+            { id: 11, cat: "PDO", q: "Blok <code>try-catch</code> digunakan untuk?", opts: ["Looping", "Menangkap error/exception", "Kondisi if-else", "Fungsi"], ans: 1, exp: "try-catch menangkap exception kalau ada error." },
+            { id: 12, cat: "PDO", q: "Apa bedanya <code>fetch()</code> dan <code>fetchAll()</code>?", opts: ["Tidak ada bedanya", "fetch() ambil 1 baris, fetchAll() ambil semua", "fetch() untuk SELECT, fetchAll() untuk INSERT", "fetch() lebih cepat"], ans: 1, exp: "fetch() mengambil 1 baris, fetchAll() mengambil semua baris." },
+
+            // SESSION (13-18)
+            { id: 13, cat: "Session", q: "Fungsi <code>session_start()</code> harus dipanggil dimana?", opts: ["Di akhir file", "Setelah HTML", "Di awal file sebelum output apapun", "Dimana saja"], ans: 2, exp: "session_start() HARUS di awal sebelum ada output HTML apapun." },
+            { id: 14, cat: "Session", q: "Cara menyimpan data ke session?", opts: ["$SESSION['key'] = value", "$_SESSION['key'] = value", "session['key'] = value", "set_session('key', value)"], ans: 1, exp: "Gunakan superglobal $_SESSION['key'] = value." },
+            { id: 15, cat: "Session", q: "Cara cek apakah user sudah login?", opts: ["if($_SESSION['logged'])", "if(isset($_SESSION['user_id']))", "if(session_exists())", "if(is_login())"], ans: 1, exp: "Cek dengan isset($_SESSION['user_id']) atau key lain yang disimpan saat login." },
+            { id: 16, cat: "Session", q: "Fungsi <code>password_verify()</code> digunakan untuk?", opts: ["Membuat hash password", "Membandingkan password input dengan hash di database", "Mengenkripsi password", "Menghapus password"], ans: 1, exp: "password_verify() membandingkan password plain dengan hash." },
+            { id: 17, cat: "Session", q: "Fungsi <code>password_hash()</code> digunakan untuk?", opts: ["Verifikasi password", "Membuat hash dari password", "Decrypt password", "Tampilkan password"], ans: 1, exp: "password_hash() membuat hash aman dari password untuk disimpan di database." },
+            { id: 18, cat: "Session", q: "Untuk logout, kita perlu?", opts: ["Set $_SESSION = null", "session_destroy()", "Keduanya benar", "unset($_SESSION)"], ans: 2, exp: "Untuk logout yang proper, gunakan unset($_SESSION) atau $_SESSION = [] lalu session_destroy()." },
+
+            // CRUD (19-28)
+            { id: 19, cat: "CRUD", q: "CRUD adalah singkatan dari?", opts: ["Create Read Update Delete", "Create Remove Update Delete", "Copy Read Update Delete", "Create Read Upload Delete"], ans: 0, exp: "CRUD = Create, Read, Update, Delete - 4 operasi dasar database." },
+            { id: 20, cat: "CRUD", q: "Query SQL untuk CREATE (tambah data)?", opts: ["SELECT", "INSERT INTO", "UPDATE", "DELETE"], ans: 1, exp: "INSERT INTO table (cols) VALUES (values) untuk menambah data baru." },
+            { id: 21, cat: "CRUD", q: "Query SQL untuk READ (baca data)?", opts: ["SELECT", "INSERT INTO", "UPDATE", "DELETE"], ans: 0, exp: "SELECT * FROM table untuk membaca/mengambil data." },
+            { id: 22, cat: "CRUD", q: "Query SQL untuk UPDATE (edit data)?", opts: ["SELECT", "INSERT INTO", "UPDATE", "MODIFY"], ans: 2, exp: "UPDATE table SET col = value WHERE id = ? untuk mengubah data." },
+            { id: 23, cat: "CRUD", q: "Query SQL untuk DELETE (hapus data)?", opts: ["REMOVE", "DROP", "TRUNCATE", "DELETE"], ans: 3, exp: "DELETE FROM table WHERE id = ? untuk menghapus baris data." },
+            { id: 24, cat: "CRUD", q: "Apa fungsi <code>WHERE</code> dalam query?", opts: ["Mengurutkan data", "Memfilter data berdasarkan kondisi", "Mengelompokkan data", "Membatasi jumlah data"], ans: 1, exp: "WHERE digunakan untuk memfilter data berdasarkan kondisi tertentu." },
+            { id: 25, cat: "CRUD", q: "<code>ORDER BY nama ASC</code> artinya?", opts: ["Urutkan nama dari Z-A", "Urutkan nama dari A-Z", "Filter nama", "Kelompokkan nama"], ans: 1, exp: "ASC = ascending (naik), jadi A-Z atau 0-9." },
+            { id: 26, cat: "CRUD", q: "<code>ORDER BY id DESC</code> artinya?", opts: ["Urutkan id dari kecil ke besar", "Urutkan id dari besar ke kecil", "Filter id", "Hapus id"], ans: 1, exp: "DESC = descending (turun), jadi dari besar ke kecil." },
+            { id: 27, cat: "CRUD", q: "Placeholder <code>?</code> dalam prepared statement diganti dengan?", opts: ["Nilai dari execute()", "Nilai dari prepare()", "Tidak diganti", "Otomatis dari database"], ans: 0, exp: "Nilai dikirim melalui array di execute([nilai1, nilai2])." },
+            { id: 28, cat: "CRUD", q: "Kenapa pakai <code>WHERE id = ?</code> saat UPDATE/DELETE?", opts: ["Opsional saja", "Supaya hanya 1 baris yang terpengaruh", "Wajib oleh MySQL", "Untuk keamanan saja"], ans: 1, exp: "WHERE memastikan hanya baris dengan id tertentu yang di-update/delete, bukan semua data!" },
+
+            // FORM (29-35)
+            { id: 29, cat: "Form", q: "Perbedaan utama GET dan POST?", opts: ["GET lebih cepat", "GET data di URL, POST tersembunyi", "POST lebih cepat", "Tidak ada bedanya"], ans: 1, exp: "GET mengirim data via URL (?key=value), POST via body request (tersembunyi)." },
+            { id: 30, cat: "Form", q: "<code>$_POST['nama']</code> digunakan untuk?", opts: ["Mengambil data dari URL", "Mengambil data dari form method POST", "Menyimpan ke database", "Mengambil dari session"], ans: 1, exp: "$_POST mengambil data yang dikirim via form dengan method POST." },
+            { id: 31, cat: "Form", q: "<code>$_GET['page']</code> digunakan untuk?", opts: ["Mengambil dari form POST", "Mengambil parameter dari URL", "Mengambil dari session", "Mengambil dari database"], ans: 1, exp: "$_GET mengambil parameter dari URL (contoh: ?page=2)." },
+            { id: 32, cat: "Form", q: "Kenapa proses form harus SEBELUM include header?", opts: ["Lebih cepat", "Supaya header() redirect bisa bekerja", "Tidak ada alasan", "Supaya lebih rapi"], ans: 1, exp: "header() untuk redirect tidak bisa dipanggil setelah ada output HTML. Jadi proses dulu, baru output." },
+            { id: 33, cat: "Form", q: "Fungsi <code>trim()</code> digunakan untuk?", opts: ["Memotong string", "Menghapus spasi di awal dan akhir string", "Mengubah ke lowercase", "Menghitung panjang string"], ans: 1, exp: "trim() menghapus whitespace (spasi, tab, enter) di awal dan akhir string." },
+            { id: 34, cat: "Form", q: "Fungsi <code>empty()</code> mengecek apakah?", opts: ["Variabel ada", "Variabel kosong atau tidak ada", "Variabel adalah array", "Variabel adalah string"], ans: 1, exp: "empty() return true jika variabel kosong, null, 0, false, atau tidak ada." },
+            { id: 35, cat: "Form", q: "<code>$_SERVER['REQUEST_METHOD']</code> berisi?", opts: ["URL halaman", "Method HTTP (GET/POST)", "IP address", "Nama server"], ans: 1, exp: "REQUEST_METHOD berisi method HTTP yang digunakan, biasa untuk cek apakah form di-submit." },
+
+            // JOIN (36-43)
+            { id: 36, cat: "JOIN", q: "Apa arti <code>FROM transaksi t</code>?", opts: ["Buat tabel t", "Hapus tabel transaksi", "Beri alias t untuk tabel transaksi", "Select kolom t"], ans: 2, exp: "Memberi alias 't' untuk tabel transaksi supaya lebih ringkas." },
+            { id: 37, cat: "JOIN", q: "<code>t.id</code> artinya?", opts: ["Tabel t dan id", "Kolom id dari tabel t", "Variabel t.id", "Error syntax"], ans: 1, exp: "t.id = kolom id dari tabel yang diberi alias t." },
+            { id: 38, cat: "JOIN", q: "<code>t.*</code> artinya?", opts: ["Kolom bernama *", "Semua kolom dari tabel t", "Tabel t saja", "Perkalian"], ans: 1, exp: "Bintang (*) = semua kolom. Jadi t.* = semua kolom dari tabel t." },
+            { id: 39, cat: "JOIN", q: "INNER JOIN menampilkan data yang?", opts: ["Semua dari kiri", "Semua dari kanan", "Hanya yang cocok di kedua tabel", "Semua dari keduanya"], ans: 2, exp: "INNER JOIN hanya menampilkan baris yang memiliki pasangan di kedua tabel." },
+            { id: 40, cat: "JOIN", q: "LEFT JOIN menampilkan data yang?", opts: ["Hanya yang cocok", "Semua dari kiri + cocok dari kanan", "Semua dari kanan + cocok dari kiri", "Error"], ans: 1, exp: "LEFT JOIN = semua dari tabel kiri, plus yang cocok dari kanan. Yang tidak cocok jadi NULL." },
+            { id: 41, cat: "JOIN", q: "<code>ON t.id_barang = b.id</code> artinya?", opts: ["Buat kolom baru", "Syarat penggabungan: id_barang harus sama dengan id", "Filter data", "Hapus data yang tidak cocok"], ans: 1, exp: "ON adalah syarat JOIN - baris digabung jika nilai id_barang sama dengan id." },
+            { id: 42, cat: "JOIN", q: "ON DELETE CASCADE artinya?", opts: ["Tolak hapus", "Hapus induk → anak ikut terhapus", "Anak jadi NULL", "Tidak ada efek"], ans: 1, exp: "CASCADE = berantai. Jika data induk dihapus, semua data anak yang terhubung ikut terhapus." },
+            { id: 43, cat: "JOIN", q: "FOREIGN KEY digunakan untuk?", opts: ["Enkripsi data", "Menghubungkan kolom di 2 tabel berbeda", "Password tabel", "Primary key kedua"], ans: 1, exp: "FOREIGN KEY menghubungkan kolom di satu tabel dengan primary key di tabel lain." },
+
+            // SECURITY (44-50)
+            { id: 44, cat: "Security", q: "SQL Injection adalah?", opts: ["Cara inject CSS", "Serangan via input SQL berbahaya", "Virus database", "Backup database"], ans: 1, exp: "SQL Injection = attacker memasukkan kode SQL berbahaya via input form." },
+            { id: 45, cat: "Security", q: "Cara mencegah SQL Injection?", opts: ["Pakai query biasa", "Pakai prepared statement", "Pakai GET saja", "Tidak bisa dicegah"], ans: 1, exp: "Prepared statement dengan placeholder ? memisahkan query dari data, mencegah injection." },
+            { id: 46, cat: "Security", q: "XSS adalah singkatan dari?", opts: ["Extra Special Script", "Cross-Site Scripting", "Cross-Server Script", "Extreme Style Sheet"], ans: 1, exp: "XSS = Cross-Site Scripting, serangan via script berbahaya di output HTML." },
+            { id: 47, cat: "Security", q: "Cara mencegah XSS?", opts: ["Pakai prepared statement", "Pakai htmlspecialchars() saat output", "Pakai session", "Tidak bisa dicegah"], ans: 1, exp: "htmlspecialchars() mengubah karakter special HTML menjadi entities yang aman." },
+            { id: 48, cat: "Security", q: "Kenapa password harus di-hash?", opts: ["Supaya lebih pendek", "Supaya tidak terbaca jika database bocor", "Supaya lebih cepat login", "Tidak perlu di-hash"], ans: 1, exp: "Hash membuat password tidak bisa dibaca plain text jika database di-hack." },
+            { id: 49, cat: "Security", q: "<code>htmlspecialchars($data)</code> mengubah &lt; menjadi?", opts: ["<", "&lt;", "\\<", "Tetap <"], ans: 1, exp: "< menjadi &lt; sehingga tidak dieksekusi sebagai HTML/script." },
+            { id: 50, cat: "Security", q: "Transaction database (beginTransaction) digunakan untuk?", opts: ["Keamanan login", "Memastikan semua query berhasil atau semua dibatalkan", "Mempercepat query", "Backup data"], ans: 1, exp: "Transaction memastikan atomicity: semua query berhasil, atau semua rollback jika ada yang gagal." }
+        ];
+
+        let answers = {};
+        let checked = false;
+
+        function render(filter = 'all') {
+            const container = document.getElementById('questions');
+            const filtered = filter === 'all' ? questions : questions.filter(q => q.cat === filter);
+
+            container.innerHTML = filtered.map(q => `
+        <div class="question" id="q-${q.id}" data-cat="${q.cat}">
+            <div class="q-header">
+                <span class="q-num">${q.id}</span>
+                <span class="q-cat">${q.cat}</span>
+            </div>
+            <div class="q-text">${q.q}</div>
+            <div class="options">
+                ${q.opts.map((opt, i) => `
+                    <div class="opt" id="opt-${q.id}-${i}" onclick="select(${q.id}, ${i})">
+                        <span class="opt-letter">${String.fromCharCode(65 + i)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="explanation" id="exp-${q.id}"><strong>💡 Penjelasan:</strong> ${q.exp}</div>
+        </div>
+    `).join('');
+
+            // Restore selections
+            Object.keys(answers).forEach(id => {
+                const el = document.getElementById(`opt-${id}-${answers[id]}`);
+                if (el) el.classList.add('selected');
+            });
+
+            // Update filter buttons
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === (filter === 'all' ? 'Semua' : filter)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function filterCat(cat) {
+            render(cat);
+        }
+
+        function select(id, opt) {
+            if (checked) return;
+
+            document.querySelectorAll(`[id^="opt-${id}-"]`).forEach(el => el.classList.remove('selected'));
+            document.getElementById(`opt-${id}-${opt}`).classList.add('selected');
+            answers[id] = opt;
+
+            document.getElementById('answered').textContent = Object.keys(answers).length;
+            document.getElementById('progressBar').style.width = (Object.keys(answers).length / 50 * 100) + '%';
+        }
+
+        function checkAll() {
+            if (Object.keys(answers).length < 50) {
+                alert('Jawab semua 50 pertanyaan dulu ya!');
+                return;
+            }
+
+            checked = true;
+            let score = 0;
+
+            questions.forEach(q => {
+                const userAns = answers[q.id];
+                const correct = userAns === q.ans;
+                if (correct) score++;
+
+                const card = document.getElementById(`q-${q.id}`);
+                card.classList.add(correct ? 'correct' : 'wrong');
+
+                document.getElementById(`opt-${q.id}-${q.ans}`).classList.add('correct');
+                if (!correct) document.getElementById(`opt-${q.id}-${userAns}`).classList.add('wrong');
+
+                document.getElementById(`exp-${q.id}`).classList.add('show');
+            });
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('checkBtn').disabled = true;
+
+            const pct = score / 50 * 100;
+            document.getElementById('modalEmoji').textContent = pct >= 80 ? '🏆' : pct >= 60 ? '🎉' : pct >= 40 ? '😊' : '📚';
+            document.getElementById('modalTitle').textContent = pct >= 80 ? 'LUAR BIASA!' : pct >= 60 ? 'Bagus!' : pct >= 40 ? 'Lumayan' : 'Perlu Belajar Lagi';
+            document.getElementById('modalMsg').textContent = pct >= 80 ? 'Kamu siap untuk UKK!' : pct >= 60 ? 'Pelajari lagi yang salah.' : 'Baca ulang materi-ukk.html';
+            document.getElementById('modal').classList.add('show');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.remove('show'); }
+
+        function resetQuiz() {
+            answers = {};
+            checked = false;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('answered').textContent = '0';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('checkBtn').disabled = false;
+            render();
+        }
+
+        render();
+    </script>
+
+    <div style="text-align: center; padding: 30px; color: #94a3b8;">
+        <p><a href="materi-ukk.html" style="color: #f59e0b;">← Kembali ke Materi</a> | <a href="simulasi-ukk.html"
+                style="color: #ef4444;">Simulasi Assessor →</a></p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 2: CRUD Barang - Tutorial Inventaris</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            border-radius: 16px;
+            color: white;
+        }
+
+        .header .part-label {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h2 .step-number {
+            background: #7c3aed;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 24px 0 12px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: #475569;
+        }
+
+        ul,
+        ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #475569;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #334155;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header .filename {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-header .lang-badge {
+            background: #7c3aed;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .inline-code {
+            background: #f3e8ff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #7c3aed;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .explain-box {
+            background: #fefce8;
+            border: 1px solid #fef08a;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .explain-box h4 {
+            color: #a16207;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explain-box h4::before {
+            content: "💡";
+        }
+
+        .explain-box p,
+        .explain-box li {
+            color: #78716c;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            background: #f3e8ff;
+            border-left: 4px solid #7c3aed;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 16px 0;
+        }
+
+        .info-box.warning {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+
+        .info-box.success {
+            background: #dcfce7;
+            border-left-color: #22c55e;
+        }
+
+        .info-box.danger {
+            background: #fee2e2;
+            border-left-color: #ef4444;
+        }
+
+        .info-box h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .info-box h4 {
+            color: #6d28d9;
+        }
+
+        .info-box.warning h4 {
+            color: #b45309;
+        }
+
+        .info-box.success h4 {
+            color: #15803d;
+        }
+
+        .info-box.danger h4 {
+            color: #dc2626;
+        }
+
+        .line-explain {
+            background: #f0fdf4;
+            border-left: 3px solid #22c55e;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .line-explain code {
+            background: #dcfce7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #15803d;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.prev {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .nav-btn.next {
+            background: #7c3aed;
+            color: white;
+            margin-left: auto;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .flow-diagram {
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-diagram .step {
+            display: inline-block;
+            background: #7c3aed;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 5px;
+            font-size: 0.85rem;
+        }
+
+        .flow-diagram .arrow {
+            color: #7c3aed;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="part-label">PART 2 OF 3</span>
+            <h1>CRUD Data Barang</h1>
+            <p>Belajar bikin fitur Create, Read, Update, Delete dengan penjelasan lengkap</p>
+        </div>
+
+        <!-- POLA PENTING -->
+        <div class="section">
+            <h2><span class="step-number">⚠️</span> POLA PENTING - Wajib Diingat!</h2>
+
+            <div class="info-box danger">
+                <h4>Aturan Emas: Proses Form SEBELUM Include Header!</h4>
+                <p>Ini adalah kesalahan yang paling sering terjadi. Kalau kamu tidak ikuti aturan ini, akan muncul
+                    error: <strong>"headers already sent"</strong></p>
+            </div>
+
+            <div class="flow-diagram">
+                <span class="step">1. session_start()</span>
+                <span class="arrow">→</span>
+                <span class="step">2. Cek Login</span>
+                <span class="arrow">→</span>
+                <span class="step">3. Koneksi DB</span>
+                <span class="arrow">→</span>
+                <span class="step">4. Proses Form</span>
+                <span class="arrow">→</span>
+                <span class="step">5. Redirect</span>
+                <br><br>
+                <span class="arrow">↓</span> Kalau tidak redirect (ada error / pertama kali buka)
+                <br><br>
+                <span class="step">6. Include Header</span>
+                <span class="arrow">→</span>
+                <span class="step">7. HTML Form</span>
+                <span class="arrow">→</span>
+                <span class="step">8. Include Footer</span>
+            </div>
+
+            <div class="explain-box">
+                <h4>Kenapa Harus Begitu?</h4>
+                <p>Fungsi <code>header('Location: ...')</code> untuk redirect hanya bisa dijalankan
+                    <strong>SEBELUM</strong> ada output HTML apapun. Kalau kamu include header.php dulu (yang berisi
+                    HTML), lalu coba redirect, PHP akan marah karena sudah ada output.
+                </p>
+            </div>
+        </div>
+
+        <!-- HEADER.PHP -->
+        <div class="section">
+            <h2><span class="step-number">1</span> Template Header (app/includes/header.php)</h2>
+            <p>File header.php berisi bagian atas halaman yang dipakai di SEMUA halaman. Ini termasuk menu navigasi
+                sidebar.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">app/includes/header.php</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+/**
+ * Header Template - Sidebar Navigation
+ */
+
+// Mulai session (untuk menyimpan data login)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Set timezone Indonesia
+date_default_timezone_set('Asia/Jakarta');
+
+// Cek apakah sudah login
+$current_file = basename($_SERVER['PHP_SELF']);
+if ($current_file !== 'login.php' &amp;&amp; !isset($_SESSION['user_id'])) {
+    // Kalau belum login dan bukan halaman login, tendang ke login
+    header('Location: /bahan-ajar-ukk/app/auth/login.php');
+    exit;
+}
+
+// Base URL untuk link
+$base_url = '/bahan-ajar-ukk';
+
+// Mengetahui halaman aktif (untuk highlight menu)
+$current_page = basename($_SERVER['PHP_SELF'], '.php');
+$current_dir = basename(dirname($_SERVER['PHP_SELF']));
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;&lt;?= $page_title ?? 'Inventaris' ?&gt; | UKK&lt;/title&gt;
+    
+    &lt;!-- CSS Libraries --&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet"&gt;
+    &lt;link href="&lt;?= $base_url ?&gt;/app/assets/css/style.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="app-container"&gt;
+        &lt;!-- Sidebar Menu --&gt;
+        &lt;aside class="sidebar"&gt;
+            &lt;div class="sidebar-header"&gt;
+                &lt;div class="sidebar-logo"&gt;Inventaris&lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;nav class="sidebar-nav"&gt;
+                &lt;a href="&lt;?= $base_url ?&gt;/app/dashboard.php" class="nav-item &lt;?= ($current_page === 'dashboard') ? 'active' : '' ?&gt;"&gt;
+                    Dashboard
+                &lt;/a&gt;
+                &lt;a href="&lt;?= $base_url ?&gt;/app/barang/" class="nav-item &lt;?= ($current_dir === 'barang') ? 'active' : '' ?&gt;"&gt;
+                    Data Barang
+                &lt;/a&gt;
+                &lt;!-- Menu lainnya... --&gt;
+            &lt;/nav&gt;
+        &lt;/aside&gt;
+        
+        &lt;main class="main-content"&gt;</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan Baris per Baris</h4>
+                <div class="line-explain">
+                    <code>session_start()</code> = Memulai session PHP. Session adalah cara menyimpan data sementara
+                    (seperti info user yang login) di server.
+                </div>
+                <div class="line-explain">
+                    <code>$_SESSION['user_id']</code> = Variabel session yang berisi ID user. Kalau kosong, berarti
+                    belum login.
+                </div>
+                <div class="line-explain">
+                    <code>basename($_SERVER['PHP_SELF'])</code> = Mengambil nama file yang sedang dibuka. Contoh:
+                    "login.php"
+                </div>
+                <div class="line-explain">
+                    <code>header('Location: ...')</code> = Redirect (pindah halaman) ke URL lain
+                </div>
+                <div class="line-explain">
+                    <code>exit</code> = Menghentikan eksekusi PHP. Penting setelah redirect!
+                </div>
+                <div class="line-explain">
+                    <code>&lt;?= $page_title ?? 'Inventaris' ?&gt;</code> = Tampilkan $page_title, kalau kosong pakai
+                    'Inventaris'
+                </div>
+                <div class="line-explain">
+                    <code>($current_page === 'dashboard') ? 'active' : ''</code> = Ternary operator. Kalau halaman =
+                    dashboard, tambahkan class 'active', kalau bukan kosongkan.
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER.PHP -->
+        <div class="section">
+            <h2><span class="step-number">2</span> Template Footer (app/includes/footer.php)</h2>
+            <p>File footer.php berisi bagian bawah halaman dan semua library JavaScript.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">app/includes/footer.php</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>        &lt;/main&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- JavaScript Libraries --&gt;
+    &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;
+    
+    &lt;!-- Flash Message (notifikasi sukses/error) --&gt;
+    &lt;?php if (isset($_SESSION['flash_message'])): ?&gt;
+    &lt;script&gt;
+        Swal.fire({
+            icon: '&lt;?= $_SESSION['flash_type'] ?? 'success' ?&gt;',
+            title: 'Berhasil!',
+            text: '&lt;?= $_SESSION['flash_message'] ?&gt;',
+            timer: 2000
+        });
+    &lt;/script&gt;
+    &lt;?php 
+        unset($_SESSION['flash_message'], $_SESSION['flash_type']);
+    endif; 
+    ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan</h4>
+                <div class="line-explain">
+                    <code>jQuery</code> = Library JavaScript untuk manipulasi DOM dengan mudah
+                </div>
+                <div class="line-explain">
+                    <code>Bootstrap JS</code> = Untuk komponen interaktif seperti dropdown, modal
+                </div>
+                <div class="line-explain">
+                    <code>DataTables</code> = Plugin untuk tabel dengan fitur search, pagination, sorting
+                </div>
+                <div class="line-explain">
+                    <code>SweetAlert2</code> = Library untuk popup notifikasi yang cantik
+                </div>
+                <div class="line-explain">
+                    <code>$_SESSION['flash_message']</code> = Pesan sementara yang muncul setelah aksi (misal: "Barang
+                    berhasil ditambahkan!")
+                </div>
+                <div class="line-explain">
+                    <code>unset()</code> = Menghapus variabel session setelah ditampilkan (supaya tidak muncul terus)
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <h4>Penting!</h4>
+                <p>Script JavaScript (jQuery, DataTables, Chart.js) dimuat di footer. Jadi kalau kamu mau pakai
+                    DataTables atau Chart, script initialization-nya harus diletakkan <strong>SETELAH</strong> include
+                    footer.php!</p>
+            </div>
+        </div>
+
+        <!-- TAMBAH.PHP -->
+        <div class="section">
+            <h2><span class="step-number">3</span> Tambah Barang (app/barang/tambah.php)</h2>
+            <p>Ini adalah file untuk menambah barang baru. Perhatikan urutan kodenya!</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">app/barang/tambah.php</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+/**
+ * Tambah Barang
+ * INGAT: Proses form SEBELUM include header!
+ */
+
+// 1. Mulai session
+session_start();
+date_default_timezone_set('Asia/Jakarta');
+
+// 2. Cek login
+if (!isset($_SESSION['user_id'])) {
+    header('Location: /bahan-ajar-ukk/app/auth/login.php');
+    exit;
+}
+
+// 3. Koneksi database
+require_once __DIR__ . '/../config/koneksi.php';
+
+// 4. Variabel untuk menyimpan error
+$error = '';
+
+// 5. Proses form SEBELUM output HTML
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari form
+    $nama_barang = trim($_POST['nama_barang'] ?? '');
+    $stok = (int) ($_POST['stok'] ?? 0);
+    $harga = (float) ($_POST['harga'] ?? 0);
+    
+    // Validasi
+    if (empty($nama_barang)) {
+        $error = 'Nama barang tidak boleh kosong!';
+    } elseif ($stok &lt; 0) {
+        $error = 'Stok tidak boleh negatif!';
+    } elseif ($harga &lt; 0) {
+        $error = 'Harga tidak boleh negatif!';
+    } else {
+        // Simpan ke database
+        $stmt = $pdo-&gt;prepare("INSERT INTO barang (nama_barang, stok, harga) VALUES (?, ?, ?)");
+        
+        if ($stmt-&gt;execute([$nama_barang, $stok, $harga])) {
+            // Sukses! Set flash message dan redirect
+            $_SESSION['flash_message'] = 'Barang berhasil ditambahkan!';
+            $_SESSION['flash_type'] = 'success';
+            header('Location: index.php');
+            exit;
+        } else {
+            $error = 'Gagal menyimpan data!';
+        }
+    }
+}
+
+// 6. BARU setelah proses selesai, include header
+$page_title = 'Tambah Barang';
+require_once __DIR__ . '/../includes/header.php';
+?&gt;
+
+&lt;!-- 7. HTML Form --&gt;
+&lt;div class="page-header"&gt;
+    &lt;h1&gt;Tambah Barang Baru&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div class="row"&gt;
+    &lt;div class="col-md-6"&gt;
+        &lt;div class="card"&gt;
+            &lt;div class="card-body"&gt;
+                &lt;!-- Tampilkan error kalau ada --&gt;
+                &lt;?php if ($error): ?&gt;
+                    &lt;div class="alert alert-danger"&gt;&lt;?= htmlspecialchars($error) ?&gt;&lt;/div&gt;
+                &lt;?php endif; ?&gt;
+                
+                &lt;form method="POST"&gt;
+                    &lt;div class="mb-3"&gt;
+                        &lt;label class="form-label"&gt;Nama Barang *&lt;/label&gt;
+                        &lt;input type="text" name="nama_barang" class="form-control" 
+                               value="&lt;?= htmlspecialchars($_POST['nama_barang'] ?? '') ?&gt;"
+                               placeholder="Contoh: Laptop ASUS" required&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class="mb-3"&gt;
+                        &lt;label class="form-label"&gt;Stok Awal&lt;/label&gt;
+                        &lt;input type="number" name="stok" class="form-control" 
+                               value="&lt;?= htmlspecialchars($_POST['stok'] ?? '0') ?&gt;"
+                               min="0"&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class="mb-4"&gt;
+                        &lt;label class="form-label"&gt;Harga (Rp)&lt;/label&gt;
+                        &lt;input type="number" name="harga" class="form-control" 
+                               value="&lt;?= htmlspecialchars($_POST['harga'] ?? '0') ?&gt;"
+                               min="0"&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;button type="submit" class="btn btn-primary"&gt;Simpan&lt;/button&gt;
+                    &lt;a href="index.php" class="btn btn-outline-primary"&gt;Kembali&lt;/a&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 8. Include footer --&gt;
+&lt;?php require_once __DIR__ . '/../includes/footer.php'; ?&gt;</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan Detail</h4>
+                <div class="line-explain">
+                    <code>$_SERVER['REQUEST_METHOD'] === 'POST'</code> = Cek apakah form sudah disubmit. Kalau user baru
+                    buka halaman (GET), bagian ini dilewati.
+                </div>
+                <div class="line-explain">
+                    <code>trim()</code> = Menghapus spasi di awal dan akhir teks
+                </div>
+                <div class="line-explain">
+                    <code>(int)</code> = Type casting, mengubah ke tipe integer (angka bulat)
+                </div>
+                <div class="line-explain">
+                    <code>empty()</code> = Mengecek apakah variabel kosong
+                </div>
+                <div class="line-explain">
+                    <code>htmlspecialchars()</code> = Mengamankan output dari serangan XSS (mencegah script jahat)
+                </div>
+                <div class="line-explain">
+                    <code>value="..."</code> = Untuk mempertahankan isi form kalau ada error (user tidak perlu ketik
+                    ulang)
+                </div>
+            </div>
+        </div>
+
+        <!-- HAPUS.PHP -->
+        <div class="section">
+            <h2><span class="step-number">4</span> Hapus Barang (app/barang/hapus.php)</h2>
+            <p>File ini lebih simpel karena tidak ada HTML, langsung proses dan redirect.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">app/barang/hapus.php</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+/**
+ * Hapus Barang
+ * File ini tidak butuh HTML, langsung proses dan redirect
+ */
+
+session_start();
+require_once __DIR__ . '/../config/koneksi.php';
+
+// Cek login
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../auth/login.php');
+    exit;
+}
+
+// Ambil ID dari URL (contoh: hapus.php?id=5)
+$id = (int) ($_GET['id'] ?? 0);
+
+if ($id &gt; 0) {
+    // Hapus dari database
+    $stmt = $pdo-&gt;prepare("DELETE FROM barang WHERE id = ?");
+    $stmt-&gt;execute([$id]);
+    
+    // Set flash message
+    $_SESSION['flash_message'] = 'Barang berhasil dihapus!';
+    $_SESSION['flash_type'] = 'success';
+}
+
+// Redirect kembali ke daftar barang
+header('Location: index.php');
+exit;</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan</h4>
+                <div class="line-explain">
+                    <code>$_GET['id']</code> = Mengambil parameter dari URL. Contoh: hapus.php?id=5 → $_GET['id'] = 5
+                </div>
+                <div class="line-explain">
+                    <code>DELETE FROM barang WHERE id = ?</code> = Perintah SQL untuk menghapus data berdasarkan ID
+                </div>
+            </div>
+        </div>
+
+        <!-- RINGKASAN -->
+        <div class="section">
+            <h2><span class="step-number">✅</span> Ringkasan Part 2</h2>
+            <ol>
+                <li><strong>Urutan kode penting!</strong> Proses form SEBELUM include header</li>
+                <li><strong>Session</strong> untuk menyimpan data login dan flash message</li>
+                <li><strong>Prepared statements</strong> untuk keamanan database</li>
+                <li><strong>Validasi input</strong> sebelum menyimpan ke database</li>
+                <li><strong>Flash message</strong> untuk feedback ke user</li>
+            </ol>
+
+            <div class="info-box success">
+                <h4>Selanjutnya di Part 3</h4>
+                <p>Kita akan belajar membuat:<br>
+                    ✓ Transaksi barang masuk dan keluar<br>
+                    ✓ Validasi stok (tidak boleh minus!)<br>
+                    ✓ Riwayat transaksi dengan filter</p>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="part-1-persiapan.html" class="nav-btn prev">← Part 1: Persiapan</a>
+            <a href="part-3-transaksi-laporan.html" class="nav-btn next">Part 3: Transaksi →</a>
+        </div>
+
+        <div style="text-align: center; padding: 30px; color: #94a3b8; font-size: 0.9rem;">
+            <p>Tutorial Inventaris Fakhri - Part 2</p>
+            <p>Dibuat untuk pembelajaran SMK</p>
+        </div>
+    </div>
+</body>
+
+</html>

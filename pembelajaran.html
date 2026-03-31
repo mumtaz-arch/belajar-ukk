@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran SQL Lengkap - Inventaris Fakhri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.8; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #6366f1, #4f46e5); border-radius: 20px; color: white; }
+        .header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { opacity: 0.9; font-size: 1.1rem; }
+        .nav-pills { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
+        .nav-pills a { background: white; color: #4f46e5; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; border: 2px solid #e2e8f0; transition: all 0.2s; }
+        .nav-pills a:hover { background: #4f46e5; color: white; border-color: #4f46e5; }
+        .section { background: white; border-radius: 16px; padding: 32px; margin-bottom: 30px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .section h2 { font-size: 1.5rem; font-weight: 700; color: #4f46e5; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .section h3 { font-size: 1.2rem; font-weight: 600; color: #1e293b; margin: 28px 0 16px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+        .section h4 { font-size: 1rem; font-weight: 600; color: #6366f1; margin: 20px 0 12px; }
+        p { margin-bottom: 16px; color: #475569; }
+        ul, ol { margin-left: 24px; margin-bottom: 16px; }
+        li { margin-bottom: 10px; color: #475569; }
+        .code-block { background: #1e293b; border-radius: 12px; margin: 20px 0; overflow: hidden; }
+        .code-header { background: #334155; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .code-header .filename { color: #94a3b8; font-size: 0.9rem; font-family: 'Fira Code', monospace; }
+        .code-header .lang-badge { background: #6366f1; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+        pre { padding: 20px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.7; color: #e2e8f0; }
+        .inline-code { background: #eff6ff; padding: 3px 8px; border-radius: 4px; color: #4f46e5; font-size: 0.9rem; font-family: 'Fira Code', monospace; }
+        .info-box { padding: 20px; border-radius: 12px; margin: 20px 0; }
+        .info-box.tip { background: #fefce8; border-left: 4px solid #eab308; }
+        .info-box.success { background: #dcfce7; border-left: 4px solid #22c55e; }
+        .info-box.warning { background: #fef3c7; border-left: 4px solid #f59e0b; }
+        .info-box.danger { background: #fee2e2; border-left: 4px solid #ef4444; }
+        .info-box.primary { background: #eff6ff; border-left: 4px solid #3b82f6; }
+        .info-box h4 { margin-bottom: 10px; font-weight: 600; }
+        .info-box.tip h4 { color: #a16207; }
+        .info-box.success h4 { color: #15803d; }
+        .info-box.warning h4 { color: #b45309; }
+        .info-box.danger h4 { color: #dc2626; }
+        .info-box.primary h4 { color: #1e40af; }
+        .visual-diagram { background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; padding: 30px; margin: 24px 0; text-align: center; }
+        .visual-diagram h5 { color: #64748b; margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .table-viz { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 20px 0; }
+        .table-box { background: white; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; min-width: 180px; }
+        .table-box .table-name { background: #4f46e5; color: white; padding: 10px; font-weight: 600; text-align: center; }
+        .table-box .table-name.green { background: #22c55e; }
+        .table-box .table-name.orange { background: #f59e0b; }
+        .table-box .table-name.red { background: #ef4444; }
+        .table-box .table-rows { padding: 10px; }
+        .table-box .row { padding: 6px 10px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; display: flex; justify-content: space-between; gap: 10px; }
+        .table-box .row:last-child { border-bottom: none; }
+        .table-box .row .id { color: #6366f1; font-weight: 600; }
+        .table-box .row .highlight { background: #dcfce7; padding: 2px 6px; border-radius: 4px; }
+        .table-box .row .no-match { background: #fee2e2; padding: 2px 6px; border-radius: 4px; color: #dc2626; }
+        .arrow { font-size: 2rem; color: #6366f1; display: flex; align-items: center; }
+        .result-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .result-table th { background: #4f46e5; color: white; padding: 12px 16px; text-align: left; font-weight: 600; }
+        .result-table td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; }
+        .result-table tr:last-child td { border-bottom: none; }
+        .result-table .null { color: #ef4444; font-style: italic; }
+        .result-table .match { background: #dcfce7; }
+        .comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 24px 0; }
+        .comparison-card { background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+        .comparison-card.active { border-color: #22c55e; }
+        .comparison-card h5 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+        .comparison-card.active h5 { color: #15803d; }
+        .comparison-card p { font-size: 0.9rem; margin-bottom: 8px; }
+        .comparison-card .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .comparison-card .badge.used { background: #dcfce7; color: #15803d; }
+        .comparison-card .badge.not-used { background: #f1f5f9; color: #64748b; }
+        .file-ref { background: #f1f5f9; border-radius: 8px; padding: 12px 16px; margin: 12px 0; display: flex; align-items: center; gap: 10px; }
+        .file-ref .icon { color: #6366f1; font-size: 1.2rem; }
+        .file-ref .path { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #4f46e5; }
+        .step-box { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 12px; padding: 20px; margin: 16px 0; border-left: 4px solid #3b82f6; }
+        .step-box .step-num { background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        .step-box h5 { color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; }
+        .step-box p { color: #1e3a5f; margin: 0; }
+        .flow-diagram { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .flow-item { background: white; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; position: relative; }
+        .flow-item::after { content: '↓'; position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: #6366f1; }
+        .flow-item:last-child::after { display: none; }
+        .flow-item .label { font-weight: 600; color: #4f46e5; }
+        .highlight-text { background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%); padding: 2px 4px; }
+        .footer-nav { display: flex; justify-content: space-between; margin-top: 40px; gap: 20px; }
+        .footer-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 10px; text-decoration: none; font-weight: 600; }
+        .footer-nav .prev { background: #f1f5f9; color: #64748b; }
+        .footer-nav .next { background: #4f46e5; color: white; margin-left: auto; }
+        @media (max-width: 768px) { .table-viz { flex-direction: column; align-items: center; } .arrow { transform: rotate(90deg); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📚 Pembelajaran SQL Lengkap</h1>
+        <p>JOIN, ALIAS & CASCADE - Panduan Super Detail untuk SMK</p>
+    </div>
+
+    <div class="nav-pills">
+        <a href="#masalah">Masalah</a>
+        <a href="#alias">ALIAS</a>
+        <a href="#join">JOIN</a>
+        <a href="#cascade">CASCADE</a>
+        <a href="#implementasi">Implementasi</a>
+        <a href="#kesalahan">Kesalahan Umum</a>
+    </div>
+
+    <!-- ==================== PENDAHULUAN ==================== -->
+    <div class="section" id="masalah">
+        <h2>🤔 Masalah yang Akan Kita Selesaikan</h2>
+        
+        <p>Sebelum belajar JOIN, kita perlu paham <strong>MASALAH APA</strong> yang JOIN selesaikan.</p>
+        
+        <h3>Situasi: Sistem Inventaris Gudang</h3>
+        <p>Kita punya 2 tabel terpisah di database:</p>
+        
+        <div class="visual-diagram">
+            <h5>📋 Tabel BARANG</h5>
+            <table class="result-table" style="max-width: 400px; margin: 0 auto;">
+                <thead><tr><th>id</th><th>nama_barang</th><th>stok</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Laptop ASUS</td><td>10</td></tr>
+                    <tr><td>2</td><td>Mouse Logitech</td><td>25</td></tr>
+                    <tr><td>3</td><td>Keyboard Razer</td><td>15</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="visual-diagram">
+            <h5>📋 Tabel TRANSAKSI</h5>
+            <table class="result-table" style="max-width: 500px; margin: 0 auto;">
+                <thead><tr><th>id</th><th>id_barang</th><th>jenis</th><th>jumlah</th><th>tanggal</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td style="color: #4f46e5; font-weight: bold;">1</td><td>masuk</td><td>5</td><td>2026-01-15</td></tr>
+                    <tr><td>2</td><td style="color: #4f46e5; font-weight: bold;">2</td><td>keluar</td><td>3</td><td>2026-01-16</td></tr>
+                    <tr><td>3</td><td style="color: #4f46e5; font-weight: bold;">1</td><td>keluar</td><td>2</td><td>2026-01-17</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>❓ Masalahnya</h3>
+        <p>Perhatikan tabel TRANSAKSI. Kolomnya cuma berisi <strong>id_barang</strong> (angka 1, 2), bukan nama barangnya.</p>
+        
+        <div class="info-box danger">
+            <h4>😵 Pertanyaan User</h4>
+            <p>"Saya mau lihat riwayat transaksi. Tapi kenapa yang muncul cuma <code>id_barang: 1</code>? Saya mau lihat <strong>NAMA BARANGNYA</strong> dong, bukan cuma angka!"</p>
+        </div>
+
+        <h3>🤷 Kenapa Tidak Simpan Nama Barang Langsung di Tabel Transaksi?</h3>
+        
+        <div class="comparison">
+            <div class="comparison-card">
+                <h5>❌ Cara Buruk: Simpan Nama Langsung</h5>
+                <table class="result-table" style="font-size: 0.8rem;">
+                    <thead><tr><th>id</th><th>nama_barang</th><th>jumlah</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Laptop ASUS</td><td>5</td></tr>
+                        <tr><td>2</td><td>Laptop ASUS</td><td>2</td></tr>
+                        <tr><td>3</td><td>Laptop ASUS</td><td>3</td></tr>
+                    </tbody>
+                </table>
+                <p style="color: #dc2626; margin-top: 10px;">❌ "Laptop ASUS" ditulis 3x! Boros memori. Kalau mau ganti nama, harus edit semua baris!</p>
+            </div>
+            
+            <div class="comparison-card active">
+                <h5>✅ Cara Benar: Simpan ID saja</h5>
+                <table class="result-table" style="font-size: 0.8rem;">
+                    <thead><tr><th>id</th><th>id_barang</th><th>jumlah</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>1</td><td>5</td></tr>
+                        <tr><td>2</td><td>1</td><td>2</td></tr>
+                        <tr><td>3</td><td>1</td><td>3</td></tr>
+                    </tbody>
+                </table>
+                <p style="color: #15803d; margin-top: 10px;">✅ Hemat memori! Ganti nama cukup di 1 tempat. Pakai JOIN untuk ambil namanya.</p>
+            </div>
+        </div>
+
+        <div class="info-box success">
+            <h4>💡 Kesimpulan</h4>
+            <p><strong>JOIN</strong> adalah cara untuk <span class="highlight-text">"menggabungkan" data dari 2 tabel</span> sehingga kita bisa tampilkan nama barang (dari tabel barang) + data transaksi (dari tabel transaksi) dalam 1 hasil query.</p>
+        </div>
+    </div>
+
+    <!-- ==================== ALIAS SUPER DETAIL ==================== -->
+    <div class="section" id="alias">
+        <h2>🏷️ ALIAS - Nama Pendek untuk Tabel</h2>
+        
+        <p>Sebelum pakai JOIN, kita harus paham dulu tentang <strong>ALIAS</strong>. Ini penting banget!</p>
+        
+        <div class="info-box tip">
+            <h4>💡 Analogi: Nama Panggilan</h4>
+            <p>Nama lengkap: <strong>"Muhammad Fakhri Mumtaz Basyari"</strong></p>
+            <p>Nama panggilan: <strong>"Fakhri"</strong></p>
+            <p>Sama-sama merujuk ke orang yang sama, tapi yang satu lebih pendek!</p>
+        </div>
+
+        <h3>Step 1: Tanpa Alias (Ribet!)</h3>
+        
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">Query TANPA alias</span>
+                <span class="lang-badge">SQL</span>
+            </div>
+            <pre>SELECT <span style="color: #ef4444;">transaksi</span>.id, <span style="color: #3b82f6;">barang</span>.nama_barang, <span style="color: #ef4444;">transaksi</span>.jumlah
+FROM <span style="color: #ef4444;">transaksi</span>
+JOIN <span style="color: #3b82f6;">barang</span> ON <span style="color: #ef4444;">transaksi</span>.id_barang = <span style="color: #3b82f6;">barang</span>.id;</pre>
+        </div>
+        
+        <p>Lihat? Nama tabel <code>transaksi</code> dan <code>barang</code> ditulis <strong>berkali-kali</strong>. Bayangkan kalau nama tabelnya panjang seperti <code>detail_transaksi_barang_gudang</code>. Ribet kan?</p>
+
+        <h3>Step 2: Dengan Alias (Ringkas!)</h3>
+        
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">Query DENGAN alias</span>
+                <span class="lang-badge">SQL</span>
+            </div>
+            <pre>SELECT <span style="color: #fbbf24;">t</span>.id, <span style="color: #22c55e;">b</span>.nama_barang, <span style="color: #fbbf24;">t</span>.jumlah
+FROM transaksi <span style="color: #fbbf24;">t</span>
+JOIN barang <span style="color: #22c55e;">b</span> ON <span style="color: #fbbf24;">t</span>.id_barang = <span style="color: #22c55e;">b</span>.id;</pre>
+        </div>
+
+        <div class="step-box">
+            <h5><span class="step-num">1</span> Cara Membuat Alias</h5>
+            <p>Tulis <strong>nama tabel</strong> diikuti <strong>spasi</strong> lalu <strong>nama alias</strong>:</p>
+            <ul style="margin-top: 10px;">
+                <li><code>FROM transaksi <strong style="color: #fbbf24;">t</strong></code> → tabel transaksi sekarang bisa dipanggil <strong style="color: #fbbf24;">t</strong></li>
+                <li><code>JOIN barang <strong style="color: #22c55e;">b</strong></code> → tabel barang sekarang bisa dipanggil <strong style="color: #22c55e;">b</strong></li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <h5><span class="step-num">2</span> Cara Pakai Alias</h5>
+            <p>Setelah membuat alias, pakai <strong>alias.nama_kolom</strong> untuk mengakses kolom:</p>
+            <ul style="margin-top: 10px;">
+                <li><code><strong style="color: #fbbf24;">t</strong>.id</code> → kolom <code>id</code> dari tabel transaksi</li>
+                <li><code><strong style="color: #fbbf24;">t</strong>.jumlah</code> → kolom <code>jumlah</code> dari tabel transaksi</li>
+                <li><code><strong style="color: #22c55e;">b</strong>.nama_barang</code> → kolom <code>nama_barang</code> dari tabel barang</li>
+                <li><code><strong style="color: #22c55e;">b</strong>.id</code> → kolom <code>id</code> dari tabel barang</li>
+            </ul>
+        </div>
+
+        <h3>Step 3: Apa Arti t.* (Bintang)?</h3>
+        
+        <p><code>*</code> dalam SQL artinya <strong>"SEMUA KOLOM"</strong>.</p>
+        
+        <div class="visual-diagram">
+            <h5>📊 Perbedaan SELECT</h5>
+            <div class="comparison">
+                <div class="comparison-card">
+                    <h5><code>SELECT *</code></h5>
+                    <p>Ambil <strong>SEMUA kolom</strong> dari <strong>SEMUA tabel</strong></p>
+                </div>
+                <div class="comparison-card">
+                    <h5><code>SELECT t.*</code></h5>
+                    <p>Ambil <strong>SEMUA kolom</strong> dari <strong>tabel t saja</strong></p>
+                </div>
+                <div class="comparison-card">
+                    <h5><code>SELECT t.id</code></h5>
+                    <p>Ambil <strong>HANYA kolom id</strong> dari <strong>tabel t</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <h4>Contoh Konkret:</h4>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">Penjelasan t.* dan b.nama_barang</span>
+                <span class="lang-badge">SQL</span>
+            </div>
+            <pre>-- Query yang ada di project kita
+SELECT <span style="color: #fbbf24;">t.*</span>, <span style="color: #22c55e;">b.nama_barang</span>
+FROM transaksi t
+JOIN barang b ON t.id_barang = b.id;</pre>
+        </div>
+
+        <p><strong>Artinya apa?</strong></p>
+        
+        <div class="flow-diagram">
+            <div class="flow-item">
+                <span class="label">t.* =</span> Ambil SEMUA kolom dari tabel transaksi:
+                <ul style="margin: 10px 0 0 0;">
+                    <li>✅ t.id</li>
+                    <li>✅ t.id_barang</li>
+                    <li>✅ t.jenis_transaksi</li>
+                    <li>✅ t.jumlah</li>
+                    <li>✅ t.tanggal_transaksi</li>
+                    <li>✅ t.keterangan</li>
+                </ul>
+            </div>
+            <div class="flow-item">
+                <span class="label">b.nama_barang =</span> Ambil HANYA kolom nama_barang dari tabel barang:
+                <ul style="margin: 10px 0 0 0;">
+                    <li>❌ b.id (tidak diambil)</li>
+                    <li>✅ b.nama_barang (diambil)</li>
+                    <li>❌ b.stok (tidak diambil)</li>
+                    <li>❌ b.harga (tidak diambil)</li>
+                </ul>
+            </div>
+            <div class="flow-item" style="background: #dcfce7; border-color: #22c55e;">
+                <span class="label" style="color: #15803d;">Hasil Query =</span> Gabungan keduanya:
+                <p style="margin-top: 10px;">id, id_barang, jenis_transaksi, jumlah, tanggal_transaksi, keterangan, <strong>nama_barang</strong></p>
+            </div>
+        </div>
+
+        <div class="info-box success">
+            <h4>✅ Ringkasan ALIAS</h4>
+            <table class="result-table">
+                <thead><tr><th>Kode</th><th>Artinya</th><th>Contoh</th></tr></thead>
+                <tbody>
+                    <tr><td><code>FROM transaksi t</code></td><td>Buat alias "t" untuk tabel transaksi</td><td>t = transaksi</td></tr>
+                    <tr><td><code>t.id</code></td><td>Kolom id dari tabel t (transaksi)</td><td>t.id = transaksi.id</td></tr>
+                    <tr><td><code>t.*</code></td><td>SEMUA kolom dari tabel t</td><td>Semua kolom transaksi</td></tr>
+                    <tr><td><code>b.nama_barang</code></td><td>Kolom nama_barang dari tabel b (barang)</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ==================== JOIN SUPER DETAIL ==================== -->
+    <div class="section" id="join">
+        <h2>🔗 JOIN - Menggabungkan Tabel</h2>
+        
+        <p>Sekarang kita sudah paham ALIAS. Saatnya belajar JOIN!</p>
+
+        <h3>📌 INNER JOIN (Yang Paling Sering Dipakai)</h3>
+        
+        <p><strong>INNER JOIN</strong> = Hanya tampilkan data yang <span class="highlight-text">ADA DI KEDUA TABEL</span>.</p>
+        
+        <div class="visual-diagram">
+            <h5>📊 Visualisasi INNER JOIN</h5>
+            <svg width="300" height="150" viewBox="0 0 300 150" style="margin: 20px auto; display: block;">
+                <circle cx="110" cy="75" r="60" fill="#eff6ff" stroke="#3b82f6" stroke-width="3"/>
+                <circle cx="190" cy="75" r="60" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+                <path d="M150,30 A60,60 0 0,1 150,120 A60,60 0 0,1 150,30" fill="#4f46e5" opacity="0.8"/>
+                <text x="65" y="80" font-family="Inter" font-size="12" fill="#3b82f6" font-weight="bold">BARANG</text>
+                <text x="195" y="80" font-family="Inter" font-size="12" fill="#22c55e" font-weight="bold">TRANSAKSI</text>
+                <text x="130" y="80" font-family="Inter" font-size="11" fill="white" font-weight="bold">HASIL</text>
+            </svg>
+            <p style="color: #4f46e5; font-weight: 600;">Area BIRU = hasil INNER JOIN (hanya yang cocok)</p>
+        </div>
+
+        <h4>Step-by-Step: Bagaimana JOIN Bekerja?</h4>
+        
+        <div class="step-box">
+            <h5><span class="step-num">1</span> Database membaca tabel TRANSAKSI</h5>
+            <p>Baris pertama: id_barang = <strong>1</strong></p>
+        </div>
+        
+        <div class="step-box">
+            <h5><span class="step-num">2</span> Database mencari di tabel BARANG</h5>
+            <p>"Barang dengan id = <strong>1</strong> itu apa ya?" → Ketemu! <strong>Laptop ASUS</strong></p>
+        </div>
+        
+        <div class="step-box">
+            <h5><span class="step-num">3</span> Database menggabungkan hasilnya</h5>
+            <p>Transaksi (id_barang=1) + Barang (id=1) = <strong>Hasil lengkap dengan nama barang!</strong></p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">Contoh INNER JOIN</span>
+                <span class="lang-badge">SQL</span>
+            </div>
+            <pre>SELECT t.id, <span style="color: #22c55e;">b.nama_barang</span>, t.jenis_transaksi, t.jumlah
+FROM transaksi t
+<span style="color: #fbbf24;">JOIN</span> barang b <span style="color: #fbbf24;">ON</span> t.id_barang = b.id;
+
+-- Penjelasan per baris:
+-- FROM transaksi t     = Mulai dari tabel transaksi (alias: t)
+-- JOIN barang b        = Gabungkan dengan tabel barang (alias: b)
+-- ON t.id_barang = b.id = Syaratnya: id_barang di transaksi SAMA dengan id di barang</pre>
+        </div>
+
+        <h4>Hasil Query:</h4>
+        <table class="result-table">
+            <thead><tr><th>t.id</th><th style="background: #22c55e;">b.nama_barang</th><th>t.jenis_transaksi</th><th>t.jumlah</th></tr></thead>
+            <tbody>
+                <tr class="match"><td>1</td><td>Laptop ASUS</td><td>masuk</td><td>5</td></tr>
+                <tr class="match"><td>2</td><td>Mouse Logitech</td><td>keluar</td><td>3</td></tr>
+                <tr class="match"><td>3</td><td>Laptop ASUS</td><td>keluar</td><td>2</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="info-box success">
+            <h4>✅ Berhasil!</h4>
+            <p>Sekarang kita bisa lihat <strong>nama barang</strong> (dari tabel barang) di hasil query, padahal tabel transaksi cuma simpan id_barang!</p>
+        </div>
+
+        <h3>📌 LEFT JOIN, RIGHT JOIN, FULL JOIN</h3>
+        
+        <p>Selain INNER JOIN, ada jenis JOIN lain:</p>
+        
+        <table class="result-table">
+            <thead><tr><th>Jenis</th><th>Hasil</th><th>Contoh Kasus</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><strong>INNER JOIN</strong></td>
+                    <td>Hanya data yang cocok di KEDUA tabel</td>
+                    <td>Tampilkan transaksi yang barangnya masih ada</td>
+                </tr>
+                <tr>
+                    <td><strong>LEFT JOIN</strong></td>
+                    <td>SEMUA dari tabel kiri + yang cocok dari kanan</td>
+                    <td>Tampilkan SEMUA barang, meski belum ada transaksinya</td>
+                </tr>
+                <tr>
+                    <td><strong>RIGHT JOIN</strong></td>
+                    <td>SEMUA dari tabel kanan + yang cocok dari kiri</td>
+                    <td>Jarang dipakai (sama saja balik posisi LEFT JOIN)</td>
+                </tr>
+                <tr>
+                    <td><strong>FULL JOIN</strong></td>
+                    <td>SEMUA dari KEDUA tabel</td>
+                    <td>MySQL tidak support!</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box primary">
+            <h4>📍 Yang Dipakai di Project</h4>
+            <p>Di project Inventaris ini, kita pakai <strong>INNER JOIN</strong> (atau cuma ditulis <code>JOIN</code>) karena kita hanya mau tampilkan transaksi yang barangnya masih ada di database.</p>
+        </div>
+    </div>
+
+    <!-- ==================== CASCADE ==================== -->
+    <div class="section" id="cascade">
+        <h2>🔄 CASCADE - Aturan Hapus & Update</h2>
+        
+        <p>CASCADE adalah aturan yang mengontrol <strong>apa yang terjadi pada data anak</strong> ketika data induk dihapus atau diupdate.</p>
+
+        <div class="info-box tip">
+            <h4>💡 Analogi: Keluarga</h4>
+            <ul>
+                <li><strong>Tabel BARANG</strong> = Orang tua</li>
+                <li><strong>Tabel TRANSAKSI</strong> = Anak-anak</li>
+            </ul>
+            <p>Pertanyaan: Kalau orang tua "dihapus" dari database, apa yang terjadi pada anak-anaknya?</p>
+        </div>
+
+        <h3>Jenis-jenis ON DELETE</h3>
+        
+        <div class="comparison">
+            <div class="comparison-card active">
+                <h5>🔴 ON DELETE CASCADE</h5>
+                <span class="badge used">✅ Dipakai di Project</span>
+                <p><strong>Hapus induk → Anak IKUT TERHAPUS</strong></p>
+                <p>Contoh: Hapus "Laptop ASUS" → Semua transaksi laptop ikut hilang</p>
+            </div>
+            
+            <div class="comparison-card">
+                <h5>🔒 ON DELETE RESTRICT</h5>
+                <span class="badge not-used">❌ Tidak Dipakai</span>
+                <p><strong>Tolak hapus kalau masih ada anak</strong></p>
+                <p>Contoh: Tidak bisa hapus barang kalau masih ada transaksinya</p>
+            </div>
+            
+            <div class="comparison-card">
+                <h5>⚫ ON DELETE SET NULL</h5>
+                <span class="badge not-used">❌ Tidak Dipakai</span>
+                <p><strong>Hapus induk → FK anak jadi NULL</strong></p>
+                <p>Contoh: Hapus barang → id_barang di transaksi jadi NULL</p>
+            </div>
+        </div>
+
+        <h3>Contoh ON DELETE CASCADE</h3>
+        
+        <div class="visual-diagram">
+            <h5>🗑️ SEBELUM Hapus Barang id=1</h5>
+            <div class="table-viz">
+                <div class="table-box">
+                    <div class="table-name">BARANG</div>
+                    <div class="table-rows">
+                        <div class="row" style="background: #fecaca;"><span>1</span> <span>Laptop ASUS</span> 🗑️</div>
+                        <div class="row"><span>2</span> <span>Mouse</span></div>
+                    </div>
+                </div>
+                <div class="table-box">
+                    <div class="table-name green">TRANSAKSI</div>
+                    <div class="table-rows">
+                        <div class="row" style="background: #fecaca;"><span>1</span> <span>id_barang: 1</span> 🗑️</div>
+                        <div class="row"><span>2</span> <span>id_barang: 2</span></div>
+                        <div class="row" style="background: #fecaca;"><span>3</span> <span>id_barang: 1</span> 🗑️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-diagram" style="background: #dcfce7;">
+            <h5>✅ SESUDAH Hapus (dengan CASCADE)</h5>
+            <div class="table-viz">
+                <div class="table-box">
+                    <div class="table-name">BARANG</div>
+                    <div class="table-rows">
+                        <div class="row"><span>2</span> <span>Mouse</span></div>
+                    </div>
+                </div>
+                <div class="table-box">
+                    <div class="table-name green">TRANSAKSI</div>
+                    <div class="table-rows">
+                        <div class="row"><span>2</span> <span>id_barang: 2</span></div>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: #15803d;">Semua transaksi dengan id_barang=1 <strong>OTOMATIS TERHAPUS!</strong></p>
+        </div>
+
+        <h3>Kode di database.sql</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">database.sql</span>
+                <span class="lang-badge">SQL</span>
+            </div>
+            <pre>CREATE TABLE transaksi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_barang INT NOT NULL,
+    jenis_transaksi ENUM('masuk', 'keluar'),
+    jumlah INT NOT NULL,
+    
+    -- Foreign Key dengan CASCADE
+    <span style="color: #fbbf24;">FOREIGN KEY (id_barang) REFERENCES barang(id) ON DELETE CASCADE</span>
+);
+
+-- Penjelasan:
+-- FOREIGN KEY (id_barang)        = Kolom id_barang adalah foreign key
+-- REFERENCES barang(id)          = Mengacu ke kolom id di tabel barang
+-- ON DELETE CASCADE              = Kalau barang dihapus, transaksi ikut terhapus</pre>
+        </div>
+    </div>
+
+    <!-- ==================== IMPLEMENTASI ==================== -->
+    <div class="section" id="implementasi">
+        <h2>📍 Implementasi di Project</h2>
+        
+        <h3>1. File: app/transaksi/riwayat.php</h3>
+        <div class="file-ref">
+            <span class="icon">📄</span>
+            <span class="path">app/transaksi/riwayat.php</span>
+        </div>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="filename">Kode JOIN di Project</span>
+                <span class="lang-badge">PHP</span>
+            </div>
+            <pre>// Query dengan JOIN
+$sql = "SELECT <span style="color: #fbbf24;">t.*</span>, <span style="color: #22c55e;">b.nama_barang</span> 
+        FROM transaksi <span style="color: #fbbf24;">t</span> 
+        <span style="color: #a855f7;">JOIN</span> barang <span style="color: #22c55e;">b</span> <span style="color: #a855f7;">ON</span> <span style="color: #fbbf24;">t</span>.id_barang = <span style="color: #22c55e;">b</span>.id
+        ORDER BY <span style="color: #fbbf24;">t</span>.tanggal_transaksi DESC";
+
+// Penjelasan lengkap:
+// t.*          = Ambil SEMUA kolom dari tabel transaksi
+// b.nama_barang = Ambil HANYA nama_barang dari tabel barang
+// t            = Alias untuk tabel transaksi
+// b            = Alias untuk tabel barang
+// JOIN ... ON  = Gabungkan berdasarkan id_barang = id</pre>
+        </div>
+
+        <h3>2. File: database.sql</h3>
+        <p>Definisi FOREIGN KEY dengan CASCADE ada di file ini.</p>
+    </div>
+
+    <!-- ==================== KESALAHAN UMUM ==================== -->
+    <div class="section" id="kesalahan">
+        <h2>⚠️ Kesalahan Umum yang Sering Terjadi</h2>
+
+        <div class="info-box danger">
+            <h4>❌ Kesalahan 1: Lupa pakai alias</h4>
+            <div class="code-block" style="margin: 10px 0;">
+                <pre style="padding: 15px;">-- SALAH! Ambiguous column 'id'
+SELECT id, nama_barang FROM transaksi 
+JOIN barang ON id_barang = id;
+
+-- Error: Column 'id' in field list is ambiguous
+-- Karena KEDUA tabel punya kolom 'id'!</pre>
+            </div>
+            <p><strong>Solusi:</strong> Pakai alias untuk membedakan kolom dari tabel mana.</p>
+            <div class="code-block" style="margin: 10px 0;">
+                <pre style="padding: 15px; background: #dcfce7; color: #1e293b;">-- BENAR!
+SELECT t.id, b.nama_barang FROM transaksi t 
+JOIN barang b ON t.id_barang = b.id;</pre>
+            </div>
+        </div>
+
+        <div class="info-box danger">
+            <h4>❌ Kesalahan 2: Salah kondisi ON</h4>
+            <div class="code-block" style="margin: 10px 0;">
+                <pre style="padding: 15px;">-- SALAH! 
+SELECT * FROM transaksi t 
+JOIN barang b ON t.id = b.id;
+-- Harusnya t.id_barang = b.id, bukan t.id = b.id!</pre>
+            </div>
+            <p><strong>Solusi:</strong> Pastikan ON menghubungkan kolom yang benar (foreign key ke primary key).</p>
+        </div>
+
+        <div class="info-box danger">
+            <h4>❌ Kesalahan 3: Lupa bahwa MySQL tidak support FULL JOIN</h4>
+            <div class="code-block" style="margin: 10px 0;">
+                <pre style="padding: 15px;">-- SALAH di MySQL!
+SELECT * FROM transaksi t 
+FULL JOIN barang b ON t.id_barang = b.id;
+-- Error: You have an error in your SQL syntax</pre>
+            </div>
+            <p><strong>Solusi:</strong> Pakai INNER JOIN atau LEFT JOIN saja.</p>
+        </div>
+    </div>
+
+    <!-- ==================== RINGKASAN ==================== -->
+    <div class="section">
+        <h2>🎯 Ringkasan Akhir</h2>
+
+        <table class="result-table">
+            <thead><tr><th>Konsep</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+            <tbody>
+                <tr><td><strong>t, b</strong></td><td>Alias (nama pendek) untuk tabel</td><td>t = transaksi</td></tr>
+                <tr><td><strong>t.id</strong></td><td>Kolom id dari tabel t</td><td>transaksi.id</td></tr>
+                <tr><td><strong>t.*</strong></td><td>SEMUA kolom dari tabel t</td><td>Semua kolom transaksi</td></tr>
+                <tr><td><strong>JOIN ... ON</strong></td><td>Gabungkan 2 tabel berdasarkan kondisi</td><td>ON t.id_barang = b.id</td></tr>
+                <tr><td><strong>CASCADE</strong></td><td>Efek berantai saat hapus/update</td><td>Hapus barang → transaksi ikut hilang</td></tr>
+            </tbody>
+        </table>
+
+        <div class="info-box success">
+            <h4>💪 Tips untuk UKK</h4>
+            <ol>
+                <li><strong>Pahami alias</strong> - t dan b adalah nama pendek, bukan variabel ajaib</li>
+                <li><strong>Ingat titik</strong> - t.id artinya kolom id dari tabel t</li>
+                <li><strong>Bintang = semua</strong> - t.* artinya semua kolom dari t</li>
+                <li><strong>ON itu syarat</strong> - kolom mana yang dicocokkan</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <a href="tutorial/" class="prev">← Tutorial</a>
+        <a href="tutorial/part-1-persiapan.html" class="next">Mulai Tutorial →</a>
+    </div>
+
+    <div style="text-align: center; padding: 40px; color: #94a3b8;">
+        <p>Pembelajaran SQL Lengkap - Inventaris Fakhri</p>
+        <p>Dibuat dengan ❤️ untuk teman-teman SMK</p>
+    </div>
+</div>
+</body>
+</html>

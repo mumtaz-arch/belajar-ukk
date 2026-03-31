@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Git & GitHub Lengkap - Untuk SMK Kelas 11</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+
+        .header .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 30px;
+            border: 1px solid #fed7aa;
+        }
+
+        .toc h2 {
+            color: #ea580c;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .toc-item {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-decoration: none;
+            color: #9a3412;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-item:hover {
+            background: #ffedd5;
+            transform: translateY(-2px);
+        }
+
+        .toc-item .num {
+            background: #ea580c;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ea580c;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #ffedd5;
+            padding-bottom: 12px;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 24px 0 12px;
+            border-left: 4px solid #f97316;
+            padding-left: 12px;
+        }
+
+        .section h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ea580c;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 20px;
+            margin-bottom: 14px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        strong {
+            color: #1e293b;
+        }
+
+        .cmd {
+            background: #1e293b;
+            border-radius: 10px;
+            margin: 14px 0;
+            overflow: hidden;
+        }
+
+        .cmd-header {
+            background: #334155;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cmd-header .title {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .cmd-header .badge {
+            background: #f97316;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .cmd pre {
+            padding: 14px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .cmd .comment {
+            color: #64748b;
+        }
+
+        .cmd .output {
+            color: #22c55e;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: #fff7ed;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ea580c;
+            font-size: 0.85rem;
+        }
+
+        .info {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin: 14px 0;
+            font-size: 0.9rem;
+        }
+
+        .info.tip {
+            background: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+
+        .info.success {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+        }
+
+        .info.warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .info.danger {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .info.primary {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+        }
+
+        .info h4 {
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .info.tip h4 {
+            color: #a16207;
+        }
+
+        .info.success h4 {
+            color: #15803d;
+        }
+
+        .info.warning h4 {
+            color: #b45309;
+        }
+
+        .info.danger h4 {
+            color: #dc2626;
+        }
+
+        .info.primary h4 {
+            color: #c2410c;
+        }
+
+        .visual {
+            background: #fffbf5;
+            border: 2px dashed #fed7aa;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .visual h5 {
+            color: #9a3412;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .flow-h {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flow-item {
+            background: white;
+            border: 2px solid #fed7aa;
+            border-radius: 10px;
+            padding: 12px 16px;
+            position: relative;
+        }
+
+        .flow-item.active {
+            background: #fff7ed;
+            border-color: #f97316;
+        }
+
+        .flow-item::after {
+            content: '↓';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #f97316;
+            font-weight: bold;
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .flow-h .flow-item::after {
+            content: '→';
+            position: static;
+            transform: none;
+        }
+
+        .flow-h .flow-item:last-child::after {
+            display: none;
+        }
+
+        .flow-item .label {
+            font-weight: 600;
+            color: #ea580c;
+            font-size: 0.9rem;
+        }
+
+        .flow-item p {
+            margin: 4px 0 0;
+            font-size: 0.8rem;
+            color: #78716c;
+        }
+
+        .compare {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .compare-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .compare-card.git {
+            border-color: #f97316;
+        }
+
+        .compare-card.github {
+            border-color: #1e293b;
+        }
+
+        .compare-card h5 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .compare-card.git h5 {
+            color: #ea580c;
+        }
+
+        .compare-card.github h5 {
+            color: #1e293b;
+        }
+
+        .compare-card p {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #fff7ed;
+            color: #9a3412;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+            border-left: 4px solid #f97316;
+        }
+
+        .step .num {
+            background: #f97316;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+
+        .step h5 {
+            color: #c2410c;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step p {
+            margin: 0;
+            color: #78716c;
+            font-size: 0.9rem;
+        }
+
+        .quiz {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .quiz .q {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .quiz .answer {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .quiz .answer.show {
+            display: block;
+        }
+
+        .quiz .btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
+
+        .footer a {
+            color: #f97316;
+        }
+
+        @media (max-width: 768px) {
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compare {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-h {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Materi Git & GitHub</h1>
+            <p>Panduan Lengkap untuk Siswa SMK Kelas 11 PPLG/RPL</p>
+            <span class="badge">Dari Nol Sampai Bisa Push ke GitHub!</span>
+        </div>
+
+        <!-- DAFTAR ISI -->
+        <div class="toc">
+            <h2>📋 Daftar Materi</h2>
+            <div class="toc-grid">
+                <a href="#pendahuluan" class="toc-item"><span class="num">1</span> Pendahuluan</a>
+                <a href="#pengenalan" class="toc-item"><span class="num">2</span> Pengenalan Git</a>
+                <a href="#instalasi" class="toc-item"><span class="num">3</span> Instalasi & Setup</a>
+                <a href="#konsep" class="toc-item"><span class="num">4</span> Konsep Dasar</a>
+                <a href="#perintah" class="toc-item"><span class="num">5</span> Perintah Dasar</a>
+                <a href="#workflow" class="toc-item"><span class="num">6</span> Alur Kerja Git</a>
+                <a href="#branching" class="toc-item"><span class="num">7</span> Branching</a>
+                <a href="#github-intro" class="toc-item"><span class="num">8</span> Pengenalan GitHub</a>
+                <a href="#github-repo" class="toc-item"><span class="num">9</span> Buat Repo GitHub</a>
+                <a href="#remote" class="toc-item"><span class="num">10</span> Git + GitHub</a>
+                <a href="#studi-kasus" class="toc-item"><span class="num">11</span> Workflow Lengkap</a>
+                <a href="#kolaborasi" class="toc-item"><span class="num">12</span> Kolaborasi Tim</a>
+                <a href="#ukk" class="toc-item"><span class="num">13</span> Git untuk UKK</a>
+                <a href="#praktik" class="toc-item"><span class="num">14</span> Studi Kasus</a>
+                <a href="#kesalahan" class="toc-item"><span class="num">15</span> Kesalahan Umum</a>
+                <a href="#best-practice" class="toc-item"><span class="num">16</span> Best Practice</a>
+                <a href="#undo" class="toc-item" style="background: #fee2e2; border-color: #fecaca;"><span class="num"
+                        style="background: #ef4444;">17</span> Undo & Rollback</a>
+                <a href="#faq" class="toc-item" style="background: #dbeafe; border-color: #bfdbfe;"><span class="num"
+                        style="background: #3b82f6;">18</span> FAQ Siswa</a>
+                <a href="#latihan" class="toc-item"><span class="num">19</span> Latihan</a>
+                <a href="#evaluasi" class="toc-item"><span class="num">20</span> Evaluasi</a>
+            </div>
+        </div>
+
+        <!-- 1. PENDAHULUAN -->
+        <div class="section" id="pendahuluan">
+            <h2>1️⃣ Pendahuluan</h2>
+
+            <h3>Apa itu Version Control?</h3>
+            <p><strong>Version Control</strong> adalah sistem yang merekam perubahan file dari waktu ke waktu, sehingga
+                kamu bisa melihat versi sebelumnya kapan saja.</p>
+
+            <div class="info tip">
+                <h4>💡 Analogi Sederhana</h4>
+                <p>Bayangkan kamu main game. Setiap level, kamu <strong>SAVE</strong> progress-nya. Kalau mati, kamu
+                    bisa <strong>LOAD</strong> dari save point terakhir. Git itu kayak sistem SAVE/LOAD untuk kode
+                    program!</p>
+            </div>
+
+            <h3>Masalah Tanpa Git</h3>
+            <p>Pernahkah kamu mengalami ini?</p>
+            <ul>
+                <li>❌ <strong>"project_final.php"</strong> → "project_final_fix.php" → "project_final_fix_beneran.php" →
+                    "project_ASLI_JANGAN_DIUBAH.php"</li>
+                <li>❌ Kerja kelompok: "Siapa yang ubah file ini?! Kok error?!"</li>
+                <li>❌ "Kemarin kodenya jalan, sekarang error. Gimana balikkin?"</li>
+                <li>❌ Flash disk hilang = project hilang 😭</li>
+            </ul>
+
+            <div class="info success">
+                <h4>✅ Dengan Git</h4>
+                <ul>
+                    <li>Semua versi tersimpan rapi dengan keterangan</li>
+                    <li>Bisa balik ke versi sebelumnya kapan saja</li>
+                    <li>Kerja kelompok jadi gampang, tau siapa ubah apa</li>
+                    <li>Project aman di cloud (GitHub)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. PENGENALAN GIT -->
+        <div class="section" id="pengenalan">
+            <h2>2️⃣ Pengenalan Git</h2>
+
+            <h3>Apa itu Git?</h3>
+            <p><strong>Git</strong> adalah software version control yang paling populer di dunia. Dibuat oleh Linus
+                Torvalds (yang juga buat Linux) tahun 2005.</p>
+
+            <h3>Cara Kerja Git (Sederhana)</h3>
+            <div class="visual">
+                <h5>🔄 Alur Kerja Git</h5>
+                <div class="flow">
+                    <div class="flow-item"><span class="label">1. Edit File</span>
+                        <p>Kamu ngoding seperti biasa</p>
+                    </div>
+                    <div class="flow-item"><span class="label">2. git add</span>
+                        <p>Tandai file yang mau disimpan</p>
+                    </div>
+                    <div class="flow-item"><span class="label">3. git commit</span>
+                        <p>Simpan snapshot dengan pesan</p>
+                    </div>
+                    <div class="flow-item active"><span class="label">4. git push</span>
+                        <p>Upload ke GitHub (opsional)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info primary">
+                <h4>🎮 Analogi: Save Game</h4>
+                <table>
+                    <tr>
+                        <th>Game</th>
+                        <th>Git</th>
+                    </tr>
+                    <tr>
+                        <td>Save slot</td>
+                        <td>Commit</td>
+                    </tr>
+                    <tr>
+                        <td>Load game</td>
+                        <td>git checkout / git revert</td>
+                    </tr>
+                    <tr>
+                        <td>New game+</td>
+                        <td>Branch baru</td>
+                    </tr>
+                    <tr>
+                        <td>Cloud save</td>
+                        <td>GitHub</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. INSTALASI -->
+        <div class="section" id="instalasi">
+            <h2>3️⃣ Instalasi & Setup Git (Windows)</h2>
+
+            <h3>Langkah 1: Download Git</h3>
+            <p>Buka <a href="https://git-scm.com/download/win" target="_blank"
+                    style="color: #f97316;">https://git-scm.com/download/win</a> dan download installer-nya.</p>
+
+            <h3>Langkah 2: Install</h3>
+            <p>Jalankan installer, klik <strong>Next</strong> terus sampai selesai. Settingan default sudah oke!</p>
+
+            <h3>Langkah 3: Cek Instalasi</h3>
+            <p>Buka <strong>Git Bash</strong> atau <strong>Command Prompt</strong>, ketik:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Terminal</span><span class="badge">CMD</span></div>
+                <pre>git --version
+<span class="output">git version 2.43.0.windows.1</span></pre>
+            </div>
+            <p>Kalau muncul versi, berarti sukses! ✅</p>
+
+            <h3>Langkah 4: Konfigurasi User</h3>
+            <p><strong>WAJIB</strong> dilakukan sebelum pakai Git:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Konfigurasi Identity</span><span class="badge">GIT</span>
+                </div>
+                <pre><span class="comment"># Set nama kamu</span>
+git config --global user.name "Nama Kamu"
+
+<span class="comment"># Set email kamu (sama dengan email GitHub nanti)</span>
+git config --global user.email "email@kamu.com"
+
+<span class="comment"># Cek konfigurasi</span>
+git config --list</pre>
+            </div>
+
+            <div class="info warning">
+                <h4>⚠️ Penting!</h4>
+                <p>Email harus <strong>sama</strong> dengan email yang kamu pakai daftar GitHub nanti!</p>
+            </div>
+        </div>
+
+        <!-- 4. KONSEP DASAR -->
+        <div class="section" id="konsep">
+            <h2>4️⃣ Konsep Dasar Git</h2>
+
+            <h3>Repository (Repo)</h3>
+            <p><strong>Repository</strong> = folder project yang "dipantau" oleh Git. Di dalamnya ada folder tersembunyi
+                <code>.git</code> yang menyimpan semua history.
+            </p>
+
+            <h3>Tiga Area Utama Git</h3>
+            <div class="visual">
+                <h5>📊 Alur Data di Git</h5>
+                <div class="flow-h">
+                    <div class="flow-item"><span class="label">Working Directory</span>
+                        <p>Folder tempat kamu edit file</p>
+                    </div>
+                    <div class="flow-item"><span class="label">Staging Area</span>
+                        <p>Ruang tunggu sebelum commit</p>
+                    </div>
+                    <div class="flow-item active"><span class="label">Repository (.git)</span>
+                        <p>Database history</p>
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Area</th>
+                    <th>Penjelasan</th>
+                    <th>Command</th>
+                </tr>
+                <tr>
+                    <td><strong>Working Directory</strong></td>
+                    <td>Folder biasa tempat kamu kerja & edit file</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>Staging Area</strong></td>
+                    <td>Penampungan sementara file yang siap di-commit</td>
+                    <td><code>git add</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Repository</strong></td>
+                    <td>Database yang menyimpan semua commit/history</td>
+                    <td><code>git commit</code></td>
+                </tr>
+            </table>
+
+            <h3>Commit</h3>
+            <p><strong>Commit</strong> = snapshot/foto dari project pada waktu tertentu. Setiap commit punya:</p>
+            <ul>
+                <li>🔑 <strong>Hash ID</strong> - kode unik (contoh: a1b2c3d)</li>
+                <li>📝 <strong>Message</strong> - keterangan perubahan</li>
+                <li>👤 <strong>Author</strong> - siapa yang commit</li>
+                <li>📅 <strong>Date</strong> - kapan commit dilakukan</li>
+            </ul>
+
+            <h3>Branch (Pengantar)</h3>
+            <p><strong>Branch</strong> = cabang development. Bayangkan seperti timeline alternatif. Kamu bisa bikin
+                fitur baru di branch terpisah tanpa mengganggu kode utama.</p>
+        </div>
+
+        <!-- 5. PERINTAH DASAR -->
+        <div class="section" id="perintah">
+            <h2>5️⃣ Perintah Dasar Git</h2>
+
+            <h3>git init</h3>
+            <p>Membuat folder jadi repository Git (inisialisasi).</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Inisialisasi Repository</span><span class="badge">GIT</span>
+                </div>
+                <pre><span class="comment"># Masuk ke folder project</span>
+cd project-website
+
+<span class="comment"># Jadikan Git repository</span>
+git init
+
+<span class="output">Initialized empty Git repository in C:/project-website/.git/</span></pre>
+            </div>
+
+            <h3>git status</h3>
+            <p>Melihat status file: mana yang berubah, mana yang siap di-commit.</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Cek Status</span><span class="badge">GIT</span></div>
+                <pre>git status
+
+<span class="output">On branch main
+Changes not staged for commit:
+  modified:   index.php
+
+Untracked files:
+  style.css</span></pre>
+            </div>
+            <p><strong>Untracked</strong> = file baru belum pernah di-track Git. <strong>Modified</strong> = file lama
+                yang diubah.</p>
+
+            <h3>git add</h3>
+            <p>Memasukkan file ke staging area (siap di-commit).</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Menambah File ke Staging</span><span
+                        class="badge">GIT</span></div>
+                <pre><span class="comment"># Tambah 1 file</span>
+git add index.php
+
+<span class="comment"># Tambah semua file</span>
+git add .
+
+<span class="comment"># Tambah file tertentu dengan pattern</span>
+git add *.php</pre>
+            </div>
+
+            <h3>git commit</h3>
+            <p>Menyimpan perubahan dari staging area ke repository.</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Commit dengan Pesan</span><span class="badge">GIT</span>
+                </div>
+                <pre>git commit -m "Menambahkan halaman login"
+
+<span class="output">[main a1b2c3d] Menambahkan halaman login
+ 2 files changed, 50 insertions(+)</span></pre>
+            </div>
+
+            <div class="info tip">
+                <h4>💡 Tips Commit Message</h4>
+                <p>Tulis pesan yang jelas! Bukan "update" atau "fix" doang. Contoh bagus:</p>
+                <ul>
+                    <li>"Menambahkan validasi form login"</li>
+                    <li>"Memperbaiki bug stok minus"</li>
+                    <li>"Mengubah warna tombol submit"</li>
+                </ul>
+            </div>
+
+            <h3>git log</h3>
+            <p>Melihat history commit.</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Lihat History</span><span class="badge">GIT</span></div>
+                <pre>git log --oneline
+
+<span class="output">a1b2c3d Menambahkan halaman login
+b2c3d4e Setup project awal
+c3d4e5f Initial commit</span></pre>
+            </div>
+
+            <h3>git diff</h3>
+            <p>Melihat perubahan apa saja yang dilakukan pada file.</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Lihat Perubahan</span><span class="badge">GIT</span></div>
+                <pre>git diff index.php
+
+<span class="output">- echo "Hello World";
++ echo "Hello Git!";</span></pre>
+            </div>
+            <p><span style="color: #ef4444;">- merah</span> = baris dihapus, <span style="color: #22c55e;">+
+                    hijau</span> = baris ditambah</p>
+        </div>
+
+        <!-- 6. WORKFLOW -->
+        <div class="section" id="workflow">
+            <h2>6️⃣ Alur Kerja Git (Workflow)</h2>
+
+            <p>Ini alur standar saat kamu ngoding dengan Git:</p>
+
+            <div class="step">
+                <h5><span class="num">1</span> Edit File</h5>
+                <p>Kamu ngoding seperti biasa. Tambah fitur, fix bug, dll.</p>
+            </div>
+
+            <div class="step">
+                <h5><span class="num">2</span> Cek Status</h5>
+                <p><code>git status</code> - Lihat file apa saja yang berubah.</p>
+            </div>
+
+            <div class="step">
+                <h5><span class="num">3</span> Add ke Staging</h5>
+                <p><code>git add .</code> - Masukkan semua perubahan ke staging.</p>
+            </div>
+
+            <div class="step">
+                <h5><span class="num">4</span> Commit</h5>
+                <p><code>git commit -m "Pesan"</code> - Simpan dengan keterangan.</p>
+            </div>
+
+            <div class="step">
+                <h5><span class="num">5</span> (Opsional) Push ke GitHub</h5>
+                <p><code>git push</code> - Upload ke cloud.</p>
+            </div>
+
+            <div class="info primary">
+                <h4>🔄 Singkatnya</h4>
+                <div class="cmd" style="margin: 10px 0;">
+                    <pre><span class="comment"># Workflow harian</span>
+git status          <span class="comment"># Cek perubahan</span>
+git add .           <span class="comment"># Stage semua</span>
+git commit -m "..."  <span class="comment"># Commit</span>
+git push            <span class="comment"># Upload (opsional)</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. BRANCHING -->
+        <div class="section" id="branching">
+            <h2>7️⃣ Branching Dasar</h2>
+
+            <h3>Apa itu Branch?</h3>
+            <p><strong>Branch</strong> = cabang development terpisah. Kamu bisa kerja di branch terpisah tanpa
+                mengganggu kode utama (main).</p>
+
+            <div class="visual">
+                <h5>🌳 Ilustrasi Branch</h5>
+                <pre
+                    style="text-align: left; display: inline-block; font-family: 'Fira Code', monospace; font-size: 0.8rem; background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px;">
+      feature-login
+         ↙
+main ●───●───●───●───●
+              ↘
+            fix-bug
+            </pre>
+            </div>
+
+            <h3>Kenapa Branch Penting?</h3>
+            <ul>
+                <li>✅ Bisa eksperimen tanpa merusak kode utama</li>
+                <li>✅ Kerja paralel (kamu bikin fitur A, teman bikin fitur B)</li>
+                <li>✅ Kode utama (main) selalu stabil</li>
+            </ul>
+
+            <h3>Perintah Branch</h3>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Perintah Branch</span><span class="badge">GIT</span></div>
+                <pre><span class="comment"># Lihat semua branch</span>
+git branch
+
+<span class="comment"># Buat branch baru</span>
+git branch fitur-login
+
+<span class="comment"># Pindah ke branch</span>
+git checkout fitur-login
+<span class="comment"># atau (Git versi baru)</span>
+git switch fitur-login
+
+<span class="comment"># Buat dan langsung pindah</span>
+git checkout -b fitur-baru
+
+<span class="comment"># Gabung branch ke main</span>
+git checkout main
+git merge fitur-login</pre>
+            </div>
+        </div>
+
+        <!-- 8. PENGENALAN GITHUB -->
+        <div class="section" id="github-intro">
+            <h2>8️⃣ Pengenalan GitHub</h2>
+
+            <h3>Apa itu GitHub?</h3>
+            <p><strong>GitHub</strong> adalah platform cloud untuk menyimpan repository Git. Seperti Google Drive, tapi
+                khusus untuk kode program.</p>
+
+            <div class="compare">
+                <div class="compare-card git">
+                    <h5>🔧 Git</h5>
+                    <p><strong>Software</strong> yang berjalan di komputer kamu</p>
+                    <p>Untuk version control <strong>lokal</strong></p>
+                    <p>Bisa dipakai <strong>offline</strong></p>
+                </div>
+                <div class="compare-card github">
+                    <h5>🐙 GitHub</h5>
+                    <p><strong>Website</strong> untuk hosting repository</p>
+                    <p>Untuk <strong>backup & kolaborasi</strong></p>
+                    <p>Butuh <strong>internet</strong></p>
+                </div>
+            </div>
+
+            <h3>Manfaat GitHub untuk Siswa</h3>
+            <ul>
+                <li>☁️ <strong>Backup</strong> - Project aman di cloud</li>
+                <li>👥 <strong>Kolaborasi</strong> - Kerja kelompok jadi mudah</li>
+                <li>📂 <strong>Portofolio</strong> - Showcase project untuk PKL/kerja</li>
+                <li>🎓 <strong>Belajar</strong> - Bisa lihat kode open source</li>
+            </ul>
+        </div>
+
+        <!-- 9. MEMBUAT REPO GITHUB -->
+        <div class="section" id="github-repo">
+            <h2>9️⃣ Membuat Repository di GitHub</h2>
+
+            <h3>Langkah 1: Buat Akun GitHub</h3>
+            <p>Buka <a href="https://github.com" target="_blank" style="color: #f97316;">github.com</a> → Sign Up → Isi
+                data</p>
+
+            <h3>Langkah 2: Buat Repository Baru</h3>
+            <div class="step">
+                <h5><span class="num">1</span> Klik tombol "+" di pojok kanan atas → New repository</h5>
+            </div>
+            <div class="step">
+                <h5><span class="num">2</span> Isi nama repository (contoh: project-ukk)</h5>
+            </div>
+            <div class="step">
+                <h5><span class="num">3</span> Pilih Public atau Private</h5>
+                <p><strong>Public</strong> = bisa dilihat semua orang. <strong>Private</strong> = hanya kamu yang bisa
+                    lihat.</p>
+            </div>
+            <div class="step">
+                <h5><span class="num">4</span> Klik "Create repository"</h5>
+            </div>
+
+            <div class="info tip">
+                <h4>💡 Tips</h4>
+                <p>Untuk UKK, pakai <strong>Private</strong> dulu. Nanti bisa diubah ke Public kalau mau dijadikan
+                    portofolio.</p>
+            </div>
+        </div>
+
+        <!-- 10. REMOTE -->
+        <div class="section" id="remote">
+            <h2>🔟 Menghubungkan Git Lokal ke GitHub</h2>
+
+            <h3>Konsep Remote</h3>
+            <p><strong>Remote</strong> = repository Git yang ada di server (GitHub). Biasanya dinamakan
+                <code>origin</code>.
+            </p>
+
+            <h3>Menghubungkan Repo Lokal ke GitHub</h3>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Setup Remote</span><span class="badge">GIT</span></div>
+                <pre><span class="comment"># Tambah remote (URL dari GitHub)</span>
+git remote add origin https://github.com/username/nama-repo.git
+
+<span class="comment"># Cek remote</span>
+git remote -v
+
+<span class="comment"># Push pertama kali</span>
+git push -u origin main</pre>
+            </div>
+
+            <h3>Perintah Remote Penting</h3>
+            <table>
+                <tr>
+                    <th>Command</th>
+                    <th>Fungsi</th>
+                </tr>
+                <tr>
+                    <td><code>git push</code></td>
+                    <td>Upload commit ke GitHub</td>
+                </tr>
+                <tr>
+                    <td><code>git pull</code></td>
+                    <td>Download & merge dari GitHub</td>
+                </tr>
+                <tr>
+                    <td><code>git clone [url]</code></td>
+                    <td>Copy repo GitHub ke lokal</td>
+                </tr>
+                <tr>
+                    <td><code>git fetch</code></td>
+                    <td>Download tanpa merge</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 11. WORKFLOW LENGKAP -->
+        <div class="section" id="studi-kasus">
+            <h2>1️⃣1️⃣ Workflow Git + GitHub (Studi Kasus)</h2>
+
+            <p>Ini alur lengkap dari project baru sampai push ke GitHub:</p>
+
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Workflow Lengkap</span><span class="badge">GIT</span></div>
+                <pre><span class="comment"># 1. Buat folder project</span>
+mkdir project-ukk
+cd project-ukk
+
+<span class="comment"># 2. Inisialisasi Git</span>
+git init
+
+<span class="comment"># 3. Buat file</span>
+echo "&lt;?php echo 'Hello';" > index.php
+
+<span class="comment"># 4. Add & Commit</span>
+git add .
+git commit -m "Initial commit - setup project"
+
+<span class="comment"># 5. Buat repo di GitHub (lewat browser)</span>
+
+<span class="comment"># 6. Hubungkan ke GitHub</span>
+git remote add origin https://github.com/username/project-ukk.git
+
+<span class="comment"># 7. Push!</span>
+git push -u origin main
+
+<span class="output">Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 223 bytes | 223.00 KiB/s, done.</span></pre>
+            </div>
+
+            <div class="info success">
+                <h4>✅ Selamat!</h4>
+                <p>Project kamu sekarang sudah ada di GitHub! Bisa diakses dari mana saja.</p>
+            </div>
+        </div>
+
+        <!-- 12. KOLABORASI -->
+        <div class="section" id="kolaborasi">
+            <h2>1️⃣2️⃣ Kolaborasi Tim</h2>
+
+            <h3>Kerja Kelompok dengan GitHub</h3>
+            <ol>
+                <li>Satu orang buat repo → invite teman sebagai collaborator</li>
+                <li>Teman clone repo ke komputer mereka</li>
+                <li>Masing-masing kerja di branch sendiri</li>
+                <li>Push ke GitHub, merge ke main</li>
+            </ol>
+
+            <h3>Menghindari Konflik</h3>
+            <div class="info warning">
+                <h4>⚠️ Konflik terjadi kalau:</h4>
+                <p>Dua orang edit baris yang sama di file yang sama!</p>
+            </div>
+
+            <h4>Cara Menghindari Konflik:</h4>
+            <ul>
+                <li>✅ Selalu <code>git pull</code> sebelum mulai kerja</li>
+                <li>✅ Bagi tugas dengan jelas (kamu edit file A, teman edit file B)</li>
+                <li>✅ Commit dan push sering-sering, jangan numpuk</li>
+                <li>✅ Pakai branch untuk setiap fitur</li>
+            </ul>
+        </div>
+
+        <!-- 13. UKK -->
+        <div class="section" id="ukk">
+            <h2>1️⃣3️⃣ Git untuk UKK, PKL, dan Dunia Kerja</h2>
+
+            <h3>Kenapa Git Penting untuk UKK?</h3>
+            <ul>
+                <li>📝 Assessor bisa lihat <strong>progress development</strong> dari history commit</li>
+                <li>🔄 Kalau ada bug, bisa <strong>balik ke versi stabil</strong></li>
+                <li>☁️ Project <strong>aman di cloud</strong>, tidak takut hilang</li>
+                <li>💼 Menunjukkan kamu <strong>siap kerja</strong> di industri</li>
+            </ul>
+
+            <h3>Tips Git untuk UKK</h3>
+            <ol>
+                <li>Commit setiap selesai 1 fitur/modul</li>
+                <li>Tulis commit message yang jelas</li>
+                <li>Push ke GitHub setiap hari</li>
+                <li>Jangan commit file yang tidak perlu (vendor, node_modules)</li>
+            </ol>
+        </div>
+
+        <!-- 14. STUDI KASUS PRAKTIK -->
+        <div class="section" id="praktik">
+            <h2>1️⃣4️⃣ Studi Kasus: Project Inventaris</h2>
+
+            <p>Ini contoh langkah Git untuk project UKK Sistem Inventaris:</p>
+
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Langkah Git Project UKK</span><span class="badge">GIT</span>
+                </div>
+                <pre><span class="comment"># Day 1: Setup project</span>
+git init
+git add .
+git commit -m "Initial setup - struktur folder dan database"
+git push -u origin main
+
+<span class="comment"># Day 2: Bikin login</span>
+git add .
+git commit -m "Menambahkan sistem login dengan session"
+git push
+
+<span class="comment"># Day 3: CRUD Barang</span>
+git add .
+git commit -m "Menambahkan CRUD data barang"
+git push
+
+<span class="comment"># Day 4: Transaksi</span>
+git add .
+git commit -m "Menambahkan transaksi barang masuk dan keluar"
+git push
+
+<span class="comment"># Day 5: Laporan</span>
+git add .
+git commit -m "Menambahkan laporan dan export PDF/Excel"
+git push</pre>
+            </div>
+        </div>
+
+        <!-- 15. KESALAHAN UMUM -->
+        <div class="section" id="kesalahan">
+            <h2>1️⃣5️⃣ Kesalahan Umum Pemula</h2>
+
+            <table>
+                <tr>
+                    <th>Error</th>
+                    <th>Penyebab</th>
+                    <th>Solusi</th>
+                </tr>
+                <tr>
+                    <td><code>fatal: not a git repository</code></td>
+                    <td>Folder belum di-init</td>
+                    <td><code>git init</code></td>
+                </tr>
+                <tr>
+                    <td><code>nothing to commit</code></td>
+                    <td>Belum ada perubahan / sudah di-commit</td>
+                    <td>Edit file dulu / normal</td>
+                </tr>
+                <tr>
+                    <td><code>failed to push</code></td>
+                    <td>Belum pull update terbaru</td>
+                    <td><code>git pull</code> dulu</td>
+                </tr>
+                <tr>
+                    <td><code>CONFLICT</code></td>
+                    <td>Dua orang edit baris sama</td>
+                    <td>Edit file manual, hapus marker, commit</td>
+                </tr>
+                <tr>
+                    <td><code>remote origin already exists</code></td>
+                    <td>Remote sudah pernah ditambah</td>
+                    <td><code>git remote remove origin</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 16. BEST PRACTICE -->
+        <div class="section" id="best-practice">
+            <h2>1️⃣6️⃣ Best Practice Dasar</h2>
+
+            <h3>Commit Message yang Baik</h3>
+            <table>
+                <tr>
+                    <th>❌ Buruk</th>
+                    <th>✅ Bagus</th>
+                </tr>
+                <tr>
+                    <td>"update"</td>
+                    <td>"Memperbaiki validasi form login"</td>
+                </tr>
+                <tr>
+                    <td>"fix"</td>
+                    <td>"Fix bug stok tidak berkurang saat transaksi keluar"</td>
+                </tr>
+                <tr>
+                    <td>"aaa"</td>
+                    <td>"Menambahkan fitur export PDF laporan"</td>
+                </tr>
+            </table>
+
+            <h3>Kapan Harus Commit?</h3>
+            <ul>
+                <li>✅ Setelah menyelesaikan 1 fitur kecil</li>
+                <li>✅ Setelah fix 1 bug</li>
+                <li>✅ Sebelum pulang/istirahat</li>
+                <li>❌ Jangan commit kalau kode masih error!</li>
+            </ul>
+
+            <h3>File yang Tidak Perlu Di-commit</h3>
+            <p>Buat file <code>.gitignore</code> untuk mengabaikan:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">.gitignore</span><span class="badge">FILE</span></div>
+                <pre>vendor/
+node_modules/
+.env
+*.log
+.DS_Store</pre>
+            </div>
+        </div>
+
+        <!-- 17. UNDO & ROLLBACK -->
+        <div class="section" id="undo">
+            <h2>1️⃣7️⃣ Undo & Rollback - Balik ke Versi Sebelumnya</h2>
+
+            <p>Ini bagian <strong>PALING PENTING</strong> yang sering ditanyakan murid! Bagaimana kalau salah dan mau
+                balik?</p>
+
+            <div class="visual">
+                <h5>🔄 Kapan Butuh Rollback?</h5>
+                <div style="text-align: left; max-width: 400px; margin: 0 auto;">
+                    <p>😱 "Waduh, kode error semua setelah saya ubah!"</p>
+                    <p>😰 "Mau balik ke commit terakhir yang masih jalan"</p>
+                    <p>🤦 "Salah tulis commit message, mau ganti"</p>
+                    <p>😅 "Sudah push, tapi mau batalin"</p>
+                </div>
+            </div>
+
+            <h3>Kasus 1: Belum Add - Buang Perubahan</h3>
+            <p>Kamu edit file, belum <code>git add</code>, mau buang semua perubahan:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Buang perubahan di satu file</span><span
+                        class="badge">GIT</span></div>
+                <pre><span class="comment"># Buang perubahan di 1 file (kembali ke commit terakhir)</span>
+git checkout -- index.php
+
+<span class="comment"># Atau Git versi baru</span>
+git restore index.php
+
+<span class="comment"># Buang SEMUA perubahan</span>
+git checkout -- .
+git restore .</pre>
+            </div>
+            <div class="info danger">
+                <h4>⚠️ Hati-hati!</h4>
+                <p>Perubahan yang dibuang TIDAK BISA dikembalikan! Pastikan kamu yakin.</p>
+            </div>
+
+            <h3>Kasus 2: Sudah Add, Belum Commit - Unstage</h3>
+            <p>Sudah <code>git add</code>, mau keluarkan dari staging:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Keluarkan dari staging</span><span class="badge">GIT</span>
+                </div>
+                <pre><span class="comment"># Keluarkan 1 file dari staging</span>
+git reset HEAD index.php
+
+<span class="comment"># Atau Git versi baru</span>
+git restore --staged index.php
+
+<span class="comment"># Keluarkan semua dari staging</span>
+git reset HEAD .</pre>
+            </div>
+
+            <h3>Kasus 3: Sudah Commit, Belum Push - Undo Commit</h3>
+            <p>Sudah commit tapi baru sadar ada kesalahan:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Undo commit terakhir</span><span class="badge">GIT</span>
+                </div>
+                <pre><span class="comment"># Batalkan commit terakhir, TAPI simpan perubahan file</span>
+git reset --soft HEAD~1
+
+<span class="comment"># Batalkan commit terakhir DAN buang perubahan file</span>
+git reset --hard HEAD~1
+
+<span class="comment"># Keterangan:</span>
+<span class="comment"># HEAD~1 = 1 commit ke belakang</span>
+<span class="comment"># HEAD~2 = 2 commit ke belakang</span>
+<span class="comment"># --soft = simpan perubahan</span>
+<span class="comment"># --hard = buang perubahan</span></pre>
+            </div>
+
+            <h3>Kasus 4: Mau Lihat/Kembali ke Commit Tertentu</h3>
+            <p>Mau cek kode di commit yang lama:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Checkout ke commit tertentu</span><span
+                        class="badge">GIT</span></div>
+                <pre><span class="comment"># Lihat history dulu</span>
+git log --oneline
+<span class="output">a1b2c3d Commit terbaru
+b2c3d4e Commit sebelumnya
+c3d4e5f Commit lama</span>
+
+<span class="comment"># Checkout ke commit tertentu (mode lihat saja)</span>
+git checkout b2c3d4e
+
+<span class="comment"># Mau balik ke yang terbaru</span>
+git checkout main</pre>
+            </div>
+
+            <h3>Kasus 5: Sudah Push - Mau Revert</h3>
+            <p>Sudah push ke GitHub, mau batalkan commit (AMAN untuk tim):</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Revert commit (buat commit kebalikan)</span><span
+                        class="badge">GIT</span></div>
+                <pre><span class="comment"># Revert = buat commit BARU yang membatalkan commit lama</span>
+git revert a1b2c3d
+
+<span class="comment"># Git akan buka editor untuk commit message</span>
+<span class="comment"># Simpan dan tutup</span>
+
+<span class="comment"># Push revert ke GitHub</span>
+git push</pre>
+            </div>
+            <div class="info success">
+                <h4>✅ Kenapa pakai revert, bukan reset?</h4>
+                <p><code>git revert</code> lebih aman karena tidak menghapus history. Cocok kalau sudah push atau kerja
+                    tim. <code>git reset</code> menghapus history, bisa bikin konflik kalau sudah push.</p>
+            </div>
+
+            <h3>Kasus 6: Ganti Commit Message Terakhir</h3>
+            <p>Salah tulis commit message, mau ganti:</p>
+            <div class="cmd">
+                <div class="cmd-header"><span class="title">Ubah commit message terakhir</span><span
+                        class="badge">GIT</span></div>
+                <pre><span class="comment"># Ubah commit message terakhir (BELUM push)</span>
+git commit --amend -m "Pesan baru yang benar"
+
+<span class="comment"># Kalau SUDAH push, harus force push (hati-hati!)</span>
+git commit --amend -m "Pesan baru yang benar"
+git push --force</pre>
+            </div>
+            <div class="info warning">
+                <h4>⚠️ Tentang Force Push</h4>
+                <p><code>git push --force</code> berbahaya kalau kerja tim! Bisa menimpa kerjaan teman. Pakai hanya
+                    kalau kamu kerja sendiri!</p>
+            </div>
+
+            <h3>Tabel Ringkasan Undo</h3>
+            <table>
+                <tr>
+                    <th>Situasi</th>
+                    <th>Command</th>
+                </tr>
+                <tr>
+                    <td>Buang perubahan (belum add)</td>
+                    <td><code>git restore namafile</code></td>
+                </tr>
+                <tr>
+                    <td>Keluarkan dari staging</td>
+                    <td><code>git restore --staged namafile</code></td>
+                </tr>
+                <tr>
+                    <td>Undo commit (simpan file)</td>
+                    <td><code>git reset --soft HEAD~1</code></td>
+                </tr>
+                <tr>
+                    <td>Undo commit (buang file)</td>
+                    <td><code>git reset --hard HEAD~1</code></td>
+                </tr>
+                <tr>
+                    <td>Batalkan commit yang sudah push</td>
+                    <td><code>git revert &lt;hash&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Ganti commit message</td>
+                    <td><code>git commit --amend -m "..."</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 18. FAQ SISWA -->
+        <div class="section" id="faq">
+            <h2>1️⃣8️⃣ FAQ - Pertanyaan yang Sering Ditanya Siswa</h2>
+
+            <p>Ini kumpulan pertanyaan yang pasti akan muncul dari siswa:</p>
+
+            <div class="quiz">
+                <p class="q">❓ "Pak/Bu, saya sudah commit tapi kodenya error semua. Gimana baliknya?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Ada 2 cara:</p>
+                    <ol>
+                        <li><strong>Kalau belum push:</strong> <code>git reset --hard HEAD~1</code> (kembali 1 commit,
+                            buang perubahan)</li>
+                        <li><strong>Kalau sudah push:</strong> <code>git revert HEAD</code> (buat commit kebalikan)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Gimana cara balik ke commit yang kemarin?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong></p>
+                    <ol>
+                        <li>Lihat history: <code>git log --oneline</code></li>
+                        <li>Copy hash commit yang mau dituju (contoh: b2c3d4e)</li>
+                        <li>Checkout: <code>git checkout b2c3d4e</code></li>
+                        <li>Kalau mau balik lagi: <code>git checkout main</code></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Saya sudah push, tapi mau ganti commit message-nya. Bisa?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Bisa, tapi hati-hati:</p>
+                    <ol>
+                        <li><code>git commit --amend -m "Pesan baru"</code></li>
+                        <li><code>git push --force</code></li>
+                    </ol>
+                    <p>⚠️ <strong>Warning:</strong> Force push bisa berbahaya kalau kerja tim. Pakai hanya kalau kerja
+                        sendiri!</p>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Apa bedanya reset dan revert?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <table>
+                        <tr>
+                            <th>reset</th>
+                            <th>revert</th>
+                        </tr>
+                        <tr>
+                            <td>Menghapus commit dari history</td>
+                            <td>Membuat commit BARU yang kebalikan</td>
+                        </tr>
+                        <tr>
+                            <td>History jadi bersih</td>
+                            <td>History tetap lengkap</td>
+                        </tr>
+                        <tr>
+                            <td>Bahaya kalau sudah push</td>
+                            <td>Aman untuk yang sudah push</td>
+                        </tr>
+                        <tr>
+                            <td>Pakai kalau belum push</td>
+                            <td>Pakai kalau sudah push / kerja tim</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Saya edit file, tapi belum add. Mau buang semua perubahan. Gimana?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> <code>git restore namafile.php</code> atau <code>git restore .</code>
+                        untuk semua file.</p>
+                    <p>⚠️ Hati-hati, perubahan yang dibuang tidak bisa dikembalikan!</p>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Apa itu HEAD?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> HEAD adalah pointer ke commit yang sedang aktif (biasanya commit terakhir
+                        di branch saat ini).</p>
+                    <ul>
+                        <li><code>HEAD</code> = commit saat ini</li>
+                        <li><code>HEAD~1</code> = 1 commit sebelumnya</li>
+                        <li><code>HEAD~2</code> = 2 commit sebelumnya</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Folder .git itu apa? Boleh dihapus?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Folder <code>.git</code> adalah database Git yang menyimpan semua
+                        history, commit, branch, dll.</p>
+                    <p>❌ <strong>JANGAN DIHAPUS!</strong> Kalau dihapus, semua history Git akan hilang dan folder jadi
+                        biasa (bukan repo lagi).</p>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Gimana caranya hapus file dari Git tapi tetap ada di folder?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Pakai <code>git rm --cached namafile</code></p>
+                    <p>File akan dihapus dari tracking Git, tapi tetap ada di folder. Jangan lupa tambahkan ke
+                        <code>.gitignore</code> kalau tidak mau di-track lagi.
+                    </p>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Kenapa git push ditolak?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Biasanya karena ada commit baru di GitHub yang belum kamu punya. Solusi:
+                    </p>
+                    <ol>
+                        <li><code>git pull</code> dulu</li>
+                        <li>Kalau ada conflict, selesaikan</li>
+                        <li>Baru <code>git push</code></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">❓ "Saya mau mulai dari awal. Gimana hapus semua history Git?"</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer">
+                    <p><strong>Jawab:</strong> Hapus folder <code>.git</code>, lalu <code>git init</code> lagi:</p>
+                    <ol>
+                        <li>Hapus folder .git (hidden folder)</li>
+                        <li><code>git init</code></li>
+                        <li><code>git add .</code></li>
+                        <li><code>git commit -m "Fresh start"</code></li>
+                    </ol>
+                    <p>⚠️ Semua history lama akan hilang!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 19. LATIHAN -->
+        <div class="section" id="latihan">
+            <h2>1️⃣9️⃣ Latihan & Tugas</h2>
+
+            <h3>Latihan 1: Perintah Dasar</h3>
+            <ol>
+                <li>Buat folder <code>latihan-git</code></li>
+                <li>Jalankan <code>git init</code></li>
+                <li>Buat file <code>index.html</code></li>
+                <li>Add dan commit dengan pesan "Initial commit"</li>
+                <li>Edit file, cek dengan <code>git diff</code></li>
+                <li>Add dan commit lagi</li>
+                <li>Lihat history dengan <code>git log --oneline</code></li>
+            </ol>
+
+            <h3>Latihan 2: GitHub</h3>
+            <ol>
+                <li>Buat repository baru di GitHub</li>
+                <li>Hubungkan dengan project lokal</li>
+                <li>Push ke GitHub</li>
+                <li>Cek di browser, pastikan file muncul</li>
+            </ol>
+
+            <h3>Mini Project</h3>
+            <p>Buat website profil sederhana dengan Git:</p>
+            <ol>
+                <li>Commit 1: Setup HTML dasar</li>
+                <li>Commit 2: Tambah CSS styling</li>
+                <li>Commit 3: Tambah JavaScript</li>
+                <li>Push ke GitHub</li>
+            </ol>
+        </div>
+
+        <!-- 18. EVALUASI -->
+        <div class="section" id="evaluasi">
+            <h2>2️⃣0️⃣ Evaluasi</h2>
+
+            <h3>Soal Pemahaman (10 Soal)</h3>
+
+            <div class="quiz">
+                <p class="q">1. Apa fungsi utama Git?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Version control - merekam dan melacak perubahan kode dari
+                    waktu ke waktu.</div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">2. Apa perintah untuk inisialisasi Git di folder?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git init</code></div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">3. Apa perbedaan <code>git add</code> dan <code>git commit</code>?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git add</code> memasukkan file ke staging area.
+                    <code>git commit</code> menyimpan perubahan dari staging ke repository.
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">4. Apa itu staging area?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Tempat penampungan sementara file yang sudah di-add
+                    sebelum di-commit.</div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">5. Apa perintah untuk melihat history commit?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git log</code> atau <code>git log --oneline</code>
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">6. Apa perbedaan Git dan GitHub?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Git = software version control di lokal. GitHub = platform
+                    cloud untuk hosting repository Git.</div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">7. Apa perintah untuk upload commit ke GitHub?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git push</code></div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">8. Apa perintah untuk download update dari GitHub?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git pull</code></div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">9. Apa itu branch?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Cabang development terpisah yang memungkinkan kerja
+                    paralel tanpa mengganggu kode utama.</div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">10. Apa fungsi file .gitignore?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Untuk menentukan file/folder yang tidak perlu di-track
+                    oleh Git.</div>
+            </div>
+
+            <h3>Soal Logika Kasus (5 Soal)</h3>
+
+            <div class="quiz">
+                <p class="q">11. Kamu sudah edit 3 file tapi cuma mau commit 1 file saja. Apa yang dilakukan?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Pakai <code>git add namafile.php</code> untuk add 1 file
+                    saja, bukan <code>git add .</code></div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">12. Error "failed to push some refs". Apa yang harus dilakukan?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Jalankan <code>git pull</code> dulu untuk download update
+                    terbaru, baru <code>git push</code></div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">13. Kamu mau lihat perubahan apa saja yang sudah dilakukan sebelum commit. Pakai perintah
+                    apa?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> <code>git diff</code> untuk lihat perubahan, atau
+                    <code>git status</code> untuk lihat file apa saja yang berubah.
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">14. Teman kamu mau ikut kerja di project GitHub. Langkah apa yang dia lakukan?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong>
+                    <code>git clone https://github.com/username/repo.git</code> untuk copy repository ke komputer dia.
+                </div>
+            </div>
+
+            <div class="quiz">
+                <p class="q">15. Kamu mau bikin fitur baru tanpa mengganggu kode utama. Apa yang dilakukan?</p>
+                <button class="btn" onclick="toggleAnswer(this)">Lihat Jawaban</button>
+                <div class="answer"><strong>Jawaban:</strong> Buat branch baru dengan
+                    <code>git checkout -b nama-fitur</code>, kerja di situ, lalu merge ke main kalau sudah selesai.
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><a href="materi-ukk.html">← Kembali ke Materi UKK</a></p>
+            <p>Materi Git & GitHub - Untuk Siswa SMK PPLG/RPL</p>
+            <p>Dibuat dengan ❤️ untuk teman-teman kelas 11</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(btn) {
+            const answer = btn.nextElementSibling;
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                btn.textContent = 'Lihat Jawaban';
+            } else {
+                answer.classList.add('show');
+                btn.textContent = 'Sembunyikan';
+            }
+        }
+    </script>
+</body>
+
+</html>

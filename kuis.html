@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis SQL - Tes Pemahaman JOIN & CASCADE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .score-box {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .score-box .score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+
+        .score-box .label {
+            color: #64748b;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .question-card.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .question-card.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .question-card .q-number {
+            background: #4f46e5;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .question-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .question-card .q-text {
+            flex: 1;
+        }
+
+        .code-box {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #4f46e5;
+            background: #eff6ff;
+        }
+
+        .option.selected {
+            border-color: #4f46e5;
+            background: #eff6ff;
+        }
+
+        .option.correct-answer {
+            border-color: #22c55e !important;
+            background: #dcfce7 !important;
+        }
+
+        .option.wrong-answer {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+        }
+
+        .option .letter {
+            background: #e2e8f0;
+            color: #475569;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .option.selected .letter {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .option.correct-answer .letter {
+            background: #22c55e;
+            color: white;
+        }
+
+        .option.wrong-answer .letter {
+            background: #ef4444;
+            color: white;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .option code {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        .explanation {
+            background: #fefce8;
+            border-left: 4px solid #eab308;
+            padding: 16px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation h4 {
+            color: #a16207;
+            margin-bottom: 8px;
+        }
+
+        .explanation p {
+            color: #78716c;
+            margin: 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+
+        .btn-success {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .result-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .result-modal.show {
+            display: flex;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .result-content .emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .result-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .result-content .final-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin: 20px 0;
+        }
+
+        .result-content p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar .fill {
+            background: linear-gradient(90deg, #4f46e5, #6366f1);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .inline-code {
+            background: #eff6ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Kuis SQL</h1>
+            <p>Tes Pemahaman JOIN, ALIAS & CASCADE</p>
+        </div>
+
+        <div class="score-box">
+            <div class="label">Skor Kamu</div>
+            <div class="score"><span id="currentScore">0</span> / <span id="totalQuestions">15</span></div>
+            <div class="progress-bar">
+                <div class="fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="action-bar">
+            <button class="btn btn-primary" id="checkBtn" onclick="checkAnswers()">✅ Cek Jawaban</button>
+            <button class="btn btn-danger" id="resetBtn" onclick="resetQuiz()">🔄 Ulangi Kuis</button>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="emoji" id="resultEmoji">🎉</div>
+            <h2 id="resultTitle">Hasil Kuis</h2>
+            <div class="final-score"><span id="finalScore">0</span>/<span id="finalTotal">15</span></div>
+            <p id="resultMessage">Kamu sudah menjawab semua pertanyaan!</p>
+            <button class="btn btn-primary" onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // ALIAS Questions
+            {
+                id: 1,
+                category: "ALIAS",
+                question: "Apa arti dari kode <code>FROM transaksi t</code>?",
+                options: [
+                    "Membuat tabel baru bernama t",
+                    "Memberi alias 't' untuk tabel transaksi",
+                    "Menghapus tabel transaksi",
+                    "Memilih kolom t dari transaksi"
+                ],
+                correct: 1,
+                explanation: "Kode tersebut memberi nama pendek (alias) 't' untuk tabel transaksi. Jadi kita bisa pakai 't' sebagai pengganti 'transaksi'."
+            },
+            {
+                id: 2,
+                category: "ALIAS",
+                question: "Apa arti dari <code>t.id</code>?",
+                options: [
+                    "Kolom id dari tabel t (transaksi)",
+                    "Tabel id dari t",
+                    "Variabel t dikali id",
+                    "Error, tidak valid"
+                ],
+                correct: 0,
+                explanation: "t.id artinya 'kolom id yang ada di tabel t'. Titik (.) digunakan untuk mengakses kolom dari tabel tertentu."
+            },
+            {
+                id: 3,
+                category: "ALIAS",
+                question: "Apa arti dari <code>t.*</code> dalam query SELECT?",
+                options: [
+                    "Kolom bernama * dari tabel t",
+                    "Perkalian semua kolom",
+                    "SEMUA kolom dari tabel t",
+                    "Tidak ada artinya"
+                ],
+                correct: 2,
+                explanation: "Bintang (*) dalam SQL artinya 'semua kolom'. Jadi t.* artinya ambil SEMUA kolom dari tabel t."
+            },
+            {
+                id: 4,
+                category: "ALIAS",
+                question: "Perhatikan query:<br><code>SELECT t.*, b.nama_barang FROM transaksi t JOIN barang b</code><br><br>Berapa kolom yang diambil dari tabel barang?",
+                options: [
+                    "Semua kolom",
+                    "Hanya 1 kolom (nama_barang)",
+                    "Tidak ada",
+                    "2 kolom"
+                ],
+                correct: 1,
+                explanation: "Dari tabel barang (b), kita HANYA mengambil kolom nama_barang. Sisanya (id, stok, harga) tidak diambil. Sedangkan dari transaksi (t.*) diambil semua kolom."
+            },
+            {
+                id: 5,
+                category: "ALIAS",
+                question: "Kenapa kita perlu pakai alias seperti t dan b?",
+                options: [
+                    "Wajib oleh MySQL",
+                    "Supaya query lebih ringkas dan mudah dibaca",
+                    "Untuk mengenkripsi query",
+                    "Tidak ada alasan khusus"
+                ],
+                correct: 1,
+                explanation: "Alias membuat query lebih ringkas. Daripada menulis 'transaksi.id_barang' berkali-kali, cukup tulis 't.id_barang'."
+            },
+
+            // JOIN Questions
+            {
+                id: 6,
+                category: "JOIN",
+                question: "Apa fungsi utama JOIN dalam SQL?",
+                options: [
+                    "Menghapus data dari tabel",
+                    "Menggabungkan data dari 2 tabel atau lebih",
+                    "Membuat tabel baru",
+                    "Mengubah struktur tabel"
+                ],
+                correct: 1,
+                explanation: "JOIN digunakan untuk menggabungkan data dari 2 tabel berdasarkan kolom yang sama (biasanya foreign key dan primary key)."
+            },
+            {
+                id: 7,
+                category: "JOIN",
+                question: "Perhatikan query:<br><code>SELECT * FROM transaksi t JOIN barang b ON t.id_barang = b.id</code><br><br>Apa arti dari bagian <code>ON t.id_barang = b.id</code>?",
+                options: [
+                    "Syarat untuk menggabungkan: id_barang di transaksi harus sama dengan id di barang",
+                    "Membuat kolom baru",
+                    "Menghapus data yang tidak cocok",
+                    "Tidak ada artinya"
+                ],
+                correct: 0,
+                explanation: "ON adalah syarat penggabungan. Data transaksi akan digabung dengan data barang HANYA jika nilai id_barang di transaksi sama dengan nilai id di barang."
+            },
+            {
+                id: 8,
+                category: "JOIN",
+                question: "INNER JOIN akan menampilkan data yang...",
+                options: [
+                    "Semua data dari tabel kiri",
+                    "Semua data dari tabel kanan",
+                    "Hanya data yang cocok di KEDUA tabel",
+                    "Semua data dari kedua tabel"
+                ],
+                correct: 2,
+                explanation: "INNER JOIN hanya menampilkan data yang ADA DI KEDUA tabel. Kalau ada barang tanpa transaksi atau transaksi tanpa barang (karena dihapus), tidak akan muncul."
+            },
+            {
+                id: 9,
+                category: "JOIN",
+                question: "Apa perbedaan <code>JOIN</code> dan <code>INNER JOIN</code>?",
+                options: [
+                    "JOIN lebih cepat",
+                    "Tidak ada perbedaan, keduanya sama",
+                    "INNER JOIN untuk tabel besar",
+                    "JOIN hanya untuk 2 tabel"
+                ],
+                correct: 1,
+                explanation: "Di MySQL, menulis JOIN tanpa kata kunci lain sama saja dengan INNER JOIN. Keduanya menghasilkan output yang sama."
+            },
+            {
+                id: 10,
+                category: "JOIN",
+                question: "LEFT JOIN akan menampilkan...",
+                options: [
+                    "Hanya data yang cocok",
+                    "SEMUA data dari tabel kiri + yang cocok dari tabel kanan",
+                    "SEMUA data dari tabel kanan + yang cocok dari tabel kiri",
+                    "Tidak ada data"
+                ],
+                correct: 1,
+                explanation: "LEFT JOIN menampilkan SEMUA data dari tabel kiri (yang ditulis sebelum LEFT JOIN), dan data yang cocok dari tabel kanan. Kalau tidak ada yang cocok, kolom dari tabel kanan akan NULL."
+            },
+
+            // CASCADE Questions
+            {
+                id: 11,
+                category: "CASCADE",
+                question: "Apa yang terjadi jika kita pakai <code>ON DELETE CASCADE</code> dan menghapus data induk (barang)?",
+                options: [
+                    "Data anak (transaksi) tetap ada",
+                    "Data anak (transaksi) IKUT TERHAPUS otomatis",
+                    "Error karena masih ada data anak",
+                    "Tidak terjadi apa-apa"
+                ],
+                correct: 1,
+                explanation: "CASCADE artinya 'berantai'. Jadi ON DELETE CASCADE = kalau data induk dihapus, semua data anak yang terhubung akan IKUT TERHAPUS otomatis."
+            },
+            {
+                id: 12,
+                category: "CASCADE",
+                question: "Apa yang terjadi jika kita pakai <code>ON DELETE RESTRICT</code> dan menghapus data induk yang masih punya anak?",
+                options: [
+                    "Data anak ikut terhapus",
+                    "Data anak jadi NULL",
+                    "Penghapusan DITOLAK (error)",
+                    "Tidak terjadi apa-apa"
+                ],
+                correct: 2,
+                explanation: "RESTRICT artinya 'batasi'. ON DELETE RESTRICT = TOLAK penghapusan kalau masih ada data anak yang terhubung. Jadi kita harus hapus data anak dulu baru bisa hapus induknya."
+            },
+            {
+                id: 13,
+                category: "CASCADE",
+                question: "Di project Inventaris ini, kita pakai aturan apa untuk Foreign Key?",
+                options: [
+                    "ON DELETE RESTRICT",
+                    "ON DELETE SET NULL",
+                    "ON DELETE CASCADE",
+                    "Tidak ada aturan"
+                ],
+                correct: 2,
+                explanation: "Di project ini kita pakai ON DELETE CASCADE. Artinya kalau barang dihapus, semua transaksi yang terkait dengan barang tersebut akan ikut terhapus."
+            },
+            {
+                id: 14,
+                category: "CASCADE",
+                question: "FOREIGN KEY digunakan untuk...",
+                options: [
+                    "Membuat password tabel",
+                    "Menghubungkan kolom di satu tabel dengan kolom di tabel lain",
+                    "Mengenkripsi data",
+                    "Membuat index"
+                ],
+                correct: 1,
+                explanation: "FOREIGN KEY adalah cara untuk menghubungkan 2 tabel. Contoh: id_barang di tabel transaksi adalah FOREIGN KEY yang mengarah ke id di tabel barang."
+            },
+            {
+                id: 15,
+                category: "Praktik",
+                question: "Perhatikan kode ini:<br><code class='code-box'>$sql = \"SELECT t.*, b.nama_barang FROM transaksi t JOIN barang b ON t.id_barang = b.id\";</code><br><br>Query ini akan menampilkan...",
+                options: [
+                    "Semua kolom transaksi saja",
+                    "Semua kolom barang saja",
+                    "Semua kolom transaksi + kolom nama_barang dari barang",
+                    "Error karena salah syntax"
+                ],
+                correct: 2,
+                explanation: "Query ini menggabungkan: (1) SEMUA kolom dari transaksi (t.*) dan (2) HANYA kolom nama_barang dari barang (b.nama_barang). Hasilnya adalah data transaksi lengkap dengan nama barangnya."
+            }
+        ];
+
+        let answers = {};
+        let isChecked = false;
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = questions.map((q, index) => `
+        <div class="question-card" id="card-${q.id}">
+            <h3>
+                <span class="q-number">${index + 1}</span>
+                <span class="q-text">${q.question}</span>
+            </h3>
+            <small style="color: #6366f1; font-weight: 500;">📁 Kategori: ${q.category}</small>
+            <div class="options">
+                ${q.options.map((opt, i) => `
+                    <div class="option" id="opt-${q.id}-${i}" onclick="selectOption(${q.id}, ${i})">
+                        <span class="letter">${String.fromCharCode(65 + i)}</span>
+                        <span class="option-text">${opt}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="explanation" id="exp-${q.id}">
+                <h4>💡 Penjelasan:</h4>
+                <p>${q.explanation}</p>
+            </div>
+        </div>
+    `).join('');
+
+            document.getElementById('totalQuestions').textContent = questions.length;
+            document.getElementById('finalTotal').textContent = questions.length;
+        }
+
+        function selectOption(qId, optIndex) {
+            if (isChecked) return;
+
+            // Remove previous selection for this question
+            const options = document.querySelectorAll(`[id^="opt-${qId}-"]`);
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            // Add selection
+            document.getElementById(`opt-${qId}-${optIndex}`).classList.add('selected');
+            answers[qId] = optIndex;
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const total = questions.length;
+            const percent = (answered / total) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function checkAnswers() {
+            if (Object.keys(answers).length < questions.length) {
+                alert('Jawab semua pertanyaan dulu ya! 😊');
+                return;
+            }
+
+            isChecked = true;
+            let score = 0;
+
+            questions.forEach(q => {
+                const userAnswer = answers[q.id];
+                const isCorrect = userAnswer === q.correct;
+
+                if (isCorrect) score++;
+
+                // Mark card
+                const card = document.getElementById(`card-${q.id}`);
+                card.classList.add(isCorrect ? 'correct' : 'wrong');
+
+                // Mark correct answer
+                document.getElementById(`opt-${q.id}-${q.correct}`).classList.add('correct-answer');
+
+                // Mark wrong answer if different
+                if (!isCorrect) {
+                    document.getElementById(`opt-${q.id}-${userAnswer}`).classList.add('wrong-answer');
+                }
+
+                // Show explanation
+                document.getElementById(`exp-${q.id}`).classList.add('show');
+            });
+
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('finalScore').textContent = score;
+
+            // Show result modal
+            showResult(score);
+
+            // Disable check button
+            document.getElementById('checkBtn').disabled = true;
+        }
+
+        function showResult(score) {
+            const total = questions.length;
+            const percent = (score / total) * 100;
+
+            let emoji, title, message;
+
+            if (percent >= 90) {
+                emoji = '🏆';
+                title = 'LUAR BIASA!';
+                message = 'Kamu sudah sangat menguasai materi SQL ini! Siap untuk UKK! 💪';
+            } else if (percent >= 70) {
+                emoji = '🎉';
+                title = 'Bagus!';
+                message = 'Pemahaman kamu sudah baik. Pelajari lagi bagian yang salah ya!';
+            } else if (percent >= 50) {
+                emoji = '😊';
+                title = 'Lumayan!';
+                message = 'Masih perlu belajar lebih banyak. Baca lagi materinya dan coba lagi!';
+            } else {
+                emoji = '📚';
+                title = 'Perlu Belajar Lagi';
+                message = 'Jangan menyerah! Baca lagi materi pembelajaran.html dan coba lagi.';
+            }
+
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('show');
+        }
+
+        function resetQuiz() {
+            answers = {};
+            isChecked = false;
+
+            // Reset all UI
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.classList.remove('correct', 'wrong');
+            });
+
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct-answer', 'wrong-answer');
+            });
+
+            document.querySelectorAll('.explanation').forEach(exp => {
+                exp.classList.remove('show');
+            });
+
+            document.getElementById('currentScore').textContent = '0';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('checkBtn').disabled = false;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        renderQuestions();
+    </script>
+
+    <div style="text-align: center; padding: 40px; color: #94a3b8;">
+        <p><a href="pembelajaran.html" style="color: #4f46e5;">← Kembali ke Materi Pembelajaran</a></p>
+        <p>Kuis SQL - Inventaris Fakhri</p>
+    </div>
+</body>
+
+</html>

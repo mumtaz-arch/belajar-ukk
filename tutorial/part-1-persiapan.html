@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 1: Persiapan Project - Tutorial Inventaris</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 16px;
+            color: white;
+        }
+
+        .header .part-label {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h2 .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 24px 0 12px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: #475569;
+        }
+
+        ul,
+        ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #475569;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #334155;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header .filename {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-header .lang-badge {
+            background: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .inline-code {
+            background: #eff6ff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #2563eb;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .explain-box {
+            background: #fefce8;
+            border: 1px solid #fef08a;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .explain-box h4 {
+            color: #a16207;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explain-box h4::before {
+            content: "💡";
+        }
+
+        .explain-box p,
+        .explain-box li {
+            color: #78716c;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 16px 0;
+        }
+
+        .info-box.warning {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+
+        .info-box.success {
+            background: #dcfce7;
+            border-left-color: #22c55e;
+        }
+
+        .info-box.danger {
+            background: #fee2e2;
+            border-left-color: #ef4444;
+        }
+
+        .info-box h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .info-box h4 {
+            color: #1e40af;
+        }
+
+        .info-box.warning h4 {
+            color: #b45309;
+        }
+
+        .info-box.success h4 {
+            color: #15803d;
+        }
+
+        .info-box.danger h4 {
+            color: #dc2626;
+        }
+
+        .folder-tree {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+            margin: 16px 0;
+        }
+
+        .folder {
+            color: #60a5fa;
+        }
+
+        .file-php {
+            color: #a78bfa;
+        }
+
+        .file-sql {
+            color: #fbbf24;
+        }
+
+        .file-css {
+            color: #f472b6;
+        }
+
+        .file-js {
+            color: #facc15;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.prev {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .nav-btn.next {
+            background: #3b82f6;
+            color: white;
+            margin-left: auto;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .line-explain {
+            background: #f0fdf4;
+            border-left: 3px solid #22c55e;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .line-explain code {
+            background: #dcfce7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #15803d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="part-label">PART 1 OF 3</span>
+            <h1>Persiapan Project</h1>
+            <p>Belajar setup folder, database, dan koneksi PHP untuk anak SMK</p>
+        </div>
+
+        <!-- PENGANTAR -->
+        <div class="section">
+            <h2><span class="step-number">📚</span> Sebelum Mulai</h2>
+            <p>Halo! Tutorial ini dibuat khusus untuk kalian anak SMK yang mau belajar bikin aplikasi web. Kita akan
+                belajar bikin <strong>Sistem Inventaris</strong> - yaitu aplikasi untuk mencatat barang masuk dan keluar
+                di gudang.</p>
+
+            <div class="info-box">
+                <h4>Yang Perlu Disiapkan</h4>
+                <ul>
+                    <li><strong>Laragon</strong> - Aplikasi untuk menjalankan PHP dan MySQL di laptop</li>
+                    <li><strong>Browser</strong> - Chrome, Firefox, atau Edge</li>
+                    <li><strong>Text Editor</strong> - VS Code (direkomendasikan)</li>
+                </ul>
+            </div>
+
+            <div class="explain-box">
+                <h4>Apa itu Inventaris?</h4>
+                <p>Inventaris adalah catatan barang-barang yang dimiliki. Contoh: toko mencatat berapa banyak laptop,
+                    mouse, keyboard yang ada di gudang. Kalau ada barang masuk (beli dari supplier), stok bertambah.
+                    Kalau ada barang keluar (dijual), stok berkurang.</p>
+            </div>
+        </div>
+
+        <!-- STRUKTUR FOLDER -->
+        <div class="section">
+            <h2><span class="step-number">1</span> Struktur Folder Project</h2>
+            <p>Pertama, kita buat folder-folder untuk menyimpan file PHP. Ini penting supaya project kita rapi dan mudah
+                dicari.</p>
+
+            <div class="folder-tree">
+                <span class="folder">bahan-ajar-ukk/</span> ← Folder utama project
+                ├── <span class="file-sql">database.sql</span> ← File untuk membuat database
+                ├── <span class="file-php">index.php</span> ← Halaman pertama (redirect ke login)
+                ├── <span class="folder">app/</span> ← Folder aplikasi utama
+                │ ├── <span class="folder">config/</span> ← Pengaturan
+                │ │ └── <span class="file-php">koneksi.php</span> ← Koneksi ke database
+                │ ├── <span class="folder">includes/</span> ← Template yang dipakai berulang
+                │ │ ├── <span class="file-php">header.php</span> ← Bagian atas halaman (menu)
+                │ │ └── <span class="file-php">footer.php</span> ← Bagian bawah halaman
+                │ ├── <span class="folder">auth/</span> ← Login dan logout
+                │ │ ├── <span class="file-php">login.php</span>
+                │ │ └── <span class="file-php">logout.php</span>
+                │ ├── <span class="folder">barang/</span> ← CRUD data barang
+                │ │ ├── <span class="file-php">index.php</span> ← Lihat semua barang
+                │ │ ├── <span class="file-php">tambah.php</span> ← Tambah barang baru
+                │ │ ├── <span class="file-php">edit.php</span> ← Edit barang
+                │ │ └── <span class="file-php">hapus.php</span> ← Hapus barang
+                │ ├── <span class="folder">transaksi/</span> ← Barang masuk/keluar
+                │ └── <span class="file-php">dashboard.php</span> ← Halaman utama setelah login
+            </div>
+
+            <div class="explain-box">
+                <h4>Kenapa Harus Dipisah?</h4>
+                <ul>
+                    <li><strong>Mudah dicari</strong> - Kalau mau edit barang, langsung buka folder barang/</li>
+                    <li><strong>Rapi</strong> - Tidak campur aduk semua file di satu tempat</li>
+                    <li><strong>Profesional</strong> - Ini cara kerja programmer sungguhan</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DATABASE -->
+        <div class="section">
+            <h2><span class="step-number">2</span> Membuat Database</h2>
+            <p>Database adalah tempat menyimpan data. Bayangkan seperti lemari arsip digital. Kita butuh 3 tabel:</p>
+
+            <ul>
+                <li><strong>users</strong> - Menyimpan data user yang bisa login</li>
+                <li><strong>barang</strong> - Menyimpan data barang (nama, stok, harga)</li>
+                <li><strong>transaksi</strong> - Menyimpan catatan barang masuk/keluar</li>
+            </ul>
+
+            <h3>Langkah 1: Buka phpMyAdmin</h3>
+            <p>Buka browser, ketik: <span class="inline-code">localhost/phpmyadmin</span></p>
+
+            <h3>Langkah 2: Copy-paste kode SQL ini</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">database.sql</span>
+                    <span class="lang-badge">SQL</span>
+                </div>
+                <pre>-- Buat database baru
+CREATE DATABASE IF NOT EXISTS inventaris_fakhri;
+USE inventaris_fakhri;
+
+-- Tabel users (untuk login)
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel barang
+CREATE TABLE IF NOT EXISTS barang (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_barang VARCHAR(100) NOT NULL,
+    stok INT DEFAULT 0,
+    harga DECIMAL(12,2) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel transaksi
+CREATE TABLE IF NOT EXISTS transaksi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_barang INT NOT NULL,
+    jenis_transaksi ENUM('masuk', 'keluar') NOT NULL,
+    jumlah INT NOT NULL,
+    tanggal_transaksi DATETIME DEFAULT CURRENT_TIMESTAMP,
+    keterangan TEXT,
+    FOREIGN KEY (id_barang) REFERENCES barang(id) ON DELETE CASCADE
+) ENGINE=InnoDB;</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan Kode SQL</h4>
+                <div class="line-explain">
+                    <code>CREATE DATABASE</code> = Membuat database baru bernama "inventaris_fakhri"
+                </div>
+                <div class="line-explain">
+                    <code>CREATE TABLE</code> = Membuat tabel baru di dalam database
+                </div>
+                <div class="line-explain">
+                    <code>INT</code> = Tipe data angka bulat (1, 2, 3, dst)
+                </div>
+                <div class="line-explain">
+                    <code>VARCHAR(100)</code> = Tipe data teks maksimal 100 karakter
+                </div>
+                <div class="line-explain">
+                    <code>AUTO_INCREMENT</code> = Angka otomatis bertambah (1, 2, 3...)
+                </div>
+                <div class="line-explain">
+                    <code>PRIMARY KEY</code> = Kolom utama yang unik, tidak boleh sama
+                </div>
+                <div class="line-explain">
+                    <code>FOREIGN KEY</code> = Menghubungkan tabel transaksi ke tabel barang
+                </div>
+            </div>
+
+            <h3>Langkah 3: Tambah Data User</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">Insert user admin</span>
+                    <span class="lang-badge">SQL</span>
+                </div>
+                <pre>-- Insert user untuk login (password: gudang123)
+INSERT INTO users (username, password) VALUES 
+('gudang', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');</pre>
+            </div>
+
+            <div class="info-box success">
+                <h4>Login Credentials</h4>
+                <p><strong>Username:</strong> gudang<br><strong>Password:</strong> gudang123</p>
+            </div>
+        </div>
+
+        <!-- KONEKSI -->
+        <div class="section">
+            <h2><span class="step-number">3</span> File Koneksi Database</h2>
+            <p>Sekarang kita buat file PHP untuk menghubungkan aplikasi ke database. File ini akan dipakai di semua
+                halaman.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">app/config/koneksi.php</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+/**
+ * File Koneksi Database
+ * Menggunakan PDO untuk keamanan
+ */
+
+// Pengaturan database
+$host = 'localhost';           // Alamat server database
+$dbname = 'inventaris_fakhri'; // Nama database
+$username = 'root';            // Username MySQL (default: root)
+$password = '';                // Password MySQL (default: kosong)
+
+try {
+    // Membuat koneksi ke database
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $username,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]
+    );
+} catch (PDOException $e) {
+    // Kalau gagal koneksi, tampilkan pesan error
+    die("Koneksi gagal: " . $e-&gt;getMessage());
+}</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan Baris per Baris</h4>
+                <div class="line-explain">
+                    <code>&lt;?php</code> = Tanda mulai kode PHP
+                </div>
+                <div class="line-explain">
+                    <code>$host = 'localhost'</code> = Variabel untuk menyimpan alamat server. Localhost artinya di
+                    komputer sendiri.
+                </div>
+                <div class="line-explain">
+                    <code>$dbname = 'inventaris_fakhri'</code> = Nama database yang sudah kita buat tadi
+                </div>
+                <div class="line-explain">
+                    <code>new PDO(...)</code> = Membuat objek koneksi ke database. PDO adalah cara aman untuk koneksi
+                    database di PHP.
+                </div>
+                <div class="line-explain">
+                    <code>try { } catch { }</code> = Cara menangani error. Kalau ada error di dalam try, akan ditangkap
+                    di catch.
+                </div>
+                <div class="line-explain">
+                    <code>die("...")</code> = Menghentikan program dan menampilkan pesan
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <h4>Kenapa PDO?</h4>
+                <p>PDO lebih aman dari <code>mysql_query</code> yang sudah kuno. PDO bisa mencegah serangan <strong>SQL
+                        Injection</strong> - yaitu hacker yang coba merusak database lewat form input.</p>
+            </div>
+        </div>
+
+        <!-- CARA PAKAI -->
+        <div class="section">
+            <h2><span class="step-number">4</span> Cara Menggunakan Koneksi</h2>
+            <p>Setelah file koneksi dibuat, kita bisa pakai di file PHP lain. Berikut contoh penggunaannya:</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">Contoh penggunaan</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+// 1. Panggil file koneksi
+require_once __DIR__ . '/../config/koneksi.php';
+
+// 2. Ambil semua data barang
+$stmt = $pdo-&gt;query("SELECT * FROM barang");
+$data_barang = $stmt-&gt;fetchAll();
+
+// 3. Tampilkan data
+foreach ($data_barang as $barang) {
+    echo $barang['nama_barang'] . "&lt;br&gt;";
+}</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Penjelasan</h4>
+                <div class="line-explain">
+                    <code>require_once</code> = Memanggil file lain. "once" artinya hanya sekali (tidak duplikat)
+                </div>
+                <div class="line-explain">
+                    <code>__DIR__</code> = Lokasi folder file ini berada
+                </div>
+                <div class="line-explain">
+                    <code>$pdo->query("...")</code> = Menjalankan perintah SQL ke database
+                </div>
+                <div class="line-explain">
+                    <code>fetchAll()</code> = Mengambil semua hasil dalam bentuk array
+                </div>
+                <div class="line-explain">
+                    <code>foreach</code> = Perulangan untuk mengakses setiap data satu per satu
+                </div>
+            </div>
+
+            <h3>Contoh INSERT (Menambah Data)</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">Menambah barang baru</span>
+                    <span class="lang-badge">PHP</span>
+                </div>
+                <pre>&lt;?php
+require_once __DIR__ . '/../config/koneksi.php';
+
+// Siapkan data
+$nama = "Laptop ASUS";
+$stok = 10;
+$harga = 15000000;
+
+// Masukkan ke database (cara aman dengan prepare)
+$stmt = $pdo-&gt;prepare("INSERT INTO barang (nama_barang, stok, harga) VALUES (?, ?, ?)");
+$stmt-&gt;execute([$nama, $stok, $harga]);
+
+echo "Barang berhasil ditambahkan!";</pre>
+            </div>
+
+            <div class="explain-box">
+                <h4>Kenapa Pakai prepare() dan execute()?</h4>
+                <p>Ini namanya <strong>Prepared Statement</strong>. Tanda <code>?</code> adalah placeholder yang akan
+                    diisi oleh array di <code>execute()</code>. Ini mencegah SQL Injection karena data user tidak
+                    langsung dimasukkan ke query.</p>
+            </div>
+        </div>
+
+        <!-- RINGKASAN -->
+        <div class="section">
+            <h2><span class="step-number">✅</span> Ringkasan Part 1</h2>
+            <p>Di part ini kamu sudah belajar:</p>
+            <ol>
+                <li><strong>Struktur folder</strong> - Cara menyusun file project yang rapi</li>
+                <li><strong>Database SQL</strong> - Membuat database dan tabel dengan phpMyAdmin</li>
+                <li><strong>Koneksi PDO</strong> - Menghubungkan PHP ke database dengan cara aman</li>
+                <li><strong>Query dasar</strong> - SELECT dan INSERT menggunakan prepared statements</li>
+            </ol>
+
+            <div class="info-box success">
+                <h4>Selanjutnya di Part 2</h4>
+                <p>Kita akan belajar membuat:<br>
+                    ✓ Template header dengan sidebar menu<br>
+                    ✓ CRUD Data Barang (Create, Read, Update, Delete)<br>
+                    ✓ Form input dengan validasi</p>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="../" class="nav-btn prev">← Kembali</a>
+            <a href="part-2-crud-barang.html" class="nav-btn next">Part 2: CRUD Barang →</a>
+        </div>
+
+        <div style="text-align: center; padding: 30px; color: #94a3b8; font-size: 0.9rem;">
+            <p>Tutorial Inventaris Fakhri - Part 1</p>
+            <p>Dibuat untuk pembelajaran SMK</p>
+        </div>
+    </div>
+</body>
+
+</html>

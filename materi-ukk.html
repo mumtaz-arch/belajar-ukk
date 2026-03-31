@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Lengkap UKK - Panduan Komprehensif</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .toc h2 {
+            color: #10b981;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .toc-item {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-decoration: none;
+            color: #166534;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-item:hover {
+            background: #dcfce7;
+            transform: translateY(-2px);
+        }
+
+        .toc-item .num {
+            background: #10b981;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d1fae5;
+            padding-bottom: 12px;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 24px 0 12px;
+            border-left: 4px solid #10b981;
+            padding-left: 12px;
+        }
+
+        .section h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #059669;
+            margin: 16px 0 8px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 20px;
+            margin-bottom: 14px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 10px;
+            margin: 14px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #334155;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header .filename {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-header .lang {
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 14px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .inline-code {
+            background: #ecfdf5;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #059669;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .info-box {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin: 14px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-box.tip {
+            background: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+
+        .info-box.success {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+        }
+
+        .info-box.warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .info-box.danger {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .info-box.primary {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .info-box h4 {
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .info-box.tip h4 {
+            color: #a16207;
+        }
+
+        .info-box.success h4 {
+            color: #15803d;
+        }
+
+        .info-box.warning h4 {
+            color: #b45309;
+        }
+
+        .info-box.danger h4 {
+            color: #dc2626;
+        }
+
+        .info-box.primary h4 {
+            color: #1e40af;
+        }
+
+        .file-ref {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .file-ref .path {
+            font-family: 'Fira Code', monospace;
+            color: #166534;
+        }
+
+        .visual {
+            background: #f8fafc;
+            border: 2px dashed #d1fae5;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .visual h5 {
+            color: #64748b;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .flow-item {
+            background: white;
+            border: 2px solid #d1fae5;
+            border-radius: 8px;
+            padding: 10px 14px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: '↓';
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .flow-item .num {
+            background: #10b981;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            margin-right: 8px;
+        }
+
+        .flow-item p {
+            margin: 4px 0 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f0fdf4;
+            color: #166534;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .line-explain {
+            background: #fffbeb;
+            border-left: 3px solid #f59e0b;
+            padding: 10px 14px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .line-explain .line-num {
+            background: #f59e0b;
+            color: white;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .line-explain p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #78716c;
+        }
+
+        .quiz-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 8px 4px;
+            font-size: 0.95rem;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .quiz-btn.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        @media (max-width: 768px) {
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Materi Lengkap UKK</h1>
+            <p>Panduan Komprehensif Sistem Inventaris - Penjelasan Detail Per Baris Kode</p>
+        </div>
+
+        <div class="toc">
+            <h2>📋 Daftar Materi</h2>
+            <div class="toc-list">
+                <a href="#struktur" class="toc-item"><span class="num">1</span> Struktur Folder</a>
+                <a href="#pdo" class="toc-item"><span class="num">2</span> Koneksi PDO</a>
+                <a href="#session" class="toc-item"><span class="num">3</span> Session & Login</a>
+                <a href="#crud" class="toc-item"><span class="num">4</span> CRUD Operations</a>
+                <a href="#form" class="toc-item"><span class="num">5</span> Form Processing</a>
+                <a href="#join" class="toc-item"><span class="num">6</span> JOIN & ALIAS</a>
+                <a href="#transaksi" class="toc-item"><span class="num">7</span> DB Transaction</a>
+                <a href="#validasi" class="toc-item"><span class="num">8</span> Validasi Input</a>
+                <a href="#security" class="toc-item"><span class="num">9</span> Security</a>
+                <a href="#bootstrap" class="toc-item"><span class="num">10</span> Bootstrap</a>
+                <a href="#datatables" class="toc-item"><span class="num">11</span> DataTables</a>
+                <a href="#sweetalert" class="toc-item"><span class="num">12</span> SweetAlert</a>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="kuis-lengkap.html" class="quiz-btn">🧠 Kuis 50 Soal</a>
+                <a href="simulasi-ukk.html" class="quiz-btn red">🎯 Simulasi Assessor</a>
+            </div>
+        </div>
+
+        <!-- MATERI 1: STRUKTUR FOLDER -->
+        <div class="section" id="struktur">
+            <h2>1️⃣ Struktur Folder Project</h2>
+
+            <p>Project ini menggunakan struktur folder terorganisir untuk memisahkan file berdasarkan fungsinya.</p>
+
+            <div class="visual">
+                <h5>📁 Struktur Folder Lengkap</h5>
+                <pre
+                    style="text-align: left; max-width: 500px; margin: 0 auto; font-family: 'Fira Code', monospace; font-size: 0.8rem; background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; white-space: pre;">
+bahan-ajar-ukk/
+├── 📄 index.php              → Entry point (redirect)
+├── 📄 database.sql           → SQL untuk buat tabel
+│
+├── 📁 app/
+│   ├── 📁 config/
+│   │   ├── koneksi.php       → Koneksi database PDO
+│   │   └── config.php        → Base URL dinamis
+│   │
+│   ├── 📁 auth/
+│   │   ├── login.php         → Halaman login
+│   │   └── logout.php        → Proses logout
+│   │
+│   ├── 📁 barang/
+│   │   ├── index.php         → Daftar barang (READ)
+│   │   ├── tambah.php        → Form tambah (CREATE)
+│   │   ├── edit.php          → Form edit (UPDATE)
+│   │   └── hapus.php         → Proses hapus (DELETE)
+│   │
+│   ├── 📁 transaksi/
+│   │   ├── masuk.php         → Barang masuk (+stok)
+│   │   ├── keluar.php        → Barang keluar (-stok)
+│   │   └── riwayat.php       → History transaksi
+│   │
+│   ├── 📁 laporan/
+│   │   ├── index.php         → Halaman laporan
+│   │   ├── export_pdf.php
+│   │   └── export_excel.php
+│   │
+│   ├── 📁 includes/
+│   │   ├── header.php        → Template atas + sidebar
+│   │   └── footer.php        → Template bawah + JS
+│   │
+│   ├── 📁 assets/
+│   │   ├── css/style.css     → Custom styling
+│   │   └── js/script.js      → Custom JavaScript
+│   │
+│   └── 📄 dashboard.php      → Halaman utama
+│
+└── 📁 docs/                  → Dokumentasi (ini!)
+                </pre>
+            </div>
+
+            <h3>Penjelasan Setiap Folder</h3>
+            <table>
+                <tr>
+                    <th>Folder/File</th>
+                    <th>Fungsi</th>
+                </tr>
+                <tr>
+                    <td><code>app/config/koneksi.php</code></td>
+                    <td>Membuat koneksi ke database MySQL menggunakan PDO</td>
+                </tr>
+                <tr>
+                    <td><code>app/config/config.php</code></td>
+                    <td>Mendeteksi BASE_URL otomatis (dinamis)</td>
+                </tr>
+                <tr>
+                    <td><code>app/auth/</code></td>
+                    <td>Semua yang berhubungan dengan autentikasi (login/logout)</td>
+                </tr>
+                <tr>
+                    <td><code>app/barang/</code></td>
+                    <td>CRUD untuk data barang</td>
+                </tr>
+                <tr>
+                    <td><code>app/transaksi/</code></td>
+                    <td>Pencatatan barang masuk/keluar</td>
+                </tr>
+                <tr>
+                    <td><code>app/includes/</code></td>
+                    <td>Template yang dipakai ulang di banyak halaman</td>
+                </tr>
+                <tr>
+                    <td><code>app/assets/</code></td>
+                    <td>File statis: CSS dan JavaScript custom</td>
+                </tr>
+            </table>
+
+            <div class="info-box tip">
+                <h4>💡 Tips UKK</h4>
+                <p>Kalau assessor tanya "dimana kode untuk tambah barang?", jawab:
+                    <strong>app/barang/tambah.php</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- MATERI 2: KONEKSI PDO DETAIL -->
+        <div class="section" id="pdo">
+            <h2>2️⃣ Koneksi Database (PDO) - Detail</h2>
+
+            <p><strong>PDO = PHP Data Objects</strong>. Cara modern dan aman untuk mengakses database dari PHP.</p>
+
+            <div class="file-ref">
+                <span>📄</span>
+                <span class="path">app/config/koneksi.php</span>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">koneksi.php - KODE LENGKAP</span>
+                    <span class="lang">PHP</span>
+                </div>
+                <pre>&lt;?php
+// Konfigurasi database
+$host = 'localhost';              // Baris 8
+$dbname = 'inventaris_fakhri';    // Baris 9
+$username = 'root';               // Baris 10
+$password = '';                   // Baris 11
+
+try {
+    // Buat koneksi PDO
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $username,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]
+    );
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
+}
+?&gt;</pre>
+            </div>
+
+            <h3>Penjelasan Per Baris</h3>
+
+            <div class="line-explain">
+                <span class="line-num">8-11</span>
+                <p><strong>Variabel konfigurasi:</strong> $host = server database, $dbname = nama database, $username &
+                    $password = kredensial MySQL</p>
+            </div>
+
+            <div class="line-explain">
+                <span class="line-num">15-16</span>
+                <p><strong>new PDO(...):</strong> Membuat objek koneksi baru. Format:
+                    <code>"mysql:host=...;dbname=..."</code>
+                </p>
+            </div>
+
+            <div class="line-explain">
+                <span class="line-num">21</span>
+                <p><strong>ERRMODE_EXCEPTION:</strong> Kalau ada error, PHP akan throw exception (bisa ditangkap dengan
+                    try-catch)</p>
+            </div>
+
+            <div class="line-explain">
+                <span class="line-num">24</span>
+                <p><strong>FETCH_ASSOC:</strong> Hasil query jadi array dengan key = nama kolom. Contoh:
+                    $row['nama_barang']</p>
+            </div>
+
+            <div class="line-explain">
+                <span class="line-num">27</span>
+                <p><strong>EMULATE_PREPARES = false:</strong> Pakai prepared statement asli dari MySQL, bukan emulasi
+                    PHP (lebih aman)</p>
+            </div>
+
+            <div class="line-explain">
+                <span class="line-num">30-31</span>
+                <p><strong>catch (PDOException):</strong> Kalau koneksi gagal, tampilkan pesan error dan hentikan script
+                </p>
+            </div>
+
+            <div class="info-box success">
+                <h4>✅ Kenapa Pakai PDO?</h4>
+                <ul>
+                    <li><strong>Keamanan:</strong> Prepared statement mencegah SQL Injection</li>
+                    <li><strong>Fleksibel:</strong> Bisa untuk MySQL, PostgreSQL, SQLite</li>
+                    <li><strong>Error Handling:</strong> Dengan try-catch lebih mudah debug</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MATERI 3: SESSION & LOGIN -->
+        <div class="section" id="session">
+            <h2>3️⃣ Session & Sistem Login - Detail</h2>
+
+            <p><strong>Session</strong> = cara menyimpan data user sementara di server selama browsing.</p>
+
+            <div class="visual">
+                <h5>🔄 Alur Login Lengkap</h5>
+                <div class="flow">
+                    <div class="flow-item"><span class="num">1</span> User buka login.php<p>Cek apakah sudah login
+                            (session ada?)</p>
+                    </div>
+                    <div class="flow-item"><span class="num">2</span> User isi form & submit<p>Data dikirim via POST</p>
+                    </div>
+                    <div class="flow-item"><span class="num">3</span> PHP query database<p>SELECT * FROM users WHERE
+                            username = ?</p>
+                    </div>
+                    <div class="flow-item"><span class="num">4</span> Verifikasi password<p>password_verify($input,
+                            $hash)</p>
+                    </div>
+                    <div class="flow-item"><span class="num">5</span> Simpan ke session<p>$_SESSION['user_id'] =
+                            $user['id']</p>
+                    </div>
+                    <div class="flow-item"><span class="num">6</span> Redirect ke dashboard<p>header('Location:
+                            dashboard.php')</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-ref">
+                <span>📄</span>
+                <span class="path">app/auth/login.php</span>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="filename">login.php - KODE PENTING</span>
+                    <span class="lang">PHP</span>
+                </div>
+                <pre>session_start();  // Baris 7 - WAJIB di awal!
+
+// Cek sudah login? Redirect ke dashboard
+if (isset($_SESSION['user_id'])) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+// Proses form login
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+    
+    // Query ke database dengan prepared statement
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+    
+    // Verifikasi password
+    if ($user && password_verify($password, $user['password'])) {
+        // LOGIN BERHASIL!
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        
+        header('Location: dashboard.php');
+        exit;
+    } else {
+        $error = 'Username atau password salah!';
+    }
+}</pre>
+            </div>
+
+            <h3>Penjelasan Fungsi Penting</h3>
+            <table>
+                <tr>
+                    <th>Fungsi</th>
+                    <th>Kegunaan</th>
+                </tr>
+                <tr>
+                    <td><code>session_start()</code></td>
+                    <td>Memulai session. WAJIB di awal file sebelum output HTML!</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['key']</code></td>
+                    <td>Superglobal untuk menyimpan/membaca data session</td>
+                </tr>
+                <tr>
+                    <td><code>isset($_SESSION['key'])</code></td>
+                    <td>Cek apakah session dengan key tersebut ada</td>
+                </tr>
+                <tr>
+                    <td><code>password_verify($input, $hash)</code></td>
+                    <td>Membandingkan password plain dengan hash di database</td>
+                </tr>
+                <tr>
+                    <td><code>header('Location: ...')</code></td>
+                    <td>Redirect ke halaman lain</td>
+                </tr>
+                <tr>
+                    <td><code>exit</code></td>
+                    <td>Hentikan script setelah redirect</td>
+                </tr>
+            </table>
+
+            <div class="info-box warning">
+                <h4>⚠️ Aturan Penting Session</h4>
+                <p><code>session_start()</code> HARUS dipanggil <strong>sebelum ada output HTML apapun</strong>
+                    (termasuk spasi kosong di awal file!)</p>
+            </div>
+        </div>
+
+        <!-- MATERI 4: CRUD DETAIL -->
+        <div class="section" id="crud">
+            <h2>4️⃣ CRUD Operations - Detail</h2>
+
+            <p><strong>CRUD</strong> = Create, Read, Update, Delete. 4 operasi dasar untuk mengelola data.</p>
+
+            <table>
+                <tr>
+                    <th>Operasi</th>
+                    <th>SQL</th>
+                    <th>File di Project</th>
+                </tr>
+                <tr>
+                    <td><strong>C</strong>reate</td>
+                    <td>INSERT INTO</td>
+                    <td>app/barang/tambah.php</td>
+                </tr>
+                <tr>
+                    <td><strong>R</strong>ead</td>
+                    <td>SELECT</td>
+                    <td>app/barang/index.php</td>
+                </tr>
+                <tr>
+                    <td><strong>U</strong>pdate</td>
+                    <td>UPDATE ... SET</td>
+                    <td>app/barang/edit.php</td>
+                </tr>
+                <tr>
+                    <td><strong>D</strong>elete</td>
+                    <td>DELETE FROM</td>
+                    <td>app/barang/hapus.php</td>
+                </tr>
+            </table>
+
+            <h3>CREATE - Tambah Data</h3>
+            <div class="file-ref"><span>📄</span><span class="path">app/barang/tambah.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">INSERT dengan Prepared Statement</span><span
+                        class="lang">PHP</span></div>
+                <pre>// Ambil data dari form
+$nama_barang = trim($_POST['nama_barang'] ?? '');
+$stok = (int) ($_POST['stok'] ?? 0);
+$harga = (float) ($_POST['harga'] ?? 0);
+
+// Prepared statement - AMAN dari SQL Injection!
+$stmt = $pdo->prepare("INSERT INTO barang (nama_barang, stok, harga) VALUES (?, ?, ?)");
+$stmt->execute([$nama_barang, $stok, $harga]);
+
+// Penjelasan:
+// prepare() = siapkan query dengan placeholder ?
+// execute([...]) = jalankan query, isi placeholder dengan nilai dari array</pre>
+            </div>
+
+            <h3>READ - Baca Data</h3>
+            <div class="file-ref"><span>📄</span><span class="path">app/barang/index.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">SELECT dengan fetchAll</span><span
+                        class="lang">PHP</span></div>
+                <pre>// Ambil semua data barang
+$stmt = $pdo->query("SELECT * FROM barang ORDER BY nama_barang ASC");
+$data_barang = $stmt->fetchAll();
+
+// Loop untuk tampilkan
+foreach ($data_barang as $barang) {
+    echo $barang['nama_barang'];  // Akses kolom dengan key
+    echo $barang['stok'];
+}</pre>
+            </div>
+
+            <h3>UPDATE - Edit Data</h3>
+            <div class="file-ref"><span>📄</span><span class="path">app/barang/edit.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">UPDATE dengan WHERE</span><span class="lang">PHP</span>
+                </div>
+                <pre>// UPDATE - HARUS pakai WHERE untuk menentukan baris mana!
+$stmt = $pdo->prepare("UPDATE barang SET nama_barang = ?, stok = ?, harga = ? WHERE id = ?");
+$stmt->execute([$nama_barang, $stok, $harga, $id]);
+
+// PENTING: Tanpa WHERE, SEMUA baris akan terupdate!</pre>
+            </div>
+
+            <h3>DELETE - Hapus Data</h3>
+            <div class="file-ref"><span>📄</span><span class="path">app/barang/hapus.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">DELETE dengan WHERE</span><span class="lang">PHP</span>
+                </div>
+                <pre>// DELETE - WAJIB pakai WHERE!
+$stmt = $pdo->prepare("DELETE FROM barang WHERE id = ?");
+$stmt->execute([$id]);
+
+// BAHAYA: Tanpa WHERE, SEMUA data akan terhapus!</pre>
+            </div>
+
+            <div class="info-box danger">
+                <h4>❌ Kesalahan Fatal</h4>
+                <p>UPDATE atau DELETE tanpa WHERE akan mempengaruhi SEMUA baris di tabel!</p>
+            </div>
+        </div>
+
+        <!-- MATERI 5: FORM PROCESSING -->
+        <div class="section" id="form">
+            <h2>5️⃣ Form Processing - GET & POST</h2>
+
+            <h3>Perbedaan GET dan POST</h3>
+            <table>
+                <tr>
+                    <th>Aspek</th>
+                    <th>GET</th>
+                    <th>POST</th>
+                </tr>
+                <tr>
+                    <td>Data terlihat</td>
+                    <td>Ya, di URL (?key=value)</td>
+                    <td>Tidak, tersembunyi</td>
+                </tr>
+                <tr>
+                    <td>Keamanan</td>
+                    <td>Kurang aman</td>
+                    <td>Lebih aman</td>
+                </tr>
+                <tr>
+                    <td>Kapan pakai</td>
+                    <td>Filter, search, pagination</td>
+                    <td>Login, simpan data</td>
+                </tr>
+                <tr>
+                    <td>Akses di PHP</td>
+                    <td>$_GET['nama']</td>
+                    <td>$_POST['nama']</td>
+                </tr>
+            </table>
+
+            <h3>Pola PENTING: Proses Form SEBELUM Header</h3>
+
+            <div class="info-box danger">
+                <h4>❌ SALAH - Akan Error!</h4>
+                <div class="code-block" style="margin: 8px 0;">
+                    <pre>&lt;?php require_once 'header.php'; ?&gt;  &lt;!-- Output HTML dulu --&gt;
+
+&lt;?php
+if ($_POST) {
+    // proses...
+    header('Location: index.php');  // ERROR: Headers already sent!
+}
+?&gt;</pre>
+                </div>
+                <p>Error karena header() dipanggil setelah ada output HTML.</p>
+            </div>
+
+            <div class="info-box success">
+                <h4>✅ BENAR - Proses Dulu!</h4>
+                <div class="code-block" style="margin: 8px 0;">
+                    <pre>&lt;?php
+// 1. PROSES FORM DULU di bagian atas!
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // proses data...
+    header('Location: index.php');  // OK karena belum ada output
+    exit;
+}
+
+// 2. BARU include header setelah proses selesai
+require_once 'header.php';
+?&gt;</pre>
+                </div>
+            </div>
+
+            <div class="file-ref"><span>📄</span><span class="path">app/barang/tambah.php (baris 1-49)</span></div>
+            <p>Lihat file tambah.php - proses form ada di baris 22-45, SEBELUM include header di baris 49.</p>
+        </div>
+
+        <!-- MATERI 6: JOIN & ALIAS -->
+        <div class="section" id="join">
+            <h2>6️⃣ JOIN & ALIAS - Penjelasan Lengkap</h2>
+
+            <p>Materi super detail tentang JOIN & ALIAS ada di: <a href="pembelajaran.html"
+                    style="color: #10b981; font-weight: 600;">📚 pembelajaran.html</a></p>
+
+            <h3>Ringkasan Cepat</h3>
+            <table>
+                <tr>
+                    <th>Kode</th>
+                    <th>Artinya</th>
+                </tr>
+                <tr>
+                    <td><code>FROM transaksi t</code></td>
+                    <td>Beri alias "t" untuk tabel transaksi</td>
+                </tr>
+                <tr>
+                    <td><code>JOIN barang b</code></td>
+                    <td>Gabungkan dengan tabel barang (alias "b")</td>
+                </tr>
+                <tr>
+                    <td><code>t.id</code></td>
+                    <td>Kolom id dari tabel transaksi</td>
+                </tr>
+                <tr>
+                    <td><code>t.*</code></td>
+                    <td>SEMUA kolom dari tabel transaksi</td>
+                </tr>
+                <tr>
+                    <td><code>b.nama_barang</code></td>
+                    <td>HANYA kolom nama_barang dari tabel barang</td>
+                </tr>
+                <tr>
+                    <td><code>ON t.id_barang = b.id</code></td>
+                    <td>Syarat join: id_barang harus = id</td>
+                </tr>
+            </table>
+
+            <div class="file-ref"><span>📄</span><span class="path">app/transaksi/riwayat.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">Contoh JOIN di Project</span><span
+                        class="lang">PHP</span></div>
+                <pre>$sql = "SELECT t.*, b.nama_barang 
+        FROM transaksi t 
+        JOIN barang b ON t.id_barang = b.id
+        ORDER BY t.tanggal_transaksi DESC";
+
+// Hasil: semua kolom transaksi + nama barang dari tabel barang</pre>
+            </div>
+        </div>
+
+        <!-- MATERI 7: DATABASE TRANSACTION -->
+        <div class="section" id="transaksi">
+            <h2>7️⃣ Database Transaction</h2>
+
+            <p><strong>Transaction</strong> memastikan beberapa query berjalan <strong>SEMUA berhasil</strong> atau
+                <strong>SEMUA dibatalkan</strong>.
+            </p>
+
+            <div class="visual">
+                <h5>🔄 Alur Transaction</h5>
+                <div class="flow">
+                    <div class="flow-item"><span class="num">1</span> beginTransaction()<p>Mulai mode transaction</p>
+                    </div>
+                    <div class="flow-item"><span class="num">2</span> Query 1: INSERT transaksi<p>Belum permanen</p>
+                    </div>
+                    <div class="flow-item"><span class="num">3</span> Query 2: UPDATE stok<p>Belum permanen</p>
+                    </div>
+                    <div class="flow-item"><span class="num">4</span> commit() atau rollback()<p>Simpan semua ATAU
+                            batalkan semua</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-ref"><span>📄</span><span class="path">app/transaksi/masuk.php</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">Transaction untuk Barang Masuk</span><span
+                        class="lang">PHP</span></div>
+                <pre>try {
+    $pdo->beginTransaction();  // Mulai transaction
+    
+    // Query 1: Insert ke tabel transaksi
+    $stmt = $pdo->prepare("INSERT INTO transaksi (...) VALUES (...)");
+    $stmt->execute([...]);
+    
+    // Query 2: Update stok barang (TAMBAH)
+    $stmt = $pdo->prepare("UPDATE barang SET stok = stok + ? WHERE id = ?");
+    $stmt->execute([$jumlah, $id_barang]);
+    
+    $pdo->commit();  // SIMPAN semua jika berhasil
+    
+} catch (Exception $e) {
+    $pdo->rollback();  // BATALKAN semua jika ada error
+    $error = 'Terjadi kesalahan!';
+}</pre>
+            </div>
+
+            <div class="info-box tip">
+                <h4>💡 Kenapa Pakai Transaction?</h4>
+                <p>Bayangkan INSERT berhasil tapi UPDATE gagal. Stok jadi tidak sinkron! Dengan transaction, kalau ada
+                    yang gagal, semuanya dibatalkan.</p>
+            </div>
+        </div>
+
+        <!-- MATERI 8-12: Tambahan -->
+        <div class="section" id="validasi">
+            <h2>8️⃣ Validasi Input</h2>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">Contoh Validasi</span><span class="lang">PHP</span>
+                </div>
+                <pre>$nama = trim($_POST['nama'] ?? '');           // Hapus spasi
+$stok = (int) ($_POST['stok'] ?? 0);          // Paksa jadi integer
+$harga = (float) ($_POST['harga'] ?? 0);      // Paksa jadi float
+
+if (empty($nama)) $error = 'Nama wajib diisi!';
+if ($stok < 0) $error = 'Stok tidak boleh negatif!';
+if ($barang['stok'] < $jumlah) $error = 'Stok tidak cukup!';</pre>
+            </div>
+        </div>
+
+        <div class="section" id="security">
+            <h2>9️⃣ Keamanan (Security)</h2>
+            <h4>1. SQL Injection Prevention</h4>
+            <div class="code-block">
+                <pre>// BENAR - Prepared statement
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->execute([$username]);</pre>
+            </div>
+
+            <h4>2. XSS Prevention</h4>
+            <div class="code-block">
+                <pre>// Saat menampilkan data ke HTML
+&lt;td&gt;&lt;?= htmlspecialchars($data['nama']) ?&gt;&lt;/td&gt;</pre>
+            </div>
+
+            <h4>3. Password Hashing</h4>
+            <div class="code-block">
+                <pre>// Simpan: password_hash($password, PASSWORD_DEFAULT)
+// Verifikasi: password_verify($input, $hash_dari_db)</pre>
+            </div>
+        </div>
+
+        <div class="section" id="bootstrap">
+            <h2>🔟 Bootstrap Framework</h2>
+            <p>Bootstrap adalah framework CSS untuk styling cepat.</p>
+            <div class="file-ref"><span>📄</span><span class="path">app/includes/header.php (baris 46)</span></div>
+            <div class="code-block">
+                <pre>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</pre>
+            </div>
+            <p>Class yang sering dipakai: <code>container</code>, <code>row</code>, <code>col-md-6</code>,
+                <code>card</code>, <code>btn btn-primary</code>, <code>table</code>, <code>form-control</code>
+            </p>
+        </div>
+
+        <div class="section" id="datatables">
+            <h2>1️⃣1️⃣ DataTables</h2>
+            <p>Library JavaScript untuk membuat tabel interaktif (search, sort, pagination otomatis).</p>
+            <div class="file-ref"><span>📄</span><span class="path">app/includes/footer.php (baris 10-12)</span></div>
+            <div class="code-block">
+                <pre>&lt;script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"&gt;&lt;/script&gt;
+
+// Cara pakai:
+$('#tabelBarang').DataTable();</pre>
+            </div>
+        </div>
+
+        <div class="section" id="sweetalert">
+            <h2>1️⃣2️⃣ SweetAlert2 & Flash Message</h2>
+            <p>Library untuk notifikasi popup yang cantik.</p>
+            <div class="file-ref"><span>📄</span><span class="path">app/includes/footer.php (baris 24-36)</span></div>
+            <div class="code-block">
+                <div class="code-header"><span class="filename">Flash Message dengan SweetAlert</span><span
+                        class="lang">PHP</span></div>
+                <pre>// Simpan flash message (di file proses)
+$_SESSION['flash_message'] = 'Barang berhasil ditambahkan!';
+$_SESSION['flash_type'] = 'success';
+
+// Tampilkan di footer.php
+&lt;?php if (isset($_SESSION['flash_message'])): ?&gt;
+&lt;script&gt;
+    Swal.fire({
+        icon: '&lt;?= $_SESSION['flash_type'] ?&gt;',
+        title: 'Berhasil!',
+        text: '&lt;?= $_SESSION['flash_message'] ?&gt;',
+        timer: 2000
+    });
+&lt;/script&gt;
+&lt;?php unset($_SESSION['flash_message']); endif; ?&gt;</pre>
+            </div>
+        </div>
+
+        <!-- LINK KE KUIS -->
+        <div class="section" style="text-align: center; background: linear-gradient(135deg, #fef3c7, #fde68a);">
+            <h2 style="color: #b45309; border: none;">🎯 Sudah Paham? Uji Pemahamanmu!</h2>
+            <div style="margin-top: 16px;">
+                <a href="kuis-lengkap.html" class="quiz-btn">🧠 Kuis Lengkap (50 Soal)</a>
+                <a href="simulasi-ukk.html" class="quiz-btn red">🎯 Simulasi Assessor UKK</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 30px; color: #94a3b8;">
+            <p><a href="pembelajaran.html" style="color: #10b981;">📚 Materi JOIN Detail</a> | <a href="kuis.html"
+                    style="color: #f59e0b;">🧠 Kuis SQL</a></p>
+            <p>Materi Lengkap UKK - Inventaris Fakhri</p>
+        </div>
+    </div>
+</body>
+
+</html>
